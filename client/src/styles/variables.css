@@ -1,0 +1,135 @@
+@font-face {
+    font-family: 'AGLettericaCondensedCBold';
+    src: url('../fonts/Aglettericacondensedc bold.otf') ;    
+}
+
+@font-face {
+    font-family: 'AGLettericaCondensedCRegular';
+    src: url('../fonts/Aglettericacondensedc.otf') ;    
+}
+
+body {
+    margin: 0;
+}
+
+:root {
+    --header-height: 161px;
+    --header-color: #ffff;
+    
+    /* --header-box-shadow: 0 2px 2px 0px #bfbfbf; */
+    /* Logo */
+    /* --logo-color: white;
+    --logo-font-family: "Nunito";
+    --logo-font-size: 32px;
+    --text-font-size: 16px;
+    --block-box-shadow: 0 0 10px -5px black;
+    --block-color: white;
+    --block-padding: 10px;
+    --block-spacing: 10px;
+    --block-border-radius: 5px; */
+
+    /* Usual text */
+    --main-font-family: 'AGLettericaCondensedCRegular', arial;
+    --main-font-size: 16px;
+    --main-font-weight: 400;
+    /* --page-width: 1000px;
+    --page-padding: 60px; */
+    --menu-font-size: 16px;
+    --menu-font-size: 16px;
+    /* Title */
+    --title-font-size: 24px;
+    --title-font-weight: 600;  
+    /* Subtitle */
+    --subtitle-font-size: 16px;
+    --subtitle-font-weight: 600; 
+
+
+    /* Colors */ 
+
+    /* --grey-color: #828282;
+    --main-disabled-color: #797979;
+    --add-disabled-color: #dadada;
+    --main-color : #0463EA; */
+    --grey-color: #828282;
+    --footer-color: #2B3A37;   
+    --foter-adv-color: #27322E;
+
+    
+    --green-color: #009342;
+    --btn-green-color: #01C257;
+}
+h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 24px;
+    font-family: 'AGLettericaCondensedCRegular', arial; 
+    font-weight: 400;
+    line-height: 1.5;
+}
+h2 {
+    margin: 0;
+    padding: 0;
+    font-family: 'AGLettericaCondensedCRegular', arial; 
+    color: black;   
+    font-size: 33px;
+    font-weight: 500; 
+    line-height: 42px;
+    color: #ffff;
+    line-height: 1.5;
+}
+p{
+    text-decoration: none;
+    font-family: 'AGLettericaCondensedCRegular', arial;
+    line-height: 1.5;
+}
+
+h4{
+    font-weight: bold;
+    color: #ffff;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    font-family: 'AGLettericaCondensedCBold', arial;
+    line-height: 1.5;
+    line-height: 1.5;
+    margin-bottom: 27px;
+}
+h5{     
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;    
+    color: hsla(0,0%,100%,.6);
+    margin: 0;
+    padding: 0;
+    font-family: 'AGLettericaCondensedCRegular', arial;
+    line-height: 1.5;
+}
+
+a{    
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: 'AGLettericaCondensedCRegular', arial;
+    text-transform: none;  
+    color: inherit;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    
+}
+
+
+.a:hover:not(.disabled) {
+    cursor: pointer;
+    background-color: #4D96FF;
+    border-color: #4D96FF;
+}
+
+.a:active{ 
+color: #0463EA;
+}
+
+ul{
+    list-style-type: none;
+    text-decoration: none;
+}

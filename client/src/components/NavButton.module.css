@@ -1,0 +1,54 @@
+@import "../styles/variables.css";
+
+.main {
+  text-transform: none;        
+  border-width: 1px;    
+  border-radius: 3px;
+  cursor: pointer;        
+  align-items: center;
+  justify-content: center;
+  background-color: var(--green-color);;
+  text-align: center;
+  white-space: nowrap;
+  display: inline-block;
+  margin: 0;
+  white-space: nowrap;
+  min-width: 250px;
+  text-transform: uppercase;    
+  /* margin: 20px 50px 20px 20px; */    
+  color: rgb(235, 235, 235);
+  padding: 13.41px 0 13.4px 0;
+}    
+.main:hover:not(.disabled) {
+cursor: pointer;  
+border-color: var(--btn-green-color);
+background-color: var(--btn-green-color);  
+color:#ffffff; 
+
+}
+
+.btntext{  
+  /* padding: 13.4px 32px  0 13.4px; */  
+  color: black;
+  font-family: var(--main-font-family);
+  font-weight: 500;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.btnlink{
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+}
+
+
+
+/* .btn{
+    text-transform: none;
+    color: black;
+    font-weight: bold;
+    border-radius: 8px;
+    border: 2px solid rgba(4, 99, 234, 1);
+    width: 200px;
+    height:  34px;
+} */

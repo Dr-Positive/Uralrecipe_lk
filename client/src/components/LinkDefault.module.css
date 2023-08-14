@@ -1,0 +1,11 @@
+@import "../styles/variables.css";
+
+.main{
+    color:#000000; 
+    text-transform: uppercase; 
+    font-size: 20px;
+}
+
+.main:hover:not(.disabled) {
+    color: var(--green-color)    
+}

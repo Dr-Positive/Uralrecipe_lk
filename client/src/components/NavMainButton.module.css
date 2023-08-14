@@ -1,0 +1,70 @@
+@import "../styles/variables.css";
+
+
+.main {
+    text-transform: none;
+    white-space: nowrap;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    border-radius: 8px;
+    border: 2px solid rgba(4, 99, 234, 1);
+    background-color: #0463EA;
+    display: inline-block;
+    margin: 0;
+    font-size: 16px;
+    max-height: 34px;
+    /* padding: 0 20px 0 20px; */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    font-family: var(--main-font-family);
+    margin-bottom: 20px;
+    
+    
+
+    /* margin: 20px 50px 20px 20px; */
+    
+}    
+    .main:hover:not(.disabled) {
+    cursor: pointer;
+    background-color: #4D96FF;
+    border-color: #4D96FF;
+  }
+  
+  .main:active{ 
+    color: #0463EA;
+  }
+
+.btntext{  
+  padding: 6px 16px;
+  font-family: var(--main-font-family);
+
+}
+
+.btnlink{
+  color: white;
+  text-decoration: none;
+
+}
+
+
+
+
+
+
+  /* .main::before{
+    background-color: rgb(255, 0, 0);
+  }
+
+  .checked:not(.disabled) {
+    border-color:  #7bff0011;
+    background-color: red;
+  }
+
+  .disabled {
+    border-color: red;
+  } */
+
+
+

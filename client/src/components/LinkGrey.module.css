@@ -1,0 +1,11 @@
+@import "../styles/variables.css";
+
+.main{
+
+    color: var(--grey-color);    
+    font-size: 18px;
+}
+
+.main:hover:not(.disabled) {
+    color:#000000;     
+}

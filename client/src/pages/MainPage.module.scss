@@ -1,0 +1,72 @@
+@import "../styles/variables.css";
+
+
+// центральный экран
+
+.container{
+    // background-color: var(--green-color);
+    height: calc(100vh - 161px );
+    min-height: 411.5px;
+    width: 100%;
+    
+    // justify-content: space-between;
+    // flex-direction: row;
+    // overflow-x: hidden ;
+    //background-color: rgb(63, 113, 206);
+    
+}
+
+.row {
+    display: flex;
+    // background-color: coral;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-left: 13%;
+    padding: 10px 70px;
+}
+
+
+.logo__img{
+    width: 7px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-decoration: none;
+    opacity: .5;
+    height: 14px;
+    display: inline-block;
+    content: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3LjU0OCIgaGVpZ2h0PSIxMi45NDQiIHRyYW5zZm9ybT0icm90YXRlKDE4MCkiPjxwYXRoIGQ9Ik0uMTI5IDYuNzdsNi4wNDQgNi4wNDRhLjQwOC40MDggMCAwMC42IDBsLjY0OC0uNjQ5YS40MDguNDA4IDAgMDAwLS42bC01LjEtNS4xIDUuMS01LjFhLjQwOC40MDggMCAwMDAtLjZMNi43NzMuMTE3YS40MDguNDA4IDAgMDAtLjYgMEwuMTMgNi4xNzRhLjQwOS40MDkgMCAwMDAgLjZ6IiBmaWxsPSIjN2Y3ZjdmIi8+PC9zdmc+);
+}
+.link__text{
+    color: #7f7f7f;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    text-decoration:underline;
+    
+    
+}
+
+.text{
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #7f7f7f;
+}
+
+.link__text:hover:not(.disabled) {
+    color: rgb(0, 0, 0);      
+}
+
+// нижний экран
+
+.containerMain{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .containerMain__alert{
+        margin-bottom: 50px;
+    }
+}

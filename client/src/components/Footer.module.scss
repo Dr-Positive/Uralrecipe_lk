@@ -1,0 +1,130 @@
+@import "../styles/variables.css";
+
+
+//Начало футера, обявление общего футера
+
+.footer{
+    padding: 50px 0 0;
+    background-color: var(--footer-color);
+    width: 100%;
+    height: 305.5px;
+    display: flex;   
+    .footer__row{
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+}
+
+
+//Верхняя часть футера с контактами
+
+
+.contact{
+    width: 100%;
+    max-width: 1296px;
+    // padding-left: 20px;
+    // padding-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--footer-color);
+    width: 100%;
+    height: 295.5px;
+    display: grid;
+    grid-template-columns: 432px repeat(2, 1fr);
+    justify-content: center;  // Добавлено для расположения элементов по центру
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;    
+    //border: 1px solid rgb(255, 0, 200);
+    .contact__text{        
+        text-align: center;
+    }
+ 
+    .contact__block1{
+        border-right: 1px solid hsla(0,0%,43.9%,.341);     
+        height: 105px;
+        margin-left: 10px;        
+    }
+    .contact__block2{
+        //border: 1px solid #2f00ff;
+        //justify-self: center;
+        border-right: 1px solid hsla(0,0%,43.9%,.341);     
+        height: 105px;
+        text-align: center;        
+    }
+    .contact__block3{
+        //border: 1px solid #ec0000;
+        //justify-self: center;    
+        border-right: 1px solid hsla(0,0%,43.9%,.341);     
+        height: 105px;           
+        text-align: center;        
+    }
+}
+
+.link{
+    width: 250px;
+    display: inline-flex;
+    align-items: center;
+    
+    .link__main{
+        font-size: 16px;
+        line-height: 1.5;
+        font-weight: 400;
+        display: inline;
+        color: hsla(0,0%,100%,.6);
+        border-color: hsla(0,0%,100%,.6); 
+        text-decoration:underline;               
+    }
+    
+    .link__spacing{
+        margin-right: 5px;
+    }
+
+    .link__allspacing{
+        margin-top: 23px;
+    }
+
+    .link__text:hover:not(.disabled) {
+        color: white;      
+    }
+}
+
+//Нижний блок копирайта 
+
+.copyright{
+    background-color: var(--foter-adv-color);
+    width: 100%;    
+    height: 64.5px;    
+
+    .copyright__block{
+        height: 64.5px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+
+@media (max-width: 320px) {
+    
+}
+
+
+@media (max-width: 640px) {
+    
+}
+
+@media (max-width: 768px) {
+    
+}
+
+@media (max-width: 1024px) {
+    .footer{ 
+        max-width: 100%;
+        
+
+    }
+    
+    
+}
