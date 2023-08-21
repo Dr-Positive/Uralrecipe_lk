@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import AlertCard from "../components/AlertCard";
 import { useContext, useEffect } from 'react';
-import { Context } from '../index.js';
+import { Context } from '../index';
 import {observer} from "mobx-react-lite"
 
 const MainPage = observer(( ) => {
@@ -24,12 +24,18 @@ const MainPage = observer(( ) => {
           </div>
           <div className={styles.containerMain}>
             <div className={styles.containerMain__alert}>
-              <AlertCard createdate={"07.07.2007"} title={alert.name} text={alert.text}></AlertCard>
+              <div>
+                {alert.types.map(type => 
+                <AlertCard key={type.id} title={type.title} text={type.text} date={type.date}>                  
+
+                </AlertCard>
+                )}
+              </div>              
               <AlertCard createdate={"07.07.2007"} title={"Верни 2007"} text={"Никто и никогда не вернётся в 2007. Никто и никогда не вернётся в 2007."}></AlertCard>
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer/>
       </div>
     );
   });
