@@ -25,8 +25,8 @@ const MainPage = observer(( ) => {
           <div className={styles.containerMain}>
             <div className={styles.containerMain__alert}>
               <div>
-                {alert.types.map(type => 
-                <AlertCard key={type.id} title={type.title} text={type.text} date={type.date}>                  
+                {alert.alerts.map(type => 
+                <AlertCard key={type.id} title={type.title} text={type.text} createdate={type.date}>                  
 
                 </AlertCard>
                 )}

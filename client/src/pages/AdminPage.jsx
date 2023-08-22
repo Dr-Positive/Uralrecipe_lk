@@ -12,6 +12,9 @@ import Footer from "../components/Footer";
 import * as XLSX from "xlsx";
 import { Context } from "../index.js";
 
+import {observer} from "mobx-react-lite"
+
+
 const AdminPage = () => {
 
 
