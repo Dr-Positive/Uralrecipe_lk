@@ -17,30 +17,57 @@ import {observer} from "mobx-react-lite"
 
 const AdminPage = () => {
 
-
-
+  const [inputValue, setInputValue] = useState('');
+  const [strs, setStrs] = useState([]);
+  
   const [open, setOpen] = React.useState(false);
-
+  const [name, setName] = React.useState("Темы");
   const handleOpen = () => {
-    setOpen(!open);
+    setOpen(!open);    
   };
 
   const handleMenuOne = () => {
-    // do something
     setOpen(false);
+    setName('Проф осмотры')
+    handleButtonClick('Проф осмотры');
   };
 
-  const handleMenuTwo = () => {
-    // do something
-    setOpen(false);
+  const handleMenuTwo = () => {    
+    setOpen(false);    
+    setName('ДН')
+    handleButtonClick('ДН');
   };
 
+  const handleMenuThree = () => {    
+    setOpen(false);    
+    setName('Диспансеризация')
+    handleButtonClick('Диспансеризация');
+  };
+
+  const CustomButton = ({ buttonText, onClick }) => (
+    <button className={styles.button} onClick={onClick}>
+      {buttonText}
+    </button>
+  );
 
 
+  const {alert} = useContext(Context)
 
-  const { devise } = useContext(Context);
+  const [info, setInfo] = useState([])
 
-  const [alert, setAlert] = useState(false);
+  const addInfo = () => {
+    
+  }
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+  const [selectedButton, setSelectedButton] = useState('');
+
+  const handleButtonClick = (buttonName) => {  
+  setSelectedButton(buttonName);
+};
+
 
   const fileRef = React.useRef(null);
 
@@ -66,6 +93,7 @@ const AdminPage = () => {
       console.log(parseSecond);
       dataParse.splice(0, 1);
       console.log(dataParse);
+      
       const newLoad = dataParse.map((item) => {
         return {
           phone: item[0],
@@ -77,23 +105,24 @@ const AdminPage = () => {
           theme: item[6],
         };
       });
-      console.log(newLoad);
-
+      console.log('Значение NEW LOAD:', newLoad);
+      
       const name = parseSecond.map((item) => item.NAME);
-      const Mounth = parseSecond.map((item) => item.Mounth);
-
+      const Mounth = parseSecond.map((item) => item.Mounth);      
       const strs = newLoad.map(
         (item) => `${item.NAME} ${parseSecond} ${item.Mounth}.`
       );
+      setStrs(strs);
 
-      //   const updatedText = "#name#, вы состоите на диспансерном учете, просим вас посетить поликлинику в #month#"
-      //   .replace("#name#", name)
-      //   .replace("#month#", Mounth);
-      //   //Парсинг :\n${JSON.stringify(newLoad)}\n\n
-      //   const message = `Парсинг с текстом:\n${JSON.stringify(updatedText)}`;
-      console.log(strs);
+      console.log('Значение strs:', strs);
     };
     reader.readAsBinaryString(f);
+  };
+
+  const PushClick = () => {
+    console.log('Введенное значение:', inputValue);
+    console.log('Выбранная кнопка:', selectedButton);
+    console.log('Выбранная strs:', strs);
   };
 
   return (
@@ -106,6 +135,7 @@ const AdminPage = () => {
             name="login"
             id="login"
             placeholder="Название рассылки"
+            onChange={handleInputChange}
           ></input>
           <input
             type="file"
@@ -116,21 +146,32 @@ const AdminPage = () => {
             onChange={handleChange}
             style={{ display: "none" }}
           ></input>
-          <Dropdown
+          <Dropdown          
             open={open}
-            trigger={<button  className={styles.btn} onClick={handleOpen}>Тема</button>}
-            menu={[ 
-              <button className={styles.butn} onClick={handleMenuOne}>Проф осмотры</button>,
-              <button className={styles.bttn} onClick={handleMenuTwo}>Дн</button>,
-              <button className={styles.bttn} onClick={handleMenuTwo}>Диспансеризация</button>,
+            trigger={<button  buttonText={name} onClick={handleOpen} className={styles.btn}>{name}</button>}
+            menu={[
+              <CustomButton
+                buttonText="Проф осмотры"
+                onClick={handleMenuOne}
+              />,
+              <CustomButton
+                buttonText="Дн"
+                onClick={handleMenuTwo}
+              />,
+              <CustomButton
+                buttonText="Диспансеризация"
+                onClick={handleMenuThree}
+              />
             ]}
+            
           ></Dropdown>          
           <NavMainButton  className={styles.navbtn}
             text={"Загрузить"}
             onClick={handleClick}
           ></NavMainButton>
           <NavButton
-            text={"Начать рассылку"} // onClick={handleClick}
+            text={"Начать рассылку"}  
+            onClick={PushClick}
           ></NavButton>
         </div>
       </div>
