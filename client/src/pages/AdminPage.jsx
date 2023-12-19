@@ -1,4 +1,3 @@
-import React, { useContext, useState } from "react";
 import styles from "./AdminPage.module.scss";
 import CompanyLogo from "../img/web-logo.png";
 import NavButton from "../components/NavButton";
@@ -10,12 +9,20 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 import * as XLSX from "xlsx";
-import { Context } from "../index.js";
+import React, { useContext,useEffect, useState } from "react";
+import { Context } from "../../src/index.js";
 
 import {observer} from "mobx-react-lite"
 
 
-const AdminPage = () => {
+const AdminPage = observer(() => {
+
+  const {alert} = useContext(Context)
+  const [alerts, setAlerts] = useState()
+
+  const addAlert = () =>{
+    setAlerts( [...alert, { id: '', title: '', text: '', date: ''}])
+  }
 
   const [inputValue, setInputValue] = useState('');
   const [strs, setStrs] = useState([]);
@@ -51,13 +58,9 @@ const AdminPage = () => {
   );
 
 
-  const {alert} = useContext(Context)
-
+  
   const [info, setInfo] = useState([])
 
-  const addInfo = () => {
-    
-  }
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -107,8 +110,6 @@ const AdminPage = () => {
       });
       console.log('Значение NEW LOAD:', newLoad);
       
-      const name = parseSecond.map((item) => item.NAME);
-      const Mounth = parseSecond.map((item) => item.Mounth);      
       const strs = newLoad.map(
         (item) => `${item.NAME} ${parseSecond} ${item.Mounth}.`
       );
@@ -173,12 +174,16 @@ const AdminPage = () => {
             text={"Начать рассылку"}  
             onClick={PushClick}
           ></NavButton>
+          <NavMainButton
+            text={"Начать тест"}  
+            onClick={addAlert}
+          ></NavMainButton>
         </div>
       </div>
       <Footer />
     </div>
   );
-};
+});
 
 
 

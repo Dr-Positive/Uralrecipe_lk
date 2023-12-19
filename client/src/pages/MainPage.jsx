@@ -30,8 +30,7 @@ const MainPage = observer(( ) => {
 
                 </AlertCard>
                 )}
-              </div>              
-              <AlertCard createdate={"07.07.2007"} title={"Верни 2007"} text={"Никто и никогда не вернётся в 2007. Никто и никогда не вернётся в 2007."}></AlertCard>
+              </div>
             </div>
           </div>
         </div>

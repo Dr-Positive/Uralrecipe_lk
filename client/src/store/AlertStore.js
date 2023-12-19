@@ -21,9 +21,7 @@ export default class AlertStore {
             
         ]
         // this._types = [
-        //     {id: 1, title: "хуй", text: "хуй проф осмотр", date: "2023-07-24"},
-        //     {id: 2, title: "вахуй", text: "вахуй диспансеризацию", date: "2023-08-13"},
-        //     {id: 3, title: "абоба", text: "абоба диспансерное наблюдение", date: "2023-08-02"},
+        //     {id: 1, title: "абоба", text: "абоба диспансерное наблюдение", date: "2023-08-02"},
             
         // ]
         makeAutoObservable(this)
