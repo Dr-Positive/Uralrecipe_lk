@@ -10,13 +10,21 @@ import LinkDefault from "../components/LinkDefault";
 import LinkFooter from "../components/LinkFooter";
 import { useContext } from 'react';
 import { Context } from '../index.js'
-import { ADMIN_ROUTE } from "../utils/consts";
+import { ADMIN_ROUTE } from "../utils/consts"; 
+import { LOGIN_ROUTE } from "../utils/consts"; 
+import { LK_ROUTE } from "../utils/consts"; 
 import {observer} from "mobx-react-lite"
 
 const Header = observer(( ) => {
 
   const {user} = useContext(Context)
   
+  
+  const handleMenuThree = () => {    
+    console.log('РАЗЛОГИН')
+  }
+
+
     return (
         <div className={styles.header}>
         <div className={styles.logo}>
@@ -55,6 +63,11 @@ const Header = observer(( ) => {
                 <LinkGrey text={'Инфографика'} href="https://u-rm.ru/infografika"/>
               </li>
             </ul>
+            <div className={styles.eye}>
+              <div className={styles.search}>
+              <LinkDefault text={'Выход'} onClick={handleMenuThree} href={""}/>
+              </div>              
+            </div>            
             <div className={styles.eye}>
               <div className={styles.search}>
                 <a className={styles.search__link} text={'Омс'} href={"https://u-rm.ru/search"}>
@@ -98,9 +111,12 @@ const Header = observer(( ) => {
             <div className={styles.rightBlock}>
             {user.isAuth && (                    
               <div className={styles.adminbtn}>
-                <LinkDefault text={'Админ панель'} href={ADMIN_ROUTE}/>                
-              </div>    
+                <LinkDefault text={'Админ панель'} href={ADMIN_ROUTE}/>               
+              </div>
              )}
+              <div className={styles.lkbtn}>
+                <LinkDefault text={'Личный кабинет'} href={LK_ROUTE}/>               
+              </div>
               <p className={styles.rightBlock__text}>ГОРЯЧАЯ ЛИНИЯ:</p>
               <LinkDefault text={'8 (343) 286-80-80'}/>           
             </div>

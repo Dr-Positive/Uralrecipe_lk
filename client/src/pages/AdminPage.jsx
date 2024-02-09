@@ -167,13 +167,13 @@ const AdminPage = observer(() => {
             
           ></Dropdown>          
           <NavMainButton  className={styles.navbtn}
-            text={"Загрузить"}
+            text={"Загрузить список"}
             onClick={handleClick}
           ></NavMainButton>
-          <NavButton
+          <NavMainButton
             text={"Начать рассылку"}  
             onClick={PushClick}
-          ></NavButton>
+          ></NavMainButton>
           <NavMainButton
             text={"Начать тест"}  
             onClick={addAlert}
