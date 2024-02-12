@@ -25,7 +25,7 @@ const AdminPage = observer(() => {
   }
 
   const [inputValue, setInputValue] = useState('');
-  const [strs, setStrs] = useState([]);
+  const [newLoad, setnewLoad] = useState([]);
   
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState("Темы");
@@ -108,14 +108,10 @@ const AdminPage = observer(() => {
           theme: item[6],
         };
       });
-      console.log('Значение NEW LOAD:', newLoad);
+       
       
-      const strs = newLoad.map(
-        (item) => `${item.NAME} ${parseSecond} ${item.Mounth}.`
-      );
-      setStrs(strs);
-
-      console.log('Значение strs:', strs);
+      setnewLoad(newLoad);
+     
     };
     reader.readAsBinaryString(f);
   };
@@ -123,7 +119,7 @@ const AdminPage = observer(() => {
   const PushClick = () => {
     console.log('Введенное значение:', inputValue);
     console.log('Выбранная кнопка:', selectedButton);
-    console.log('Выбранная strs:', strs);
+    console.log('Выбранная newLoad:', newLoad);
   };
 
   return (
