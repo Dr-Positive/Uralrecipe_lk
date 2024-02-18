@@ -48,7 +48,11 @@ const Alert = sequelize.define('alert ', {       //Сообщение котор
     dispt:  {type:DataTypes.INTEGER}, // тема осмотра 
     div:  {type:DataTypes.INTEGER},  // вид осмотра
     date: {type:DataTypes.DATE}, // Дата информирования
-    compl: {type:DataTypes.INTEGER}, // Дата информирования
+    createdate: {type:DataTypes.DATE}, // Дата создания информирования
+    updatedate: {type:DataTypes.DATE}, // Дата последнего обновления
+    compl: {type:DataTypes.INTEGER}, // комплет-уникальный комплект
+    im:{type:DataTypes.CHAR}, // имя информированного
+    ot:{type:DataTypes.CHAR}, // отчество информированного
 });
 
 // const Alert = sequelize.define('alert ', {       //Сообщение которое информирует пользователя о осмотре их может быть несколько
