@@ -11,6 +11,8 @@ const MainPage = observer(( ) => {
 
     const {alert} = useContext(Context)
 
+    
+
     return (
       <div>
         <Header />
@@ -25,11 +27,13 @@ const MainPage = observer(( ) => {
           <div className={styles.containerMain}>
             <div className={styles.containerMain__alert}>
               <div>
-                {alert.alerts.map(type => 
+                {/* {alert.alerts.map(type => 
                 <AlertCard key={type.id} title={type.title} text={type.text} createdate={type.date}>                  
 
                 </AlertCard>
-                )}
+                )} */}
+
+
               </div>
             </div>
           </div>

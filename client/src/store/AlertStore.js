@@ -2,45 +2,38 @@ import { makeAutoObservable } from "mobx";
 
 export default class AlertStore {
     constructor() {
-        this._alerts = [
-            {id: 1, title: "проф осмотр", text: "Пройдите проф осмотр", date: "2023-07-24"},
-            {id: 2, title: "диспансеризация", text: "Пройдите диспансеризацию", date: "2023-08-13"},
-            {id: 3, title: "диспансерное наблюдение", text: "Пройдите диспансерное наблюдение", date: "2023-08-02"},
-            {id: 4, title: "диспансерное наблюдение", text: "Пройдите диспансерное наблюдение", date: "2023-08-02"},
-            {id: 5, title: "диспансерное наблюдение", text: "Пройдите диспансерное наблюдение", date: "2023-08-02"},
-            {id: 6, title: "диспансерное наблюдение", text: "Пройдите диспансерное наблюдение", date: "2023-08-02"},
-            {id: 7, title: "диспансерное наблюдение", text: "Пройдите диспансерное наблюдение", date: "2023-08-02"},
-            {id: 8, title: "диспансерное наблюдение", text: "Пройдите диспансерное наблюдение", date: "2023-08-02"},
-            {id: 10, title: "диспансерное наблюдение", text: "Пройдите диспансерное наблюдение", date: "2023-08-02"},
-            {id: 11, title: "диспансерное наблюдение", text: "Пройдите диспансерное наблюдение", date: "2023-08-02"},
-            {id: 12, title: "диспансерное наблюдение", text: "Пройдите диспансерное наблюдение", date: "2023-08-02"},
-            {id: 13, title: "диспансерное наблюдение", text: "Пройдите диспансерное наблюдение", date: "2023-08-02"},
-            {id: 14, title: "диспансерное наблюдение", text: "Пройдите диспансерное наблюдение", date: "2023-08-02"},
-            
-            
-            
-        ]
-        // this._types = [
-        //     {id: 1, title: "абоба", text: "абоба диспансерное наблюдение", date: "2023-08-02"},
-            
-        // ]
+        this._titles = []
+        this._texts =  []
+        this._dates =  []
+        this._selectedType = []
+
         makeAutoObservable(this)
     }
 
 
-    setAlerts(alerts) {
-        this._alerts = alerts
+    setTitles(titles) {
+        this._titles = titles
     }
-    setTypes(types) {
-        this._types = types
+    setTexts(texts) {
+        this._texts = texts
+    }
+    setDates(dates) {
+        this._dates = dates
+    }
+    setSelectedType(types) {
+        this._selectedType = types
     }
 
+    get titles() {
+        return this._titles
+    }
+    get texts() {
+        return this._texts
+    }
+    get dates() {
+        return this._dates
+    }
     get types() {
         return this._types
-    }
-
-
-    get alerts() {
-        return this._alerts
     }
 }

@@ -34,6 +34,8 @@ const User = sequelize.define('user ', {
 
 const Inform = sequelize.define('type_alert ', { // Проверка статуса пользователя изменяется когда пользователь заходит или получает сообщение о информировании
     id: {type:DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    alertId: {type:DataTypes.INTEGER, primaryKey: true},
+    userID: {type:DataTypes.INTEGER, primaryKey: true},
     // flag: {type:DataTypes.INTEGER}, // значение которое передаёт состояние пользователя ( если заходил на сайт 1. если был проинформирован 2)
     // Inform_id: {type:DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     // Alert_id: {type:DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -42,7 +44,7 @@ const Inform = sequelize.define('type_alert ', { // Проверка стату�
 });
 
 const Alert = sequelize.define('alert ', {       //Сообщение которое информирует пользователя о осмотре их может быть несколько
-    id: {type:DataTypes.INTEGER, primaryKey: true, autoIncrement: true},   
+    id: {type:DataTypes.INTEGER, primaryKey: true},
     title:{type:DataTypes.CHAR}, // название темы информирования
     text:{type:DataTypes.CHAR}, // текст информирования
     dispt:  {type:DataTypes.INTEGER}, // тема осмотра 
@@ -53,13 +55,9 @@ const Alert = sequelize.define('alert ', {       //Сообщение котор
     compl: {type:DataTypes.INTEGER}, // комплет-уникальный комплект
     im:{type:DataTypes.CHAR}, // имя информированного
     ot:{type:DataTypes.CHAR}, // отчество информированного
+    phone:{type:DataTypes.INTEGER}, // телефон информирования   
 });
 
-// const Alert = sequelize.define('alert ', {       //Сообщение которое информирует пользователя о осмотре их может быть несколько
-//     id: {type:DataTypes.INTEGER, primaryKey: true, autoIncrement: true},   
-//     title:{type:DataTypes.STRING}, // название темы информирования
-
-// });
 User.hasOne(Alert) // Застраховнный получает сообщения 
 Alert.belongsToMany(User, {through:Inform})
 
@@ -72,10 +70,16 @@ Alert.belongsTo(Inform)
 Inform.hasOne(User) // Смена статуса при входе
 User.belongsTo(Inform)
 
+Inform.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Inform, { foreignKey: 'userId' });
+
+Inform.belongsTo(Alert, { foreignKey: 'alertId' });
+Alert.hasMany(Inform, { foreignKey: 'alertId' });
+
 module.exports = {
     User, 
     Alert,
     Inform
 }
-//  sequelize.drop()
-//  sequelize.sync()
+ // sequelize.drop()
+ // sequelize.sync()

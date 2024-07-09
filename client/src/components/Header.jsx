@@ -65,7 +65,7 @@ const Header = observer(( ) => {
             </ul>
             <div className={styles.eye}>
               <div className={styles.search}>
-              <LinkDefault text={'Выход'} onClick={handleMenuThree} href={""}/>
+              <LinkDefault text={'Выход'} onClick={handleMenuThree} href={"http://localhost:3000/signin"}/>
               </div>              
             </div>            
             <div className={styles.eye}>
