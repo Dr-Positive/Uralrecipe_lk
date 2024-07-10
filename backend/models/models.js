@@ -1,8 +1,8 @@
 const sequelize = require("../db");
 const { DataTypes, BelongsTo, BelongsToMany } = require("sequelize");
 
-const User = sequelize.define("user ", {  // Пользователь. Информация о пользователях загруженных с базы plan_disp_m 
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }, // id пользователя с первичным ключом и автоматическим созданием(автоинкрементирование)
+const User = sequelize.define('user', {  // Пользователь. Информация о пользователях загруженных с базы plan_disp_m 
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true ,allowNull: false}, // id пользователя с первичным ключом и автоматическим созданием(автоинкрементирование)
   login: { type: DataTypes.CHAR, unique: true }, // номер полиса
   password: { type: DataTypes.CHAR }, // пока что номер договора
   role: { type: DataTypes.CHAR, defaultValue: 0 }, // роль может иметь два значения админ или застрахованный
@@ -20,10 +20,10 @@ const User = sequelize.define("user ", {  // Пользователь. Инфо�
   gender: { type: DataTypes.INTEGER }, // пол
 });
 
-const Mailing = sequelize.define("mailing  ", {
+const Mailing = sequelize.define('mailing', {
   // Рассылки. Информация о созданных рассылках
   //Когда создаётся рассылка записывается информация о данной рассылке
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }, // id
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true ,allowNull: false}, // id
   createdate: { type: DataTypes.DATE }, // Дата создания информирования(с базы alert)
   updatedate: { type: DataTypes.DATE }, // Дата последнего обновления(с базы alert)
   title: { type: DataTypes.CHAR }, // название темы информирования(с фронта)
@@ -32,9 +32,9 @@ const Mailing = sequelize.define("mailing  ", {
   // связь между  Alert и Mailing одна запись Mailing ко многим записям в Alert
 });
 
-const Alert = sequelize.define("alert ", {
+const Alert = sequelize.define('alert', {
   //Сообщение. Записи всех отправленных сообщений.
-  id: { type: DataTypes.INTEGER, primaryKey: true },
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true ,allowNull: false},
   title: { type: DataTypes.CHAR }, // название темы информирования(с фронта)
   dispt: { type: DataTypes.INTEGER }, // тема осмотра(с отчёта)
   div: { type: DataTypes.INTEGER }, // вид осмотра(с фронта)
@@ -54,9 +54,11 @@ const Alert = sequelize.define("alert ", {
     },
   },
   mailing_id: {// id рассылки в рамках которых было информирование из таблицы Alert создаётся в момент создания рассылки
-    type: DataTypes.INTEGER,
-    references: { model: "Mailing", key: "id" },
-  },
+    type: DataTypes.INTEGER,    allowNull: false,
+    references: {
+      model: Mailing,
+      key: "id",
+    },},
 });
 
 
@@ -74,5 +76,5 @@ module.exports = {
   Alert,
   Mailing,
 };
-// sequelize.drop()
-// sequelize.sync()
+//sequelize.drop()
+sequelize.sync()
