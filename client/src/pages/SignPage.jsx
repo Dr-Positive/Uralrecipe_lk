@@ -71,7 +71,7 @@ const SignPage = observer(( ) => {
             <input type="password" name="password" id="password" placeholder="Пароль" className={styles.input__style} value={password} onChange={e => setPassword(e.target.value)}></input>            
               <img src={QuestionGreen} alt="questionsvg" className={styles.styleSvg} onClick={handleClick}/>
           </div>       
-          <NavButton text={"Войти"} href={LK_ROUTE} onClick={click}></NavButton>   
+          <NavButton text={"Войти"} href={LK_ROUTE} onClick={(click) => user.setIsAuth(true)}></NavButton>   
           {/* onClick={(click) => user.setIsAuth(true)}     */}
         </div>
       </div>

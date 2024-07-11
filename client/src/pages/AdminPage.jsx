@@ -7,79 +7,48 @@ import LinkDefault from "../components/LinkDefault";
 import LinkFooter from "../components/LinkFooter";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Form from 'react-bootstrap/Form';
+
 import * as XLSX from "xlsx";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext,useEffect, useState } from "react";
 import { Context } from "../../src/index.js";
-import {createАlert, fetchBrands, fetchDevices, fetchTypes} from "../http/alertAPI";
-import { observer } from "mobx-react-lite";
-import alertStore from "../store/AlertStore.js";
+
+import {observer} from "mobx-react-lite"
+
 
 const AdminPage = observer(() => {
-  const createAlert = { message: "New alert message" };
-  const { alert } = useContext(Context);
-  const [alerts, setAlerts] = useState([]);
-  const [title, setTitle] = useState("");
-  const [name, setName] = React.useState("Темы");
-  const [file, setFile] = useState(null)
 
-  const addAlert = () => {
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append('file', file)
-    //formData.append('alertId', alert.selectedBrand.id)
-    formData.append('typeId', alert.selectedType.id)
-    formData.append('info', JSON.stringify(info))
-    createАlert(formData).then(data => onHide())
+  const {alert} = useContext(Context)
+  const [alerts, setAlerts] = useState()
 
-    // const ims = newLoad.map((item) => item.NAME);
-    // const ots = newLoad.map((item) => item.OTCH);
-    // const compls = newLoad.map((item) => item.compl);
-    // const phones = newLoad.map((item) => item.phone);
-    // const dispts = newLoad.map((item) => item.theme);
+  const addAlert = () =>{
+    setAlerts( [...alert, { id: '', title: '', text: '', date: ''}])
+  }
 
-    // const newAlerts = [
-    //   ...alerts,
-    //   {
-    //     id: selectedButton,
-    //     title: inputValue,
-    //     im: `${ims.join(", ")}`,
-    //     ot: `${ots.join(", ")}`,
-    //     compl: `${compls.join(", ")}`,
-    //     phone: `${phones.join(", ")}`,
-    //     dispt: `${dispts.join(", ")}`,
-    //     id: Date.now(),
-    //   },
-    // ];
-    // setAlerts(newAlerts);
-    // console.log("Введенное значение:", newAlerts);
-  };
-
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const [newLoad, setnewLoad] = useState([]);
-
+  
   const [open, setOpen] = React.useState(false);
-  //const [name, setName] = React.useState("Темы");
+  const [name, setName] = React.useState("Темы");
   const handleOpen = () => {
-    setOpen(!open);
+    setOpen(!open);    
   };
 
   const handleMenuOne = () => {
     setOpen(false);
-    setName("Проф осмотры");
-    handleButtonClick("Проф осмотры");
+    setName('Проф осмотры')
+    handleButtonClick('Проф осмотры');
   };
 
-  const handleMenuTwo = () => {
-    setOpen(false);
-    setName("ДН");
-    handleButtonClick("ДН");
+  const handleMenuTwo = () => {    
+    setOpen(false);    
+    setName('ДН')
+    handleButtonClick('ДН');
   };
 
-  const handleMenuThree = () => {
-    setOpen(false);
-    setName("Диспансеризация");
-    handleButtonClick("Диспансеризация");
+  const handleMenuThree = () => {    
+    setOpen(false);    
+    setName('Диспансеризация')
+    handleButtonClick('Диспансеризация');
   };
 
   const CustomButton = ({ buttonText, onClick }) => (
@@ -88,16 +57,20 @@ const AdminPage = observer(() => {
     </button>
   );
 
-  const [info, setInfo] = useState([]);
+
+  
+  const [info, setInfo] = useState([])
+
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
-  const [selectedButton, setSelectedButton] = useState("");
+  const [selectedButton, setSelectedButton] = useState('');
 
-  const handleButtonClick = (buttonName) => {
-    setSelectedButton(buttonName);
-  };
+  const handleButtonClick = (buttonName) => {  
+  setSelectedButton(buttonName);
+};
+
 
   const fileRef = React.useRef(null);
 
@@ -105,9 +78,8 @@ const AdminPage = observer(() => {
     fileRef.current.click();
   };
 
-    const selectFile = e => {
-        setFile(e.target.files[0])
-    
+  const handleChange = (e) => {
+    e.preventDefault();
 
     var files = e.target.files,
       f = files[0];
@@ -124,7 +96,7 @@ const AdminPage = observer(() => {
       console.log(parseSecond);
       dataParse.splice(0, 1);
       console.log(dataParse);
-
+      
       const newLoad = dataParse.map((item) => {
         return {
           phone: item[0],
@@ -136,16 +108,18 @@ const AdminPage = observer(() => {
           theme: item[6],
         };
       });
-
+       
+      
       setnewLoad(newLoad);
+     
     };
     reader.readAsBinaryString(f);
   };
 
   const PushClick = () => {
-    console.log("Введенное значение:", inputValue);
-    console.log("Выбранная кнопка:", selectedButton);
-    console.log("Выбранная newLoad:", newLoad);
+    console.log('Введенное значение:', inputValue);
+    console.log('Выбранная кнопка:', selectedButton);
+    console.log('Выбранная newLoad:', newLoad);
   };
 
   return (
@@ -153,8 +127,7 @@ const AdminPage = observer(() => {
       <Header />
       <div className={styles.container}>
         <div className={styles.block}>
-          {/* <input
-            className={styles.textInput}
+          <input className={styles.textInput}
             type="text"
             name="login"
             id="login"
@@ -169,61 +142,36 @@ const AdminPage = observer(() => {
             ref={fileRef}
             onChange={handleChange}
             style={{ display: "none" }}
-          ></input> */}
-
-          <Form.Control
-            value={titles}
-            onChange={(e) => setTitle(e.target.value)}
-            className={styles.textInput}
-            placeholder="Введите название рассылки"
-          />
-          <Form.Control
-            style={{ display: "none" }}
-            type="file"
-            onChange={selectFile}
-            ref={fileRef}
-          />
-          <Dropdown
+          ></input>
+          <Dropdown          
             open={open}
-            trigger={
-              <button
-                buttonText={name}
-                onClick={handleOpen}
-                className={styles.btn}
-              >
-                {name}
-              </button>
-            }
+            trigger={<button  buttonText={name} onClick={handleOpen} className={styles.btn}>{name}</button>}
             menu={[
               <CustomButton
                 buttonText="Проф осмотры"
-                //onClick={handleMenuOne}
-                onClick={() => device.setSelectedType(type)}
-                key={type.id}
+                onClick={handleMenuOne}
               />,
               <CustomButton
                 buttonText="Дн"
-                onClick={() => device.setSelectedType(type)}
-                key={type.id}
+                onClick={handleMenuTwo}
               />,
               <CustomButton
                 buttonText="Диспансеризация"
-                onClick={() => device.setSelectedType(type)}
-                key={type.id}
-              />,
+                onClick={handleMenuThree}
+              />
             ]}
-          ></Dropdown>
-          <NavMainButton
-            className={styles.navbtn}
+            
+          ></Dropdown>          
+          <NavMainButton  className={styles.navbtn}
             text={"Загрузить список"}
             onClick={handleClick}
           ></NavMainButton>
           <NavMainButton
-            text={"Начать рассылку"}
+            text={"Начать рассылку"}  
             onClick={PushClick}
           ></NavMainButton>
           <NavMainButton
-            text={"Начать тест"}
+            text={"Начать тест"}  
             onClick={addAlert}
           ></NavMainButton>
         </div>
@@ -233,21 +181,23 @@ const AdminPage = observer(() => {
   );
 });
 
+
+
 const Dropdown = ({ open, trigger, menu }) => {
   return (
-    <div className={styles.dropdown}>
+    <div className={styles.dropdown} >
       {trigger}
       {open ? (
         <ul className={styles.menu}>
           {menu.map((menuItem, index) => (
-            <li key={index} className={styles.menu_item}>
-              {menuItem}
-            </li>
+            <li key={index} className={styles.menu_item} >{menuItem}</li>
           ))}
         </ul>
       ) : null}
-    </div>
+    </div>  
   );
 };
+
+
 
 export default AdminPage;
