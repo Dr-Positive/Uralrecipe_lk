@@ -7,8 +7,8 @@ const path = require('path');
 class alertController {
     async create(req, res, next ) {
         try {
-            let {title, text, compl, div, dispt } = req.body
-            const alert = await Alert.create({title, text, compl, div, dispt});
+            let {title,text,dispt,div,compl,im,ot,phone,user_id,mailing_id} = req.body
+            const alert = await Alert.create({title,text,dispt,div,compl,im,ot,phone,user_id,mailing_id});
             return res.json(alert)
 
         }

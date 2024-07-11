@@ -14,8 +14,8 @@ const User = sequelize.define('user', {  // Пользователь. Инфор
   div3: { type: DataTypes.INTEGER}, // вид осмотра
   dispt3: { type: DataTypes.INTEGER}, // тема осмотра
   fam: { type: DataTypes.STRING}, // фамилия
-  im: { type: DataTypes.CHAR}, // имя
-  ot: { type: DataTypes.CHAR}, // отчество
+  im: { type: DataTypes.STRING}, // имя
+  ot: { type: DataTypes.STRING}, // отчество
   compl: { type: DataTypes.INTEGER, unique: true }, // комплект
   gender: { type: DataTypes.INTEGER }, // пол
 });
@@ -24,9 +24,8 @@ const Mailing = sequelize.define('mailing', {
   // Рассылки. Информация о созданных рассылках
   //Когда создаётся рассылка записывается информация о данной рассылке
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true ,allowNull: false}, // id
-  createdate: { type: DataTypes.DATE }, // Дата создания информирования(с базы alert)
-  updatedate: { type: DataTypes.DATE }, // Дата последнего обновления(с базы alert)
   title: { type: DataTypes.STRING }, // название темы информирования(с фронта)
+  text: { type: DataTypes.STRING }, // текст информирования(с фронта)
   dispt: { type: DataTypes.INTEGER }, // тема осмотра(с базы alert)
   div: { type: DataTypes.INTEGER }, // вид осмотра(с базы alert)
   // связь между  Alert и Mailing одна запись Mailing ко многим записям в Alert
@@ -36,15 +35,13 @@ const Alert = sequelize.define('alert', {
   //Сообщение. Записи всех отправленных сообщений.
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true ,allowNull: false},
   title: { type: DataTypes.STRING }, // название темы информирования(с фронта)
+  text: { type: DataTypes.STRING }, // текст информирования(с фронта)
   dispt: { type: DataTypes.INTEGER }, // тема осмотра(с отчёта)
   div: { type: DataTypes.INTEGER }, // вид осмотра(с фронта)
-  date: { type: DataTypes.DATE }, // Дата информирования(дата создания отчёта)
-  createdate: { type: DataTypes.DATE }, // Дата создания информирования(с фронта)
-  updatedate: { type: DataTypes.DATE }, // Дата последнего обновления(с фронта)
   compl: { type: DataTypes.INTEGER }, // комплет-уникальный через него необходима проверка user на нахождение в базе(с отчёта) при нахождении пользователя необходима обновить у него status
-  im: { type: DataTypes.CHAR}, // имя информированного(с отчёта)
-  ot: { type: DataTypes.CHAR}, // отчество информированного(с отчёта)
-  phone: { type: DataTypes.INTEGER }, // телефон информирования(с отчёта)
+  im: { type: DataTypes.STRING}, // имя информированного(с отчёта)
+  ot: { type: DataTypes.STRING}, // отчество информированного(с отчёта)
+  phone: { type: DataTypes.BIGINT}, // телефон информирования(с отчёта)
   user_id: { // id пользователя из таблицы user
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -61,7 +58,6 @@ const Alert = sequelize.define('alert', {
     },},
 });
 
-
 // Определение связей между моделями
 User.hasMany(Alert); // У одного пользователя может быть много оповещений
 Alert.belongsTo(User); // Оповещение принадлежит конкретному пользователю
@@ -69,7 +65,6 @@ Alert.belongsTo(User); // Оповещение принадлежит конкр
 // Определение связи между таблицами Mailing и Alert
 Mailing.hasMany(Alert); // У одной рассылки может быть много оповещений
 Alert.belongsTo(Mailing); // Оповещение принадлежит конкретной рассылке
-
 
 module.exports = {
   User,
