@@ -1,4 +1,4 @@
-class apiError extends Error{ 
+class ApiError extends Error{ 
 
     constructor(status, message) {
         super();
@@ -7,17 +7,17 @@ class apiError extends Error{
     }
 
     static badRequest(message) {
-        return new apiError ( 404 , message)
+        return new ApiError ( 404 , message)
     }
 
     static internal(message) {
-        return new apiError ( 500 , message)
+        return new ApiError ( 500 , message)
     }
 
     static forbiden(message) {
-        return new apiError ( 403 , message)
+        return new ApiError ( 403 , message)
     }
 }
 
 
-module.exports = apiError
+module.exports = ApiError

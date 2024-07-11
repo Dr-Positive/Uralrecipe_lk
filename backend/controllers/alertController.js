@@ -1,18 +1,20 @@
-const { Alert } = require('../models/models')
-const apiError = require('../error/apiError');
+const { Alert } = require('../models/models');
+const ApiError = require('../error/ApiError');
+const uuid = require('uuid');
+const path = require('path');
 
 
 class alertController {
-    async create(req, res) {
+    async create(req, res, next ) {
         try {
-            const {title, text, compl, div, dispt } = req.body
-            const alert = await Alert.create({title, text, compl, div, dispt})
+            let {title, text, compl, div, dispt } = req.body
+            const alert = await Alert.create({title, text, compl, div, dispt});
             return res.json(alert)
 
         }
 
         catch (e) {
-            next(apiError.badRequest(e.message))
+            next(ApiError.badRequest(e.message))
         }
 
     }
