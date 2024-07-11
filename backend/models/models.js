@@ -42,20 +42,6 @@ const Alert = sequelize.define('alert', {
   im: { type: DataTypes.STRING}, // имя информированного(с отчёта)
   ot: { type: DataTypes.STRING}, // отчество информированного(с отчёта)
   phone: { type: DataTypes.BIGINT}, // телефон информирования(с отчёта)
-  user_id: { // id пользователя из таблицы user
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: User,
-      key: "id",
-    },
-  },
-  mailing_id: {// id рассылки в рамках которых было информирование из таблицы Alert создаётся в момент создания рассылки
-    type: DataTypes.INTEGER,    allowNull: false,
-    references: {
-      model: Mailing,
-      key: "id",
-    },},
 });
 
 // Определение связей между моделями

@@ -7,8 +7,8 @@ class mailingController {
     async create(req, res, next ) {
         try {
             let {title,text, div, dispt } = req.body
-            const alert = await Mailing.create({title, text, div, dispt});
-            return res.json(alert)
+            const mailing = await Mailing.create({title, text, div, dispt});
+            return res.json(mailing)
 
         }
 
@@ -18,6 +18,14 @@ class mailingController {
 
     }
     async getAll(req, res) {
+        const mailing = await Mailing.findAll()
+        return res.json(mailing)
+
+    }
+    async getOne(req, res) {
+        const {id} = req.params
+        const mailing = await Mailing.findOne({where: {id}})
+        return res.json(mailing)
 
     }
 }

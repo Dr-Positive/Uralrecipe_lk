@@ -6,5 +6,5 @@ const checkRole = require('../middleware/СheckRoleMiddleware')
 
 router.post('/', checkRole('ADMIN'), alertController.create)
 router.get('/', alertController.getAll)
- 
+router.get('/:id', alertController.getOne)
 module.exports = router   
