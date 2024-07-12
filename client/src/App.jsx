@@ -1,23 +1,28 @@
 import './styles/variables.css';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { authRoutes, publicRoutes } from './routes.jsx';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect,useState } from 'react';
 import { Context } from './index.js';
 import { LK_ROUTE, LOGIN_ROUTE } from './utils/consts';
+import {check} from "./http/userAPI";
+import {Spinner} from "react-bootstrap";
+import {observer} from "mobx-react-lite";
 
-const App = () => {
-  const { user } = useContext(Context);
+const App = observer(() => {
+  const {user} = useContext(Context)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (user.isAuth) {
-      // Перенаправляем на страницу "lkpage", если пользователь аутентифицирован
-      <Navigate to={LK_ROUTE} replace />;
-    } else {
-      // Перенаправляем на страницу "signpage", если пользователь не аутентифицирован
-      <Navigate to={LOGIN_ROUTE} replace />;
-    }
-  }, [user.isAuth]);
+      check().then(data => {
+          user.setUser(true)
+          user.setIsAuth(true)
+      }).finally(() => setLoading(false))
+  }, [])
+    
 
+  if (loading) {
+      return <Spinner animation={"grow"}/>
+  }
   return (
     <BrowserRouter>
       <Routes>
@@ -30,6 +35,6 @@ const App = () => {
       </Routes>
     </BrowserRouter>
   );
-};
+});
 
 export default App;

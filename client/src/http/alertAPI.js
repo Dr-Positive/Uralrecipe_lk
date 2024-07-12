@@ -1,4 +1,4 @@
-import {$authHost, $host} from "./index";
+import {$y, $host} from "./index";
 import jwt_decode from "jwt-decode";
 
 export const createType = async (type) => {

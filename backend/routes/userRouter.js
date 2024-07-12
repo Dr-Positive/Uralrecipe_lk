@@ -3,7 +3,7 @@ const router = new Router
 const userController = require('../controllers/userController')
 const authMiddleware = require('../middleware/authMiddleware')
 
-router.post('/login',userController.login)
+router.post('/logining',userController.logining)
 router.get('/auth',authMiddleware, userController.chech)
-router.get('/1337', userController.getAll)
+router.get('/',userController.getAll)
 module.exports = router

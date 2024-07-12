@@ -12,41 +12,38 @@ const generateJwt = (id, compl, role) => {
 }
 
 class userController {
-    async login(req, res, next) {      
+    async logining(req, res, next) { 
       const {login, password} = req.body      
       const user = await User.findOne({where: {login}})
       if (!user) {
         return next(ApiError.internal('Пользователь не найден'))
     }
-    let comparePassword = (password, user.password)
-    if (!comparePassword) {
-        return next(ApiError.internal('Указан неверный пароль'))
-    }
+    console.log(`Пароль из запроса: ${password}`);
+    console.log(`Хеш пароля из базы данных: ${user.password}`)
+    // let comparePassword = bcrypt.compareSync(password, user.password)
+    // if (!comparePassword) {
+    //     return next(ApiError.internal('Указан неверный пароль'))
+    // }
     const token = generateJwt(user.id, user.compl, user.role)
     return res.json({token})
-}
+    }
+
+
+
+
+    async getAll(req, res) {
+      const users = await User.findAll()
+      return res.json(users)
+
+    }
 
     async chech(req, res, next) {
-        const token = generateJwt(req.user.id, req.user.compl,req.user.role)
-        return res.json({token})
-  
-    }
+      const token = generateJwt(req.user.id, req.user.compl,req.user.role)
+      return res.json({token})
+
+  }
     
-    async getAll(req, res) {
-        try {
-          // Создайте экземпляр модели User
-          const userModel = await User.findOne();
     
-          // Выполните raw query через модель
-        
-    
-          res.status(200).json({ data: users });
-        } catch (error) {
-          // Обработка ошибок
-          console.error(error);
-          res.status(500).json({ error: 'Произошла ошибка' });
-        }
-      }
     }
   
 module.exports = new userController()

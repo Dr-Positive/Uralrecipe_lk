@@ -20,10 +20,10 @@ const Header = observer(( ) => {
   const {user} = useContext(Context)
   
   
-  const handleMenuThree = () => {    
-    console.log('РАЗЛОГИН')
-  }
-
+  const logOut = () => {
+    user.setUser({})
+    user.setIsAuth(false)
+}
 
     return (
         <div className={styles.header}>
@@ -65,7 +65,7 @@ const Header = observer(( ) => {
             </ul>
             <div className={styles.eye}>
               <div className={styles.search}>
-              <LinkDefault text={'Выход'} onClick={handleMenuThree} href={"http://localhost:3000/signin"}/>
+              <LinkDefault text={'Выход'} onClick={() => logOut()} href={LOGIN_ROUTE}/>
               </div>              
             </div>            
             <div className={styles.eye}>

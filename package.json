@@ -1,7 +1,7 @@
 {
-    "scripts": {
-      "start": "npm run start:backend & npm run start:client",
-      "start:backend": "cd backend && npm start",
-      "start:client": "cd client && npm start"
-    }
+  "scripts": {
+    "start": "concurrently \"npm run start:backend\" \"npm run start:client\"",
+    "start:backend": "cd backend && npm start",
+    "start:client": "cd client && npm start"
   }
+}

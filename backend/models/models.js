@@ -5,7 +5,7 @@ const User = sequelize.define('user', {  // Пользователь. Инфор
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true ,allowNull: false}, // id пользователя с первичным ключом и автоматическим созданием(автоинкрементирование)
   login: { type: DataTypes.STRING, unique: true }, // номер полиса
   password: { type: DataTypes.STRING}, // пока что номер договора
-  role: { type: DataTypes.STRING, defaultValue: 0 }, // роль может иметь два значения админ или застрахованный
+  role: { type: DataTypes.STRING, defaultValue: "USER"}, // роль может иметь два значения админ или застрахованный
   status: { type: DataTypes.INTEGER, defaultValue: 0 }, //  значение которое показывает состояние пользователя ( если заходил на сайт 1. если был проинформирован 2, а по стандарту 0)
   div: { type: DataTypes.INTEGER}, // вид осмотра
   dispt: { type: DataTypes.INTEGER}, // тема осмотра
