@@ -20,8 +20,8 @@ class alertController {
 
 
     async getAll(req, res) {
-        const alert = await Alert.findAll()
-        return res.json(alert)
+        const alerts = await Alert.findAll()
+        return res.json(alerts)
 
     }
     async getOne(req, res) {

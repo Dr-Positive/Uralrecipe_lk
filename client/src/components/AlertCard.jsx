@@ -1,14 +1,14 @@
 import React from "react";
 import styles from "./AlertCard.module.scss";
 
-function AlertCard({ key, createdate, title, text, className }) {
+
+const AlertCard = ({alert}) => {
   return (
     <div>
       <div className={styles.alert}>
-        {key}
-        <div className={styles.alert__date}>{createdate}</div>
-        <div className={styles.alert__title}>{title}</div>
-        <div className={styles.alert__text}>{text}</div>
+        <div className={styles.alert__date}></div>
+        <div className={styles.alert__title}>{alert.title}</div>
+        <div className={styles.alert__text}>{alert.text}</div>
       </div>
     </div>
   );
