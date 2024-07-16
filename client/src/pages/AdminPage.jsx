@@ -7,48 +7,51 @@ import LinkDefault from "../components/LinkDefault";
 import LinkFooter from "../components/LinkFooter";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-
+import {Button, Container} from "react-bootstrap";
 import * as XLSX from "xlsx";
 import React, { useContext,useEffect, useState } from "react";
 import { Context } from "../../src/index.js";
-
+import { createAlert } from "../http/alertAPI";
 import {observer} from "mobx-react-lite"
+
 
 
 const AdminPage = observer(() => {
 
-  const {alert} = useContext(Context)
-  const [alerts, setAlerts] = useState()
 
-  const addAlert = () =>{
-    setAlerts( [...alert, { id: '', title: '', text: '', date: ''}])
-  }
-
+  const { alert } = useContext(Context);
+  const [alerts, setAlerts] = useState([]);
   const [inputValue, setInputValue] = useState('');
-  const [newLoad, setnewLoad] = useState([]);
-  
-  const [open, setOpen] = React.useState(false);
-  const [name, setName] = React.useState("Темы");
+  const [newLoad, setNewLoad] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("Темы");
+  const [selectedButton, setSelectedButton] = useState('');
+  const [selectedText, setSelectedText] = useState('');
+  const fileRef = React.useRef(null);
+
   const handleOpen = () => {
-    setOpen(!open);    
+    setOpen(!open);
   };
 
   const handleMenuOne = () => {
     setOpen(false);
     setName('Проф осмотры')
-    handleButtonClick('Проф осмотры');
+    handleButtonClick(12);
+    handleButtonText('приглашаем вас пройти профилактический осмотр в поликлинике по месту жительства');
   };
 
   const handleMenuTwo = () => {    
     setOpen(false);    
     setName('ДН')
-    handleButtonClick('ДН');
+    handleButtonClick(400);
+    handleButtonText('приглашаем вас пройти профилактический осмотр в поликлинике по месту жительства');
   };
 
   const handleMenuThree = () => {    
     setOpen(false);    
     setName('Диспансеризация')
-    handleButtonClick('Диспансеризация');
+    handleButtonClick(1);
+    handleButtonText('приглашаем вас пройти углубленную диспансеризация в поликлинике по месту жительства');
   };
 
   const CustomButton = ({ buttonText, onClick }) => (
@@ -57,23 +60,16 @@ const AdminPage = observer(() => {
     </button>
   );
 
-
-  
-  const [info, setInfo] = useState([])
-
-
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
-  const [selectedButton, setSelectedButton] = useState('');
 
   const handleButtonClick = (buttonName) => {  
   setSelectedButton(buttonName);
 };
-
-
-  const fileRef = React.useRef(null);
-
+const handleButtonText = (buttonName) => {  
+  setSelectedText(buttonName);
+};
   const handleClick = () => {
     fileRef.current.click();
   };
@@ -84,6 +80,7 @@ const AdminPage = observer(() => {
     var files = e.target.files,
       f = files[0];
     var reader = new FileReader();
+
     reader.onload = function (e) {
       var data = e.target.result;
       let readedData = XLSX.read(data, { type: "binary" });
@@ -107,13 +104,36 @@ const AdminPage = observer(() => {
           compl: item[5],
           theme: item[6],
         };
-      });
-       
-      
-      setnewLoad(newLoad);
-     
+      }); 
+      setNewLoad(newLoad);     
     };
     reader.readAsBinaryString(f);
+  };
+  const handleCreateAlerts = async () => {
+    try {
+      const createdAlerts = await Promise.all(
+        newLoad.map(async (item) => {
+          const newAlert = {
+            title: inputValue,
+            text: selectedText,
+            dispt: selectedButton,
+            div: 1,
+            compl: item.compl,
+            im: item.NAME,
+            ot: item.OTCH,
+            phone: item.phone,
+            userId: 1, // Установите userId для кого создается alert
+            mailingId: null,
+          };
+          return await createAlert(newAlert);
+        })
+      );
+
+      alert.setAlerts([...alert.alerts, ...createdAlerts]);
+      console.log('Созданные alerts:', createdAlerts);
+    } catch (error) {
+      console.error('Ошибка создания alerts:', error);
+    }
   };
 
   const PushClick = () => {
@@ -121,6 +141,7 @@ const AdminPage = observer(() => {
     console.log('Выбранная кнопка:', selectedButton);
     console.log('Выбранная newLoad:', newLoad);
   };
+
 
   return (
     <div>
@@ -169,11 +190,14 @@ const AdminPage = observer(() => {
           <NavMainButton
             text={"Начать рассылку"}  
             onClick={PushClick}
-          ></NavMainButton>
-          <NavMainButton
-            text={"Начать тест"}  
-            onClick={addAlert}
-          ></NavMainButton>
+          ></NavMainButton>     
+          <Button
+            variant={"outline-dark"}
+            className="mt-4 p-2"
+            onClick={handleCreateAlerts}
+          >
+            CREATE ALERT
+          </Button>
         </div>
       </div>
       <Footer />
