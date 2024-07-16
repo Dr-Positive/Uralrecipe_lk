@@ -45,14 +45,22 @@ const SignPage = observer(( ) => {
       if (e.response && e.response.data) {
           alert(e.response.data.message);
       } else {
-          alert("Произошла ошибка при отправке запроса");
-          alert(e.response.data.message);
+          // alert("Произошла ошибка при отправке запроса");
+          // alert(e.response.data.message);
           console.log(`Пароль из запроса: ${password}`);
           console.log(`Хеш пароля из базы данных: ${user.password}`);
       }
     }
 
 }
+
+const loginClick = () => {
+  alert("Подсказка: для ввода логина используете данные ..., если возникнут проблемы обращаетесь по номеру");
+};
+const passwordClick = () => {
+  alert("Подсказка: для ввода ппроля используете данные ..., если возникнут проблемы обращаетесь по номеру");
+};
+
 
   return (
     <div>
@@ -67,11 +75,11 @@ const SignPage = observer(( ) => {
         <div className={styles.input}>
           <div className={styles.input__block}>
             <input  type="text" name="login" id="login" placeholder="Логин" className={styles.input__style} value={login} onChange={e => setLogin(e.target.value)} ></input>
-            {/* <img src={QuestionGreen} alt="questionsvg" className={styles.styleSvg} onClick={handleClick}/> */}
+            <img src={QuestionGreen} alt="questionsvg" className={styles.styleSvg} onClick={loginClick}/>
           </div>
           <div className={styles.input__block}>
             <input type="password" name="password" id="password" placeholder="Пароль" className={styles.input__style} value={password} onChange={e => setPassword(e.target.value)}></input>            
-              {/* <img src={QuestionGreen} alt="questionsvg" className={styles.styleSvg} onClick={handleClick}/> */}
+              <img src={QuestionGreen} alt="questionsvg" className={styles.styleSvg} onClick={passwordClick}/> 
           </div>
           <NavButton text={"Войти"} onClick={click}  href={LK_ROUTE} ></NavButton>   
         </div>
