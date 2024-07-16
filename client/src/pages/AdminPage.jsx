@@ -7,12 +7,13 @@ import LinkDefault from "../components/LinkDefault";
 import LinkFooter from "../components/LinkFooter";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-
+import {Button, Container} from "react-bootstrap";
 import * as XLSX from "xlsx";
 import React, { useContext,useEffect, useState } from "react";
 import { Context } from "../../src/index.js";
 
 import {observer} from "mobx-react-lite"
+import CreateAlert from "../components/modal/CreateAlert.js";
 
 
 const AdminPage = observer(() => {
@@ -23,6 +24,7 @@ const AdminPage = observer(() => {
   const addAlert = () =>{
     setAlerts( [...alert, { id: '', title: '', text: '', date: ''}])
   }
+  const [alertVisible, setAlertVisible] = useState(false)
 
   const [inputValue, setInputValue] = useState('');
   const [newLoad, setnewLoad] = useState([]);
@@ -174,6 +176,14 @@ const AdminPage = observer(() => {
             text={"Начать тест"}  
             onClick={addAlert}
           ></NavMainButton>
+          <CreateAlert show={alertVisible} onHide={() => setAlertVisible(false)}> </CreateAlert>
+          <Button
+                variant={"outline-dark"}
+                className="mt-4 p-2"
+                onClick={() => setAlertVisible(true)}
+            >
+                Создать
+          </Button>
         </div>
       </div>
       <Footer />
