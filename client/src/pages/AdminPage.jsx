@@ -12,6 +12,7 @@ import * as XLSX from "xlsx";
 import React, { useContext,useEffect, useState } from "react";
 import { Context } from "../../src/index.js";
 import { createAlert } from "../http/alertAPI";
+import { hashPasswords } from "../http/userAPI";
 import {observer} from "mobx-react-lite"
 
 
@@ -25,9 +26,9 @@ const AdminPage = observer(() => {
   const [newLoad, setNewLoad] = useState([]);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("Темы");
-  const [selectedButton, setSelectedButton] = useState('');
   const [selectedText, setSelectedText] = useState('');
   const fileRef = React.useRef(null);
+  const [selectedButton, setSelectedButton] = useState('');
 
   const handleOpen = () => {
     setOpen(!open);
@@ -36,22 +37,24 @@ const AdminPage = observer(() => {
   const handleMenuOne = () => {
     setOpen(false);
     setName('Проф осмотры')
-    handleButtonClick(12);
     handleButtonText('приглашаем вас пройти профилактический осмотр в поликлинике по месту жительства');
+    handleButtonClick(1);
   };
 
   const handleMenuTwo = () => {    
     setOpen(false);    
     setName('ДН')
-    handleButtonClick(400);
-    handleButtonText('приглашаем вас пройти профилактический осмотр в поликлинике по месту жительства');
+    handleButtonText('приглашаем вас пройти диспансерном наблюдение, просим посетить поликлинику в ');
+    handleButtonClick(2);
   };
+
+
 
   const handleMenuThree = () => {    
     setOpen(false);    
     setName('Диспансеризация')
-    handleButtonClick(1);
     handleButtonText('приглашаем вас пройти углубленную диспансеризация в поликлинике по месту жительства');
+    handleButtonClick(1);
   };
 
   const CustomButton = ({ buttonText, onClick }) => (
@@ -60,13 +63,16 @@ const AdminPage = observer(() => {
     </button>
   );
 
+
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
 
   const handleButtonClick = (buttonName) => {  
-  setSelectedButton(buttonName);
-};
+    setSelectedButton(buttonName);
+  };
+
+
 const handleButtonText = (buttonName) => {  
   setSelectedText(buttonName);
 };
@@ -102,7 +108,7 @@ const handleButtonText = (buttonName) => {
           OTCH: item[3],
           Mounth: item[4],
           compl: item[5],
-          theme: item[6],
+          theme: item[6]
         };
       }); 
       setNewLoad(newLoad);     
@@ -116,13 +122,13 @@ const handleButtonText = (buttonName) => {
           const newAlert = {
             title: inputValue,
             text: selectedText,
-            dispt: selectedButton,
-            div: 1,
+            dispt: item.theme,
+            mounth: item.Mounth,
+            div: selectedButton,
             compl: item.compl,
             im: item.NAME,
             ot: item.OTCH,
             phone: item.phone,
-            userId: 1, // Установите userId для кого создается alert
             mailingId: null,
           };
           return await createAlert(newAlert);
@@ -138,9 +144,19 @@ const handleButtonText = (buttonName) => {
 
   const PushClick = () => {
     console.log('Введенное значение:', inputValue);
-    console.log('Выбранная кнопка:', selectedButton);
     console.log('Выбранная newLoad:', newLoad);
   };
+
+  
+    const handleHash = async () => {
+        try {
+            const response = await hashPasswords();
+            console.log(response.message); 
+        } catch (e) {
+          console.log('Произошла ошибка при хешировании паролей');
+        }
+    };
+  
 
 
   return (
@@ -197,6 +213,13 @@ const handleButtonText = (buttonName) => {
             onClick={handleCreateAlerts}
           >
             CREATE ALERT
+          </Button>
+          <Button
+            variant={"outline-dark"}
+            className="mt-4 p-2"
+            onClick={handleHash}
+          >
+            Хеширование
           </Button>
         </div>
       </div>

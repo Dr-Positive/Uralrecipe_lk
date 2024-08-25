@@ -20,9 +20,13 @@ export default class AlertStore {
     return this._alerts.map(alert => alert.text);
   }
   get dates() {
-    return this._alerts.map(alert => alert.cratedAt);
+    return this._alerts.map(alert => alert.date);
   }
   get types() {
     return this._alerts.map(alert => alert.dispt);
   }
+  get mounth() {
+    return this._alerts.map(alert => alert.mounth);
+  }
+  
 }

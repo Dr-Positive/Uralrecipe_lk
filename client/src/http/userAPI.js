@@ -13,3 +13,8 @@ export const check = async () => {
     localStorage.setItem('token', data.token)
     return jwtDecode(data.token)
 }
+
+export const hashPasswords = async () => {
+    const { data } = await $host.post('api/user/hash-passwords');
+    return data;
+};  

@@ -62,6 +62,10 @@ const Header = observer(( ) => {
               <li className={styles.toplist__indent}>
                 <LinkGrey text={'Инфографика'} href="https://u-rm.ru/infografika"/>
               </li>
+              <li className={styles.toplist__indent}>
+                <LinkGrey text={'Вопросы-ответы'} href="https://u-rm.ru/voprosy-otvety"/>
+              </li>
+              
             </ul>
             <div className={styles.eye}>
               <div className={styles.search}>
@@ -96,9 +100,6 @@ const Header = observer(( ) => {
                 </li>
                 <li className={styles.bottomlist__indent}>
                   <LinkDefault text={'Нормативные документы'} href="https://u-rm.ru/normativnye-dokumenty"/>
-                </li>
-                <li className={styles.bottomlist__indent}>
-                  <LinkDefault text={'Написать'} href="https://u-rm.ru/napisat"/>
                 </li>
                 <li className={styles.bottomlist__indent}>
                   <LinkDefault text={'Новости'} href="https://u-rm.ru/novosti"/>

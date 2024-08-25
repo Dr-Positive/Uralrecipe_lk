@@ -42,6 +42,7 @@ const Alert = sequelize.define('alert', {
   im: { type: DataTypes.STRING}, // имя информированного(с отчёта)
   ot: { type: DataTypes.STRING}, // отчество информированного(с отчёта)
   phone: { type: DataTypes.BIGINT}, // телефон информирования(с отчёта)
+  mounth: { type: DataTypes.STRING}, // месяц информирования
 });
 
 // Определение связей между моделями

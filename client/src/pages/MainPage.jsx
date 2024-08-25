@@ -2,7 +2,6 @@ import styles from "./MainPage.module.scss";
 import NavButton from "../components/NavButton";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import AlertCard from "../components/AlertCard";
 import { useContext, useEffect } from 'react';
 import { Context } from '../index';
 import { observer } from "mobx-react-lite";

@@ -6,9 +6,9 @@ import LinkDefault from "../components/LinkDefault";
 import LinkFooter from "../components/LinkFooter";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import QuestionSvg from "../icons/question.svg";
+import QuestionGreen from "../icons/question.svg";
 import QuestionBlack from "../icons/questionBlack.svg";
-import QuestionGreen from "../icons/questionGreen.svg";
+//import QuestionGreen from "../icons/questionGreen.svg";
 import QuestionBlackSmall from "../icons/questionBlack.svg";
 import QuestionGreenBig from "../icons/questionGreen.svg";
 import { LK_ROUTE} from "../utils/consts";
@@ -45,8 +45,6 @@ const SignPage = observer(( ) => {
       if (e.response && e.response.data) {
           alert(e.response.data.message);
       } else {
-          // alert("Произошла ошибка при отправке запроса");
-          // alert(e.response.data.message);
           console.log(`Пароль из запроса: ${password}`);
           console.log(`Хеш пароля из базы данных: ${user.password}`);
       }
@@ -81,7 +79,8 @@ const passwordClick = () => {
             <input type="password" name="password" id="password" placeholder="Пароль" className={styles.input__style} value={password} onChange={e => setPassword(e.target.value)}></input>            
               <img src={QuestionGreen} alt="questionsvg" className={styles.styleSvg} onClick={passwordClick}/> 
           </div>
-          <NavButton text={"Войти"} onClick={click}  href={LK_ROUTE} ></NavButton>   
+          <NavButton text={"Войти"} onClick={click}   ></NavButton>   
+          {/* href={LK_ROUTE} */}
         </div>
       </div>
       <Footer/>
