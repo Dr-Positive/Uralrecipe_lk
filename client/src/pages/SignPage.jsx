@@ -11,20 +11,17 @@ import QuestionBlack from "../icons/questionBlack.svg";
 //import QuestionGreen from "../icons/questionGreen.svg";
 import QuestionBlackSmall from "../icons/questionBlack.svg";
 import QuestionGreenBig from "../icons/questionGreen.svg";
-import { LK_ROUTE} from "../utils/consts";
 import { useContext, useState } from "react";
 import { Context } from '../index.js';
 import {observer} from "mobx-react-lite"
 import {logining} from "../http/userAPI";
 import { useNavigate, useLocation} from "react-router-dom"
 import Button from "react-bootstrap/Button";
-import { useUserChecked } from "../hooks/useUserChecked.js";
-
+import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE } from '../utils/consts.js';
 
 const SignPage = observer(( ) => {
 
   const { user } = useContext(Context);
-  const { setUserChecked } = useUserChecked();
   const navigate = useNavigate();
 
   const [login, setLogin] = useState('');
@@ -32,29 +29,30 @@ const SignPage = observer(( ) => {
   
   const click = async () => {
     try {
+        const decodedToken = await logining(login, password);
 
-      const decodedToken = await logining(login, password);
+        console.log('Роль пользователя:', decodedToken.role);
 
-      console.log('Роль пользователя:', decodedToken.role);
+        user.setUser({
+            id: decodedToken.id,
+            role: decodedToken.role,
+            compl: decodedToken.compl,
+        });
+        user.setIsAuth(true);
 
-      // Сохраняем пользователя в UserStore
-      user.setUser({
-          id: decodedToken.id,
-          role: decodedToken.role,
-          compl: decodedToken.compl,
-      });
-      user.setIsAuth(true);
-      setUserChecked(true);
-
-      if (decodedToken.role === 'ADMIN') {
-          user.setIsAdmin(true);
-      }
-
-      //history.push(LK_ROUTE);
-  } catch (error) {
-      console.error('Ошибка при авторизации:', error.message || error);
-      alert(error.message || 'Ошибка авторизации');
-  }
+        if (decodedToken.role === 'ADMIN') {
+            user.setIsAdmin(true);
+            navigate(ADMIN_ROUTE);
+        } else if (decodedToken.role === 'USER') {
+            user.setIsAdmin(false);
+            navigate(MAIN_ROUTE);
+        } else {
+            throw new Error('Неизвестная роль пользователя');
+        }
+    } catch (error) {
+        console.error('Ошибка при авторизации:', error.message || error);
+        alert(error.message || 'Ошибка авторизации');
+    }
 };
 
 const loginClick = () => {
@@ -84,8 +82,8 @@ const passwordClick = () => {
             <input type="password" name="password" id="password" placeholder="Пароль" className={styles.input__style} value={password} onChange={e => setPassword(e.target.value)}></input>            
               <img src={QuestionGreen} alt="questionsvg" className={styles.styleSvg} onClick={passwordClick}/> 
           </div>
-          <NavButton text={"Войти"} onClick={click} href={LK_ROUTE}></NavButton>   
-          {/* href={LK_ROUTE} */}
+          <NavButton text={"Войти"} onClick={click} href={GUEST_ROUTE}></NavButton>   
+          {/* href={GUEST_ROUTE} */}
         </div>
       </div>
       <Footer/>

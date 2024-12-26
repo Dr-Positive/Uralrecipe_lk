@@ -10,9 +10,7 @@ import LinkDefault from "../components/LinkDefault";
 import LinkFooter from "../components/LinkFooter";
 import { useContext } from 'react';
 import { Context } from '../index.js'
-import { ADMIN_ROUTE } from "../utils/consts"; 
-import { LOGIN_ROUTE } from "../utils/consts"; 
-import { LK_ROUTE } from "../utils/consts"; 
+import { ADMIN_ROUTE,MAIN_ROUTE,GUEST_ROUTE } from "../utils/consts"; 
 import {observer} from "mobx-react-lite"
 
 const Header = observer(( ) => {
@@ -74,7 +72,7 @@ const Header = observer(( ) => {
             </ul>
             <div className={styles.eye}>
               <div className={styles.search}>
-              <LinkDefault text={'Выход'} onClick={() => logOut()} href={LOGIN_ROUTE}/>
+              <LinkDefault text={'Выход'} onClick={() => logOut()} href={GUEST_ROUTE}/>
               </div>
             </div>            
             <div className={styles.eye}>
@@ -123,7 +121,7 @@ const Header = observer(( ) => {
              )}
             {user.isAuth && (
               <div className={styles.adminbtn}>
-                <LinkDefault text={'Личный кабинет'} href={LK_ROUTE}/>   
+                <LinkDefault text={'Личный кабинет'} href={MAIN_ROUTE}/>   
               </div>
              )}
               <p className={styles.rightBlock__text}>ГОРЯЧАЯ ЛИНИЯ:</p>

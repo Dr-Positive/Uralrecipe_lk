@@ -1,55 +1,63 @@
 import './styles/variables.css';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { authRoutes, publicRoutes, adminRoutes } from './routes.jsx';
-import { useContext, useEffect, useState } from 'react';
+import { authRoutes, guestRoutes, adminRoutes } from './routes.jsx';
+import { useContext, useEffect } from 'react';
 import { Context } from './index.js';
-import { LK_ROUTE, LOGIN_ROUTE, ADMIN_ROUTE } from './utils/consts';
+import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE } from './utils/consts';
 import { observer } from 'mobx-react-lite';
-import useUserChecked  from './hooks/useUserChecked.js';
+import { jwtDecode } from 'jwt-decode';
+
 
 const App = observer(() => {
     const { user } = useContext(Context);
-    const [userChecked, setUserChecked] = useState(false); // Проверка состояния пользователя
 
     useEffect(() => {
-        console.log("isAuth:", user.isAuth);
-        console.log("isAdmin:", user.isAdmin);
-
-        // Переадресация происходит только после проверки пользователя
-        if (userChecked) {
-            if (user.isAuth && user.isAdmin) {
-                return <Navigate to={ADMIN_ROUTE} replace />;
-            } else if (user.isAuth) {
-                return <Navigate to={LK_ROUTE} replace />;
-            } else {
-                return <Navigate to={LOGIN_ROUTE} replace />;
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                user.setUser({ id: decoded.id, role: decoded.role, compl: decoded.compl });
+                user.setIsAuth(true);
+                user.setIsAdmin(decoded.role === 'ADMIN');
+            } catch (error) {
+                console.error('Ошибка при декодировании токена:', error);
+                user.setIsAuth(false);
+                localStorage.removeItem('token');
             }
         }
-    }, [userChecked, user.isAuth, user.isAdmin]);
+    }, [user]);
 
     return (
         <Routes>
-            {publicRoutes.map(({ path, Component }) => (
+            {/* Общедоступные маршруты */}
+            {guestRoutes.map(({ path, Component }) => (
                 <Route key={path} path={path} element={<Component />} />
             ))}
+
+            {/* Маршруты для авторизованных пользователей */}
             {authRoutes.map(({ path, Component }) => (
                 <Route
                     key={path}
                     path={path}
                     element={
-                        user.isAuth ? <Component /> : <Navigate to={LOGIN_ROUTE} replace />
+                        user.isAuth ? <Component /> : <Navigate to={GUEST_ROUTE} replace />
                     }
                 />
             ))}
+
+            {/* Маршруты для администратора */}
             {adminRoutes.map(({ path, Component }) => (
                 <Route
                     key={path}
                     path={path}
                     element={
-                        user.isAuth && user.isAdmin ? <Component /> : <Navigate to={LK_ROUTE} replace />
+                        user.isAuth && user.isAdmin ? <Component /> : <Navigate to={MAIN_ROUTE} replace />
                     }
                 />
             ))}
+
+            {/* Редирект на страницу входа */}
+            <Route path="*" element={<Navigate to={GUEST_ROUTE} replace />} />
         </Routes>
     );
 });

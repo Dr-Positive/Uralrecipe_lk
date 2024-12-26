@@ -1,3 +1,3 @@
 export const ADMIN_ROUTE = '/admin'
-export const LOGIN_ROUTE = '/signin'
-export const LK_ROUTE = '/'
+export const GUEST_ROUTE = '/signin'
+export const MAIN_ROUTE = '/'
