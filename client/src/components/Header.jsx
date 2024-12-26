@@ -18,11 +18,16 @@ import {observer} from "mobx-react-lite"
 const Header = observer(( ) => {
 
   const {user} = useContext(Context)
+
+  console.log('isAuth:', user.isAuth);
+  console.log('isAdmin:', user.isAdmin);
   
   
   const logOut = () => {
     user.setUser({})
     user.setIsAuth(false)
+    user.setIsAdmin(false)
+    localStorage.clear();
 }
 
     return (
@@ -70,7 +75,7 @@ const Header = observer(( ) => {
             <div className={styles.eye}>
               <div className={styles.search}>
               <LinkDefault text={'Выход'} onClick={() => logOut()} href={LOGIN_ROUTE}/>
-              </div>              
+              </div>
             </div>            
             <div className={styles.eye}>
               <div className={styles.search}>
@@ -110,14 +115,17 @@ const Header = observer(( ) => {
               </ul>
             </div>
             <div className={styles.rightBlock}>
-            {user.isAuth && (                    
+            {/* {user.isAuth && ( */}
+            {user.isAdmin && user.isAuth && (
               <div className={styles.adminbtn}>
-                <LinkDefault text={'Админ панель'} href={ADMIN_ROUTE}/>               
+                <LinkDefault text={'Админ панель'} href={ADMIN_ROUTE}/>
               </div>
              )}
-              <div className={styles.lkbtn}>
-                <LinkDefault text={'Личный кабинет'} href={LK_ROUTE}/>               
+            {user.isAuth && (
+              <div className={styles.adminbtn}>
+                <LinkDefault text={'Личный кабинет'} href={LK_ROUTE}/>   
               </div>
+             )}
               <p className={styles.rightBlock__text}>ГОРЯЧАЯ ЛИНИЯ:</p>
               <LinkDefault text={'8 (343) 286-80-80'}/>           
             </div>

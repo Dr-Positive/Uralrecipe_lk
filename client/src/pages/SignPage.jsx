@@ -18,39 +18,44 @@ import {observer} from "mobx-react-lite"
 import {logining} from "../http/userAPI";
 import { useNavigate, useLocation} from "react-router-dom"
 import Button from "react-bootstrap/Button";
+import { useUserChecked } from "../hooks/useUserChecked.js";
+
 
 const SignPage = observer(( ) => {
 
-  // const handleClick = () => {
-  //   console.log('подсказываю')
-  // };
+  const { user } = useContext(Context);
+  const { setUserChecked } = useUserChecked();
+  const navigate = useNavigate();
 
-  const {user} = useContext(Context)
-
-
-  const history = useNavigate()
-
-
-  const [login, setLogin] = useState('')
-  const [password, setPassword] = useState('')
-
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  
   const click = async () => {
     try {
-        let data;
-        data = await logining(login, password);
-        user.setIsAuth(true)
-        history.push(LK_ROUTE)
-    } 
-    catch (e) {
-      if (e.response && e.response.data) {
-          alert(e.response.data.message);
-      } else {
-          console.log(`Пароль из запроса: ${password}`);
-          console.log(`Хеш пароля из базы данных: ${user.password}`);
-      }
-    }
 
-}
+      const decodedToken = await logining(login, password);
+
+      console.log('Роль пользователя:', decodedToken.role);
+
+      // Сохраняем пользователя в UserStore
+      user.setUser({
+          id: decodedToken.id,
+          role: decodedToken.role,
+          compl: decodedToken.compl,
+      });
+      user.setIsAuth(true);
+      setUserChecked(true);
+
+      if (decodedToken.role === 'ADMIN') {
+          user.setIsAdmin(true);
+      }
+
+      //history.push(LK_ROUTE);
+  } catch (error) {
+      console.error('Ошибка при авторизации:', error.message || error);
+      alert(error.message || 'Ошибка авторизации');
+  }
+};
 
 const loginClick = () => {
   alert("Подсказка: для ввода логина используете данные ..., если возникнут проблемы обращаетесь по номеру");
@@ -79,7 +84,7 @@ const passwordClick = () => {
             <input type="password" name="password" id="password" placeholder="Пароль" className={styles.input__style} value={password} onChange={e => setPassword(e.target.value)}></input>            
               <img src={QuestionGreen} alt="questionsvg" className={styles.styleSvg} onClick={passwordClick}/> 
           </div>
-          <NavButton text={"Войти"} onClick={click}   ></NavButton>   
+          <NavButton text={"Войти"} onClick={click} href={LK_ROUTE}></NavButton>   
           {/* href={LK_ROUTE} */}
         </div>
       </div>

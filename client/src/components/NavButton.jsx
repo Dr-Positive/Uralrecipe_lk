@@ -1,14 +1,14 @@
 import React from "react";
 import styles from "./NavButton.module.css";
-
+import { Link } from 'react-router-dom';
 
 function NavButton({ text, className, href, onClick, target }) {
     return (
-        <div>
-           <a className={styles.main} target={target} onClick={onClick} href={href}>{text}</a>
-        </div>
+
+        <Link className={styles.main} target={target} onClick={onClick} to={href} >
+            {text}
+        </Link>        
     );
 }
 
 export default NavButton;
-

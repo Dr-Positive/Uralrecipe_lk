@@ -50,7 +50,7 @@ function Footer({ className}) {
           </div>
           <div className={styles.copyright}>
             <div className={styles.copyright__block}>
-                <h5>ООО Страховая медицинская компания «Урал-Рецепт М»</h5> 
+                <h5>ООО Страховая медицинская компания «Урал-Рецепт М»</h5>
             </div>                   
           </div>
         </div>        

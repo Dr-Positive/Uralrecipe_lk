@@ -5,17 +5,46 @@ import { Context } from '../index';
 import AlertCard from './AlertCard';
 
 const AlertList = observer(() => {
-  const { alert } = useContext(Context);
+  const { alert, user } = useContext(Context);
 
-  if (!alert.alerts || !Array.isArray(alert.alerts)) {
+  // Проверяем, авторизован ли пользователь
+  if (!user.isAuth) {
     return <div>...loading</div>;
   }
 
+  // Проверяем наличие роли пользователя и алертов
+  if (!user.user.role || !alert.alerts || alert.alerts.length === 0) {
+    return <div>...loading</div>;
+  }
+
+  console.log("Current user:", user.user);
+  console.log("All alerts:", alert.alerts);
+  
+  // Фильтрация алертов в зависимости от роли пользователя
+  const filteredAlerts = user.user.role === 'ADMIN'
+    ? alert.alerts // Возвращаем все алерты для администраторов
+    : alert.alerts.filter(a => {
+        const userCompl = user.user.compl;
+
+        // Проверяем, что userCompl не null или undefined и является целым числом
+        if (userCompl === null || userCompl === undefined || !Number.isInteger(userCompl)) return false;
+
+        // Проверяем, что a.compl также является целым числом
+        if (!Number.isInteger(a.compl)) return false;
+
+        // Сравниваем значения
+        return a.compl === userCompl;
+      });
+
   return (
     <div>
-      {alert.alerts.map(alert => (
-        <AlertCard key={alert.id} alert={alert} />
-      ))}
+      {filteredAlerts.length > 0 ? (
+        filteredAlerts.map(alert => (
+          <AlertCard key={alert.id} alert={alert} />
+        ))
+      ) : (
+        <div>No alerts available.</div>
+      )}
     </div>
   );
 });

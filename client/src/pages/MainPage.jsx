@@ -9,7 +9,11 @@ import { fetchAlerts } from "../http/alertAPI";
 import AlertList from "../components/AlertList";
 
 const MainPage = observer(() => { 
-  const { alert } = useContext(Context);
+  const { alert, user } = useContext(Context);
+
+
+  console.log("isAuth:", user.isAuth);
+  console.log("isAdmin:", user.isAdmin);
 
   useEffect(() => {
     async function fetchData() {
@@ -41,6 +45,10 @@ const MainPage = observer(() => {
             <div>
               <AlertList />
             </div>
+            <div>
+            {user.isAuth && <p>Вы авторизованы</p>}
+            {user.isAdmin && <p>Вы администратор</p>}
+        </div>
           </div>
         </div>
       </div>

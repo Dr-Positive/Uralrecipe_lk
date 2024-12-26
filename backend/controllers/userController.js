@@ -17,9 +17,7 @@ class userController {
 
     if (!user) {
       return next(ApiError.internal("Пользователь не найден"));
-    }  
-
-
+    }
     console.log(`Пароль из запроса: ${password}`);
     console.log(`Хеш пароля из базы данных: ${user.password}`);
     let comparePassword = bcrypt.compareSync(password, user.password);

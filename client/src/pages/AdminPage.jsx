@@ -129,7 +129,6 @@ const handleButtonText = (buttonName) => {
             im: item.NAME,
             ot: item.OTCH,
             phone: item.phone,
-            mailingId: null,
           };
           return await createAlert(newAlert);
         })
