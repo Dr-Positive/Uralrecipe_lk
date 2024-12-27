@@ -1,15 +1,15 @@
 import './styles/variables.css';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { authRoutes, guestRoutes, adminRoutes } from './routes.jsx';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Context } from './index.js';
 import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE } from './utils/consts';
 import { observer } from 'mobx-react-lite';
+
 import { jwtDecode } from 'jwt-decode';
-
-
 const App = observer(() => {
     const { user } = useContext(Context);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -25,7 +25,13 @@ const App = observer(() => {
                 localStorage.removeItem('token');
             }
         }
+        setLoading(false); // Устанавливаем `loading` в `false`, когда проверка завершена
     }, [user]);
+
+    if (loading) {
+        // Отображаем загрузочный экран, пока идет проверка токена
+        return <div>Загрузка...</div>;
+    }
 
     return (
         <Routes>
@@ -57,7 +63,7 @@ const App = observer(() => {
             ))}
 
             {/* Редирект на страницу входа */}
-            <Route path="*" element={<Navigate to={GUEST_ROUTE} replace />} />
+            <Route path="*" element={<Navigate to={user.isAuth ? MAIN_ROUTE : GUEST_ROUTE} replace />} />
         </Routes>
     );
 });

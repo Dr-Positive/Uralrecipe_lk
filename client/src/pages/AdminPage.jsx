@@ -12,6 +12,7 @@ import * as XLSX from "xlsx";
 import React, { useContext,useEffect, useState } from "react";
 import { Context } from "../../src/index.js";
 import { createAlert } from "../http/alertAPI";
+import { createMailing } from "../http/mailingAPI";
 import { hashPasswords } from "../http/userAPI";
 import {observer} from "mobx-react-lite"
 
@@ -20,8 +21,9 @@ import {observer} from "mobx-react-lite"
 const AdminPage = observer(() => {
 
 
-  const { alert } = useContext(Context);
+  const { alert,mailing } = useContext(Context);
   const [alerts, setAlerts] = useState([]);
+  const [mailings, setMailing] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [newLoad, setNewLoad] = useState([]);
   const [open, setOpen] = useState(false);
@@ -204,21 +206,20 @@ const handleButtonText = (buttonName) => {
           ></NavMainButton>
           <NavMainButton
             text={"Начать рассылку"}  
-            onClick={PushClick}
-          ></NavMainButton>     
+            onClick={handleCreateAlerts}
+          ></NavMainButton>
           <Button
             variant={"outline-dark"}
             className="mt-4 p-2"
-            onClick={handleCreateAlerts}
+            onClick={PushClick}
           >
-            CREATE ALERT
+            Тест
           </Button>
           <Button
-            variant={"outline-dark"}
-            className="mt-4 p-2"
+            className={styles.hashBtn}
             onClick={handleHash}
           >
-            Хеширование
+            Хеширование паролей
           </Button>
         </div>
       </div>
