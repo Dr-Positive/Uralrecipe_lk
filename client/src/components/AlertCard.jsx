@@ -6,9 +6,10 @@ const AlertCard = ({alert}) => {
   return (
     <div>
       <div className={styles.alert}>
-        <div className={styles.alert__date}></div>
-        <div className={styles.alert__title}>{alert.title}</div>
+        <div className={styles.alert__date}>{alert.date}</div>
+        {/* <div className={styles.alert__title}>{alert.titile}</div> */}
         <div className={styles.alert__text}>{alert.text}</div>
+        <div className={styles.alert__text}>{alert.mounth}</div>
       </div>
     </div>
   );

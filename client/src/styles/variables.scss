@@ -8,8 +8,9 @@
     src: url('../fonts/Aglettericacondensedc.otf') ;    
 }
 
-body {
+html,body {
     margin: 0;
+    height: 100%;
 }
 
 :root {
@@ -93,7 +94,7 @@ h4{
     font-family: 'AGLettericaCondensedCBold', arial;
     line-height: 1.5;
     line-height: 1.5;
-    margin-bottom: 27px;
+    
 }
 h5{     
     font-size: 16px;
@@ -132,4 +133,11 @@ color: #0463EA;
 ul{
     list-style-type: none;
     text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+li{
+    margin-right: 35px;
+    //padding-top: 4p;
+
 }

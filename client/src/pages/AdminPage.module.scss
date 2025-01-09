@@ -1,4 +1,4 @@
-@import "../styles/variables.css";
+@import "../styles/variables.scss";
 
 .header {    
     
@@ -150,4 +150,9 @@
 .space{
     margin-bottom: 20px;
     width: 100%;
+}
+
+.hashBtn{
+  margin-top: 10px;
+  height: 25px;
 }

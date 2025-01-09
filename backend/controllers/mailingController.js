@@ -6,8 +6,8 @@ const path = require('path');
 class mailingController {
     async create(req, res, next ) {
         try {
-            let {title,text, div, dispt } = req.body
-            const mailing = await Mailing.create({title, text, div, dispt});
+            let {title,text, div, dispt,date } = req.body
+            const mailing = await Mailing.create({title, text, div, dispt,date});
             return res.json(mailing)
 
         }

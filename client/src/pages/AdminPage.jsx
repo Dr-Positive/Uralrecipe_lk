@@ -7,27 +7,40 @@ import LinkDefault from "../components/LinkDefault";
 import LinkFooter from "../components/LinkFooter";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import {Button, Container} from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import * as XLSX from "xlsx";
-import React, { useContext,useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../src/index.js";
 import { createAlert } from "../http/alertAPI";
-import {observer} from "mobx-react-lite"
-
-
+import { createMailing } from "../http/mailingAPI";
+import { hashPasswords } from "../http/userAPI";
+import { observer } from "mobx-react-lite"
 
 const AdminPage = observer(() => {
 
 
-  const { alert } = useContext(Context);
+  const { alert, mailing } = useContext(Context);
   const [alerts, setAlerts] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+  const [mailings, setMailing] = useState([]);
+  const [inputValue, setTitleValue] = useState('');
+  const [DateValue, setDateValue] = useState('');
+
+
+
   const [newLoad, setNewLoad] = useState([]);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("Темы");
-  const [selectedButton, setSelectedButton] = useState('');
   const [selectedText, setSelectedText] = useState('');
   const fileRef = React.useRef(null);
+  const [selectedButton, setSelectedButton] = useState('');
+  const [formData, setFormData] = useState({ date: '', title: '', text: '',div: '',disp: '', });
+
+  const handleChangeMailing = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleOpen = () => {
     setOpen(!open);
@@ -36,22 +49,24 @@ const AdminPage = observer(() => {
   const handleMenuOne = () => {
     setOpen(false);
     setName('Проф осмотры')
-    handleButtonClick(12);
     handleButtonText('приглашаем вас пройти профилактический осмотр в поликлинике по месту жительства');
-  };
-
-  const handleMenuTwo = () => {    
-    setOpen(false);    
-    setName('ДН')
-    handleButtonClick(400);
-    handleButtonText('приглашаем вас пройти профилактический осмотр в поликлинике по месту жительства');
-  };
-
-  const handleMenuThree = () => {    
-    setOpen(false);    
-    setName('Диспансеризация')
     handleButtonClick(1);
+  };
+
+  const handleMenuTwo = () => {
+    setOpen(false);
+    setName('ДН')
+    handleButtonText('приглашаем вас пройти диспансерном наблюдение, просим посетить поликлинику в ');
+    handleButtonClick(2);
+  };
+
+
+
+  const handleMenuThree = () => {
+    setOpen(false);
+    setName('Диспансеризация')
     handleButtonText('приглашаем вас пройти углубленную диспансеризация в поликлинике по месту жительства');
+    handleButtonClick(1);
   };
 
   const CustomButton = ({ buttonText, onClick }) => (
@@ -60,16 +75,25 @@ const AdminPage = observer(() => {
     </button>
   );
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
+
+
+
+
+  const handleITitleChange = (event) => {
+    setTitleValue(event.target.value);
+  };
+  const handleIDateChange = (event) => {
+    setDateValue(event.target.value);
   };
 
-  const handleButtonClick = (buttonName) => {  
-  setSelectedButton(buttonName);
-};
-const handleButtonText = (buttonName) => {  
-  setSelectedText(buttonName);
-};
+  const handleButtonClick = (buttonName) => {
+    setSelectedButton(buttonName);
+  };
+
+
+  const handleButtonText = (buttonName) => {
+    setSelectedText(buttonName);
+  };
   const handleClick = () => {
     fileRef.current.click();
   };
@@ -93,7 +117,7 @@ const handleButtonText = (buttonName) => {
       console.log(parseSecond);
       dataParse.splice(0, 1);
       console.log(dataParse);
-      
+
       const newLoad = dataParse.map((item) => {
         return {
           phone: item[0],
@@ -102,45 +126,78 @@ const handleButtonText = (buttonName) => {
           OTCH: item[3],
           Mounth: item[4],
           compl: item[5],
-          theme: item[6],
+          theme: item[6]
         };
-      }); 
-      setNewLoad(newLoad);     
+      });
+      setNewLoad(newLoad);
     };
     reader.readAsBinaryString(f);
   };
   const handleCreateAlerts = async () => {
     try {
+      // Уникальность на основе поля compl и исключение null значений
+      const uniqueLoad = Array.from(new Map(newLoad
+        .filter(item => item.compl != null) // Исключаем записи с compl == null
+        .map(item => [item.compl, item])) // Создаем Map для уникальных значений compl
+      .values());
+  
       const createdAlerts = await Promise.all(
-        newLoad.map(async (item) => {
+        uniqueLoad.map(async (item) => {
           const newAlert = {
             title: inputValue,
             text: selectedText,
-            dispt: selectedButton,
-            div: 1,
+            date: DateValue,
+            dispt: item.theme,
+            mounth: item.Mounth,
+            div: selectedButton,
             compl: item.compl,
             im: item.NAME,
             ot: item.OTCH,
             phone: item.phone,
-            userId: 1, // Установите userId для кого создается alert
-            mailingId: null,
           };
           return await createAlert(newAlert);
         })
       );
-
+  
       alert.setAlerts([...alert.alerts, ...createdAlerts]);
       console.log('Созданные alerts:', createdAlerts);
+  
+      // Создание одного письма в mailingstore
+      const newMailing = {
+        title: inputValue,
+        text: selectedText,
+        date: DateValue,
+        div: selectedButton
+      };
+  
+      const createdMailing = await createMailing(newMailing);
+      mailing.setMailings([...mailing.mailings, createdMailing]);
+  
+      console.log('Созданная mailing:', createdMailing);
     } catch (error) {
-      console.error('Ошибка создания alerts:', error);
+      console.error('Ошибка создания alerts или mailing:', error);
     }
   };
+  
+  useEffect(() => {
+    console.log('Текущее состояние mailing store:', mailing);
+  }, [mailing]);
 
   const PushClick = () => {
     console.log('Введенное значение:', inputValue);
-    console.log('Выбранная кнопка:', selectedButton);
     console.log('Выбранная newLoad:', newLoad);
   };
+
+
+  const handleHash = async () => {
+    try {
+      const response = await hashPasswords();
+      console.log(response.message);
+    } catch (e) {
+      console.log('Произошла ошибка при хешировании паролей');
+    }
+  };
+
 
 
   return (
@@ -153,7 +210,14 @@ const handleButtonText = (buttonName) => {
             name="login"
             id="login"
             placeholder="Название рассылки"
-            onChange={handleInputChange}
+            onChange={handleITitleChange}
+          ></input>
+          <input className={styles.hashBtn}
+            type="date"
+            name="login"
+            id="login"
+            placeholder="Дата"
+            onChange={handleIDateChange}
           ></input>
           <input
             type="file"
@@ -164,9 +228,9 @@ const handleButtonText = (buttonName) => {
             onChange={handleChange}
             style={{ display: "none" }}
           ></input>
-          <Dropdown          
+          <Dropdown
             open={open}
-            trigger={<button  buttonText={name} onClick={handleOpen} className={styles.btn}>{name}</button>}
+            trigger={<button buttonText={name} onClick={handleOpen} className={styles.btn}>{name}</button>}
             menu={[
               <CustomButton
                 buttonText="Проф осмотры"
@@ -181,22 +245,28 @@ const handleButtonText = (buttonName) => {
                 onClick={handleMenuThree}
               />
             ]}
-            
-          ></Dropdown>          
-          <NavMainButton  className={styles.navbtn}
+
+          ></Dropdown>
+          <NavMainButton className={styles.navbtn}
             text={"Загрузить список"}
             onClick={handleClick}
           ></NavMainButton>
           <NavMainButton
-            text={"Начать рассылку"}  
-            onClick={PushClick}
-          ></NavMainButton>     
+            text={"Начать рассылку"}
+            onClick={handleCreateAlerts}
+          ></NavMainButton>
           <Button
             variant={"outline-dark"}
             className="mt-4 p-2"
-            onClick={handleCreateAlerts}
+            onClick={PushClick}
           >
-            CREATE ALERT
+            Тест
+          </Button>
+          <Button
+            className={styles.hashBtn}
+            onClick={handleHash}
+          >
+            Хеширование паролей
           </Button>
         </div>
       </div>
@@ -218,7 +288,7 @@ const Dropdown = ({ open, trigger, menu }) => {
           ))}
         </ul>
       ) : null}
-    </div>  
+    </div>
   );
 };
 

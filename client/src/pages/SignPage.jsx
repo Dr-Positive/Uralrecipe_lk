@@ -6,53 +6,54 @@ import LinkDefault from "../components/LinkDefault";
 import LinkFooter from "../components/LinkFooter";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import QuestionSvg from "../icons/question.svg";
+import QuestionGreen from "../icons/question.svg";
 import QuestionBlack from "../icons/questionBlack.svg";
-import QuestionGreen from "../icons/questionGreen.svg";
+//import QuestionGreen from "../icons/questionGreen.svg";
 import QuestionBlackSmall from "../icons/questionBlack.svg";
 import QuestionGreenBig from "../icons/questionGreen.svg";
-import { LK_ROUTE} from "../utils/consts";
 import { useContext, useState } from "react";
 import { Context } from '../index.js';
 import {observer} from "mobx-react-lite"
 import {logining} from "../http/userAPI";
 import { useNavigate, useLocation} from "react-router-dom"
 import Button from "react-bootstrap/Button";
+import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE } from '../utils/consts.js';
 
 const SignPage = observer(( ) => {
 
-  // const handleClick = () => {
-  //   console.log('подсказываю')
-  // };
+  const { user } = useContext(Context);
+  const navigate = useNavigate();
 
-  const {user} = useContext(Context)
-
-
-  const history = useNavigate()
-
-
-  const [login, setLogin] = useState('')
-  const [password, setPassword] = useState('')
-
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  
   const click = async () => {
     try {
-        let data;
-        data = await logining(login, password);
-        user.setIsAuth(true)
-        history.push(LK_ROUTE)
-    } 
-    catch (e) {
-      if (e.response && e.response.data) {
-          alert(e.response.data.message);
-      } else {
-          // alert("Произошла ошибка при отправке запроса");
-          // alert(e.response.data.message);
-          console.log(`Пароль из запроса: ${password}`);
-          console.log(`Хеш пароля из базы данных: ${user.password}`);
-      }
-    }
+        const decodedToken = await logining(login, password);
 
-}
+        console.log('Роль пользователя:', decodedToken.role);
+
+        user.setUser({
+            id: decodedToken.id,
+            role: decodedToken.role,
+            compl: decodedToken.compl,
+        });
+        user.setIsAuth(true);
+
+        if (decodedToken.role === 'ADMIN') {
+            user.setIsAdmin(true);
+            navigate(ADMIN_ROUTE);
+        } else if (decodedToken.role === 'USER') {
+            user.setIsAdmin(false);
+            navigate(MAIN_ROUTE);
+        } else {
+            throw new Error('Неизвестная роль пользователя');
+        }
+    } catch (error) {
+        console.error('Ошибка при авторизации:', error.message || error);
+        alert(error.message || 'Ошибка авторизации');
+    }
+};
 
 const loginClick = () => {
   alert("Подсказка: для ввода логина используете данные ..., если возникнут проблемы обращаетесь по номеру");
@@ -81,7 +82,8 @@ const passwordClick = () => {
             <input type="password" name="password" id="password" placeholder="Пароль" className={styles.input__style} value={password} onChange={e => setPassword(e.target.value)}></input>            
               <img src={QuestionGreen} alt="questionsvg" className={styles.styleSvg} onClick={passwordClick}/> 
           </div>
-          <NavButton text={"Войти"} onClick={click}  href={LK_ROUTE} ></NavButton>   
+          <NavButton text={"Войти"} onClick={click} href={GUEST_ROUTE}></NavButton>   
+          {/* href={GUEST_ROUTE} */}
         </div>
       </div>
       <Footer/>

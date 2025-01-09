@@ -6,9 +6,9 @@ export const createAlert = async (alert) => {
     return data
 }
 
-export const fetchAlerts = async (title,text,dispt,div,compl,im,ot,phone,userId,mailingId) => {
+export const fetchAlerts = async (title,text,dispt,div,compl,im,ot,phone,mounth,date) => {
     const {data} = await $host.get('api/alert', {params: {
-        title,text,dispt,div,compl,im,ot,phone,userId,mailingId
+        title,text,dispt,div,compl,im,ot,phone,mounth,date
         }})
     return data
 }

@@ -1,4 +1,4 @@
-@import "../styles/variables.css";
+@import "../styles/variables.scss";
 
 .header {    
     
@@ -87,6 +87,6 @@
 .styleSvg{
    height: 30px;
     width: 30px;
-    margin-left: 20px;
+    margin-left: 10px;
     cursor: pointer;
 }

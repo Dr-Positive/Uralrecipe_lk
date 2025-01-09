@@ -2,29 +2,39 @@ import styles from "./MainPage.module.scss";
 import NavButton from "../components/NavButton";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import AlertCard from "../components/AlertCard";
 import { useContext, useEffect } from 'react';
 import { Context } from '../index';
 import { observer } from "mobx-react-lite";
 import { fetchAlerts } from "../http/alertAPI";
+import { fetchMailings } from "../http/mailingAPI";
 import AlertList from "../components/AlertList";
+import MallingList from "../components/MallingList";
 
 const MainPage = observer(() => { 
-  const { alert } = useContext(Context);
+  const { mailing ,alert, user } = useContext(Context);
+
+
+  console.log("isAuth:", user.isAuth);
+  console.log("isAdmin:", user.isAdmin);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await fetchAlerts();
-        alert.setAlerts(data);
+        const alertsData = await fetchAlerts();
+        alert.setAlerts(alertsData);
+        
+        const mailingsData = await fetchMailings();
+        mailing.setMailings(mailingsData); // Убедитесь, что данные о рассылках сохраняются в состоянии.
+        
         console.log('Alerts in AlertStore:', alert.alerts);
+        console.log('Mailings in MailingStore:', mailing.mailings);
       } catch (error) {
         console.error('Ошибка получения данных:', error);
       }
     }
 
     fetchData();
-  }, [alert]);
+  }, [alert,mailing]);
 
   return (
     <div>
@@ -35,13 +45,22 @@ const MainPage = observer(() => {
             <h5 className={styles.link__text}>Главная страница</h5>            
           </a>
           <div className={styles.logo__img} />
-          <p className={styles.text}>Личный кабинет</p>
+          <a className={styles.text}>Личный кабинет</a>
         </div>
+
         <div className={styles.containerMain}>
           <div className={styles.containerMain__alert}>
             <div>
-              <AlertList />
+              {user.isAuth && !user.isAdmin &&(
+                <AlertList />
+             )}
+              {user.isAdmin && user.isAuth && (
+                <MallingList />
+             )}
             </div>
+            <div>
+            {user.isAdmin && <p>Вы администратор</p>}
+        </div>
           </div>
         </div>
       </div>

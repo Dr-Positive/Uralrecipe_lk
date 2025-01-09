@@ -1,84 +1,71 @@
-// import './styles/variables.css';
-// import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-// import { authRoutes, publicRoutes } from './routes.jsx';
-// import { useContext, useEffect,useState } from 'react';
-// import { Context } from './index.js';
-// import { LK_ROUTE, LOGIN_ROUTE } from './utils/consts';
-// import {check} from "./http/userAPI";
-// import {Spinner} from "react-bootstrap";
-// import {observer} from "mobx-react-lite";
-
-// const App = observer(() => {
-//   const {user} = useContext(Context)
-//   const [loading, setLoading] = useState(true)
-
-//   useEffect(() => {
-//       check().then(data => {
-//           user.setUser(true)
-//           user.setIsAuth(true)
-//       }).finally(() => setLoading(false))
-//   }, [])
-    
-
-//   if (loading) {
-//       return <Spinner animation={"grow"}/>
-//   }
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//         {authRoutes.map(({ path, Component }) => (
-//           <Route key={path} path={path} element={<Component />} exact />
-//         ))}
-//         {publicRoutes.map(({ path, Component }) => (
-//           <Route key={path} path={path} element={<Component />} exact />
-//         ))}
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// });
-
-// export default App;
-
-
-import './styles/variables.css';
+import './styles/variables.scss';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { authRoutes, publicRoutes } from './routes.jsx';
-import { useContext, useEffect } from 'react';
+import { authRoutes, guestRoutes, adminRoutes } from './routes.jsx';
+import { useContext, useEffect, useState } from 'react';
 import { Context } from './index.js';
-import { LK_ROUTE, LOGIN_ROUTE } from './utils/consts';
+import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE } from './utils/consts';
+import { observer } from 'mobx-react-lite';
 
+import { jwtDecode } from 'jwt-decode';
+const App = observer(() => {
+    const { user } = useContext(Context);
+    const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                user.setUser({ id: decoded.id, role: decoded.role, compl: decoded.compl });
+                user.setIsAuth(true);
+                user.setIsAdmin(decoded.role === 'ADMIN');
+            } catch (error) {
+                console.error('Ошибка при декодировании токена:', error);
+                user.setIsAuth(false);
+                localStorage.removeItem('token');
+            }
+        }
+        setLoading(false); // Устанавливаем `loading` в `false`, когда проверка завершена
+    }, [user]);
 
-
-const App = () => {
-  const { user } = useContext(Context);
-
-
-  useEffect(() => {
-    if (user.isAuth) {
-      // Перенаправляем на страницу "lkpage", если пользователь аутентифицирован
-      <Navigate to={LK_ROUTE} replace />;
-    } else {
-      // Перенаправляем на страницу "signpage", если пользователь не аутентифицирован
-      <Navigate to={LOGIN_ROUTE} replace />;
+    if (loading) {
+        // Отображаем загрузочный экран, пока идет проверка токена
+        return <div>Загрузка...</div>;
     }
-  }, [user.isAuth]);
 
+    return (
+        <Routes>
+            {/* Общедоступные маршруты */}
+            {guestRoutes.map(({ path, Component }) => (
+                <Route key={path} path={path} element={<Component />} />
+            ))}
 
+            {/* Маршруты для авторизованных пользователей */}
+            {authRoutes.map(({ path, Component }) => (
+                <Route
+                    key={path}
+                    path={path}
+                    element={
+                        user.isAuth ? <Component /> : <Navigate to={GUEST_ROUTE} replace />
+                    }
+                />
+            ))}
 
+            {/* Маршруты для администратора */}
+            {adminRoutes.map(({ path, Component }) => (
+                <Route
+                    key={path}
+                    path={path}
+                    element={
+                        user.isAuth && user.isAdmin ? <Component /> : <Navigate to={MAIN_ROUTE} replace />
+                    }
+                />
+            ))}
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        {authRoutes.map(({ path, Component }) => (
-          <Route key={path} path={path} element={<Component />} exact />
-        ))}
-        {publicRoutes.map(({ path, Component }) => (
-          <Route key={path} path={path} element={<Component />} exact />
-        ))}
-      </Routes>
-    </BrowserRouter>
-  );
-};
+            {/* Редирект на страницу входа */}
+            <Route path="*" element={<Navigate to={user.isAuth ? MAIN_ROUTE : GUEST_ROUTE} replace />} />
+        </Routes>
+    );
+});
 
 export default App;

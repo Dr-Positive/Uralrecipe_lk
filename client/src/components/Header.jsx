@@ -10,19 +10,22 @@ import LinkDefault from "../components/LinkDefault";
 import LinkFooter from "../components/LinkFooter";
 import { useContext } from 'react';
 import { Context } from '../index.js'
-import { ADMIN_ROUTE } from "../utils/consts"; 
-import { LOGIN_ROUTE } from "../utils/consts"; 
-import { LK_ROUTE } from "../utils/consts"; 
+import { ADMIN_ROUTE,MAIN_ROUTE,GUEST_ROUTE } from "../utils/consts"; 
 import {observer} from "mobx-react-lite"
 
 const Header = observer(( ) => {
 
   const {user} = useContext(Context)
+
+  console.log('isAuth:', user.isAuth);
+  console.log('isAdmin:', user.isAdmin);
   
   
   const logOut = () => {
     user.setUser({})
     user.setIsAuth(false)
+    user.setIsAdmin(false)
+    localStorage.clear();
 }
 
     return (
@@ -62,11 +65,18 @@ const Header = observer(( ) => {
               <li className={styles.toplist__indent}>
                 <LinkGrey text={'Инфографика'} href="https://u-rm.ru/infografika"/>
               </li>
+              <li className={styles.toplist__indent}>
+                <LinkGrey text={'Вопросы-ответы'} href="https://u-rm.ru/voprosy-otvety"/>
+              </li>
+              <li className={styles.toplist__indent}>
+                <LinkGrey text={'Режим работы пунктов выдачи в новогодние праздники'} href="https://u-rm.ru/rezhim-raboty-punktov-vydachi-v-novogodnie-prazdnichnye-dni-s-30-dekabrya-po-8-yanvarya"/>
+              </li>
+              
             </ul>
             <div className={styles.eye}>
               <div className={styles.search}>
-              <LinkDefault text={'Выход'} onClick={() => logOut()} href={LOGIN_ROUTE}/>
-              </div>              
+              <LinkDefault text={'Выход'} onClick={() => logOut()} href={GUEST_ROUTE}/>
+              </div>
             </div>            
             <div className={styles.eye}>
               <div className={styles.search}>
@@ -98,9 +108,6 @@ const Header = observer(( ) => {
                   <LinkDefault text={'Нормативные документы'} href="https://u-rm.ru/normativnye-dokumenty"/>
                 </li>
                 <li className={styles.bottomlist__indent}>
-                  <LinkDefault text={'Написать'} href="https://u-rm.ru/napisat"/>
-                </li>
-                <li className={styles.bottomlist__indent}>
                   <LinkDefault text={'Новости'} href="https://u-rm.ru/novosti"/>
                 </li>
                 <li className={styles.bottomlist__indent}>
@@ -109,14 +116,17 @@ const Header = observer(( ) => {
               </ul>
             </div>
             <div className={styles.rightBlock}>
-            {user.isAuth && (                    
+            {/* {user.isAuth && ( */}
+            {user.isAdmin && user.isAuth && (
               <div className={styles.adminbtn}>
-                <LinkDefault text={'Админ панель'} href={ADMIN_ROUTE}/>               
+                <LinkDefault text={'Админ панель'} href={ADMIN_ROUTE}/>
               </div>
              )}
-              <div className={styles.lkbtn}>
-                <LinkDefault text={'Личный кабинет'} href={LK_ROUTE}/>               
+            {user.isAuth && (
+              <div className={styles.adminbtn}>
+                <LinkDefault text={'Личный кабинет'} href={MAIN_ROUTE}/>   
               </div>
+             )}
               <p className={styles.rightBlock__text}>ГОРЯЧАЯ ЛИНИЯ:</p>
               <LinkDefault text={'8 (343) 286-80-80'}/>           
             </div>

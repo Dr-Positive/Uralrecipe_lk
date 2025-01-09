@@ -1,6 +1,6 @@
 @import "../styles/variables.scss";
 
-.alert {
+.mailing {
   // text-transform: none;        
   // border-width: 1px;    
   // border-radius: 3px;    
@@ -20,25 +20,22 @@
   padding: 0 20px 20px 20px;
   padding-bottom: 20px;
   // overflow: hidden
-  .alert__date{
-    color: #000000;
-    font-size: 20px;
-    font-weight: 500;
-    text-align: center;
-    // padding: 0 20px 0 20px;
-    padding: 10px 0 20px 0;
-    padding-top: 20px;
+  .mailing__date{
+    color: #b3b3b3;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 0 0 0;
+    text-align: left;
   }
-  .alert__title{
+  .mailing__title{
     color: #000000;
     font-size: 30px;
     font-weight: 500;
     text-align: center;
     // padding: 0 20px 0 20px;
     padding: 10px 0 20px 0;
-    padding-top: 20px;
   }
-  .alert__text{
+  .mailing__text{
     font-size: 14px;
     color: rgb(59, 66, 86);
   }

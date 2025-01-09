@@ -26,7 +26,7 @@ const Mailing = sequelize.define('mailing', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true ,allowNull: false}, // id
   title: { type: DataTypes.STRING }, // название темы информирования(с фронта)
   text: { type: DataTypes.STRING }, // текст информирования(с фронта)
-  dispt: { type: DataTypes.INTEGER }, // тема осмотра(с базы alert)
+  date: { type: DataTypes.STRING }, // дата
   div: { type: DataTypes.INTEGER }, // вид осмотра(с базы alert)
   // связь между  Alert и Mailing одна запись Mailing ко многим записям в Alert
 });
@@ -39,9 +39,12 @@ const Alert = sequelize.define('alert', {
   dispt: { type: DataTypes.INTEGER }, // тема осмотра(с отчёта)
   div: { type: DataTypes.INTEGER }, // вид осмотра(с фронта)
   compl: { type: DataTypes.INTEGER }, // комплет-уникальный через него необходима проверка user на нахождение в базе(с отчёта) при нахождении пользователя необходима обновить у него status
+  date: { type: DataTypes.STRING }, // дата
   im: { type: DataTypes.STRING}, // имя информированного(с отчёта)
   ot: { type: DataTypes.STRING}, // отчество информированного(с отчёта)
   phone: { type: DataTypes.BIGINT}, // телефон информирования(с отчёта)
+  mounth: { type: DataTypes.STRING}, // месяц информирования
+  //mailingId: { type: DataTypes.INTEGER, references: { model: 'Mailing',  key: 'id'},  allowNull: false}
 });
 
 // Определение связей между моделями
