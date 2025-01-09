@@ -19,22 +19,22 @@ const AlertList = observer(() => {
 
   console.log("Current user:", user.user);
   console.log("All alerts:", alert.alerts);
-  
+
   // Фильтрация алертов в зависимости от роли пользователя
   const filteredAlerts = user.user.role === 'ADMIN'
     ? alert.alerts // Возвращаем все алерты для администраторов
     : alert.alerts.filter(a => {
-        const userCompl = user.user.compl;
+      const userCompl = user.user.compl;
 
-        // Проверяем, что userCompl не null или undefined и является целым числом
-        if (userCompl === null || userCompl === undefined || !Number.isInteger(userCompl)) return false;
+      // Проверяем, что userCompl не null или undefined и является целым числом
+      if (userCompl === null || userCompl === undefined || !Number.isInteger(userCompl)) return false;
 
-        // Проверяем, что a.compl также является целым числом
-        if (!Number.isInteger(a.compl)) return false;
+      // Проверяем, что a.compl также является целым числом
+      if (!Number.isInteger(a.compl)) return false;
 
-        // Сравниваем значения
-        return a.compl === userCompl;
-      });
+      // Сравниваем значения
+      return a.compl === userCompl;
+    });
 
   return (
     <div>

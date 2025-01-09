@@ -1,4 +1,4 @@
-@import "../styles/variables.css";
+@import "../styles/variables.scss";
 
 .main {
   text-transform: none;        
@@ -15,7 +15,7 @@
   white-space: nowrap;
   min-width: 250px;
   text-transform: uppercase;    
-  /* margin: 20px 50px 20px 20px; */    
+
   color: rgb(235, 235, 235);
   padding: 13.41px 0 13.4px 0;
 }    

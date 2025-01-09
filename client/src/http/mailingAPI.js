@@ -6,9 +6,9 @@ export const createMailing = async (alert) => {
     return data
 }
 
-export const fetchMailing = async (title,text,dispt,div) => {
-    const {data} = await $host.get('api/alemailingrt', {params: {
-        title,text,dispt,div
+export const fetchMailings = async (title,text,div,date) => {
+    const {data} = await $host.get('api/mailing', {params: {
+        title,text,div,date
         }})
     return data
 }

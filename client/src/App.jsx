@@ -1,4 +1,4 @@
-import './styles/variables.css';
+import './styles/variables.scss';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { authRoutes, guestRoutes, adminRoutes } from './routes.jsx';
 import { useContext, useEffect, useState } from 'react';
