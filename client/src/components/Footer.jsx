@@ -15,7 +15,7 @@ function Footer({ className}) {
         <div className={styles.footer__row}>
           <div className={styles.contact}>
             <div className={styles.contact__block1}>
-              <h4 className={styles.contact__text1}>Контакты</h4>
+              <h4 className={styles.contact__text}>Контакты</h4>
               <h5>620075 Центральный офис: г. Екатеринбург, ул. Карла Либкнехта, д. 22 , офис 302 (правое крыло)</h5>
               <h5>Многоканальный Телефон/Факс:+7 (343) 286-44-00</h5>
               <h5>Телефон горячей линии для граждан:+7 (343) 286-80-80</h5>              
@@ -40,7 +40,8 @@ function Footer({ className}) {
             <div className={styles.contact__block2}>
               <h4 className={styles.contact__text}>Документация</h4>              
                 <LinkFooter text={'Политика конфиденциальности'} href={"https://u-rm.ru/policy"}/>  
-                <LinkFooter text={'Условия использования'} href={"https://u-rm.ru/usloviya-ispolzovaniya"}/>                
+                <LinkFooter text={'Условия использования'} href={"https://u-rm.ru/usloviya-ispolzovaniya"}/>
+                <LinkFooter text={'Базовый стандарт защиты прав и интересов физических и юридических лиц - получателей финансовых услуг, оказываемых членами саморегулируемых организаций, объединяющих страховые организации  и иностранные страховые организации'} href={"https://u-rm.ru/uploads/document/001/fe94ced2031c7dbe225c52673d5fe16a70c18f3467d1a80fd962f7885ff6c60b/bazovyj-standart-zasity-prav-i-interesov-_kfnp-26-ot-26.08.2023_.pdf"}/>
             </div>
             <div className={styles.contact__block3}>
               <h4 className={styles.contact__text}>Информация</h4>              

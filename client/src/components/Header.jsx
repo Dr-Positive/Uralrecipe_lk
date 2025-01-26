@@ -10,130 +10,59 @@ import LinkDefault from "../components/LinkDefault";
 import LinkFooter from "../components/LinkFooter";
 import { useContext } from 'react';
 import { Context } from '../index.js'
-import { ADMIN_ROUTE,MAIN_ROUTE,GUEST_ROUTE } from "../utils/consts"; 
-import {observer} from "mobx-react-lite"
+import { ADMIN_ROUTE, MAIN_ROUTE, GUEST_ROUTE } from "../utils/consts";
+import { observer } from "mobx-react-lite"
 
-const Header = observer(( ) => {
+const Header = observer(() => {
 
-  const {user} = useContext(Context)
+  const { user } = useContext(Context)
 
   console.log('isAuth:', user.isAuth);
   console.log('isAdmin:', user.isAdmin);
-  
-  
+
+
   const logOut = () => {
     user.setUser({})
     user.setIsAuth(false)
     user.setIsAdmin(false)
     localStorage.clear();
-}
+  }
 
-    return (
-        <div className={styles.header}>
-        <div className={styles.logo}>
-          <a className={styles.logo__link} href={"https://u-rm.ru/"}>
-            <img src={CompanyLogo} alt="logo" className={styles.logo__img}/>
-          </a>
-        </div>
-        <div className={styles.menu}>
-          <div className={styles.menu__top}>
-            <ul className={styles.toplist}>
-              <li className={styles.toplist__indent}>
-                <LinkGrey  text={'ОМС'} href="https://u-rm.ru/oms"/>
-              </li>
-              <li className={styles.toplist__indent}>
-                <LinkGrey text={'Полис ОМС '} href="https://u-rm.ru/polis-oms"/>
-              </li>
-              <li className={styles.toplist__indent}>
-                <LinkGrey text={'Защита прав застрахованных'} href="https://u-rm.ru/zaschita-prav-zastrakhovannykh"/>
-              </li>
-              <li className={styles.toplist__indent}>
-                <LinkGrey text={'Программа ОМС'} href="https://u-rm.ru/programma-oms"/>
-              </li>
-              <li className={styles.toplist__indent}>
-                <LinkGrey text={'Диспансеризация'} href="https://u-rm.ru/dispanserizatsiya"/>
-              </li>
-              <li className={styles.toplist__indent}>
-                <LinkGrey text={'Страховые представители '}  href="https://u-rm.ru/strakhovye-predstaviteli"/>
-              </li>
-              <li className={styles.toplist__indent}>
-                <LinkGrey text={'Углубленная диспансеризация'}  href="https://u-rm.ru/uglublennaya-dispanserizatsiya"/>
-              </li>
-              <li className={styles.toplist__indent}>
-                <LinkGrey text={'Вакцинация'} href="https://profilaktica.ru/for-population/vakcinaciya/"/>
-              </li>
-              <li className={styles.toplist__indent}>
-                <LinkGrey text={'Инфографика'} href="https://u-rm.ru/infografika"/>
-              </li>
-              <li className={styles.toplist__indent}>
-                <LinkGrey text={'Вопросы-ответы'} href="https://u-rm.ru/voprosy-otvety"/>
-              </li>
-              <li className={styles.toplist__indent}>
-                <LinkGrey text={'Режим работы пунктов выдачи в новогодние праздники'} href="https://u-rm.ru/rezhim-raboty-punktov-vydachi-v-novogodnie-prazdnichnye-dni-s-30-dekabrya-po-8-yanvarya"/>
-              </li>
-              
-            </ul>
-            <div className={styles.eye}>
-              <div className={styles.search}>
-              <LinkDefault text={'Выход'} onClick={() => logOut()} href={GUEST_ROUTE}/>
-              </div>
-            </div>            
-            <div className={styles.eye}>
-              <div className={styles.search}>
-                <a className={styles.search__link} text={'Омс'} href={"https://u-rm.ru/search"}>
-                  <img
-                    src={SearchIcon}
-                    alt="searchIcon"
-                    className={styles.search__icon}
-                  />
-                </a>
-              </div>
-              <a className={`${styles.eye__link} ${styles.disabled}`} href={"https://u-rm.ru/"}>
-                <img
-                  src={EyeIcon}
-                  alt="EyeIcon"
-                  className={styles.eye__icon}
-                />
-              </a>
-              <p className={`${styles.eye__text} ${styles.disabled}`} >Версия для слабовидящих</p>
-              </div>              
-            </div>
-          <div className={styles.menu__bottom}>
-            <div>
-              <ul className={styles.bottomlist}>
-                <li className={styles.bottomlist__indent} >
-                  <LinkDefault text={'О компании'} href="https://u-rm.ru/o-kompanii"/>
-                </li>
-                <li className={styles.bottomlist__indent}>
-                  <LinkDefault text={'Нормативные документы'} href="https://u-rm.ru/normativnye-dokumenty"/>
-                </li>
-                <li className={styles.bottomlist__indent}>
-                  <LinkDefault text={'Новости'} href="https://u-rm.ru/novosti"/>
-                </li>
-                <li className={styles.bottomlist__indent}>
-                  <LinkDefault text={'Контакты'} href="https://u-rm.ru/kontakty"/>
-                </li>
-              </ul>
-            </div>
-            <div className={styles.rightBlock}>
-            {/* {user.isAuth && ( */}
+  return (
+    <div className={styles.header}>
+      <div className={styles.logo}>
+        <a className={styles.logo__link} href={"https://test.ru/"}>
+          <img src={CompanyLogo} alt="logo" className={styles.logo__img} />
+        </a>
+      </div>
+      <div className={styles.rightBlock}>
+        <div className={styles.rightBlock__content}>
+          <div className={styles.rightBlock}>
             {user.isAdmin && user.isAuth && (
               <div className={styles.adminbtn}>
-                <LinkDefault text={'Админ панель'} href={ADMIN_ROUTE}/>
+                <LinkDefault text={'Админ панель'} href={ADMIN_ROUTE} />
               </div>
-             )}
+            )}
             {user.isAuth && (
               <div className={styles.adminbtn}>
-                <LinkDefault text={'Личный кабинет'} href={MAIN_ROUTE}/>   
+                <LinkDefault text={'Личный кабинет'} href={MAIN_ROUTE} />
               </div>
-             )}
-              <p className={styles.rightBlock__text}>ГОРЯЧАЯ ЛИНИЯ:</p>
-              <LinkDefault text={'8 (343) 286-80-80'}/>           
+            )}
+            <div className={styles.adminbtn}>
+              <LinkDefault text={'Информационный сайт'} href={"https://test.ru/"} />
             </div>
+            <div className={styles.adminbtn}>
+              <LinkDefault text={'Выход'} onClick={() => logOut()} href={GUEST_ROUTE} />
+            </div>
+            <p className={styles.rightBlock__text}>ГОРЯЧАЯ ЛИНИЯ:</p>
+            <LinkDefault text={'8 (343) 286-80-80'} />
           </div>
         </div>
       </div>
-    );
+    </div >
+  );
 });
 
 export default Header;
+
+{/* {user.isAuth && ( */ }
