@@ -31,15 +31,13 @@ const Header = observer(() => {
   return (
     <div className={styles.header}>
       <div className={styles.logo}>
-        <a className={styles.logo__link} href={"https://u-rm.ru/"}>
+        <a className={styles.logo__link} href={"https://test.ru/"}>
           <img src={CompanyLogo} alt="logo" className={styles.logo__img} />
         </a>
       </div>
-      <div className={styles.menu}>
-        <div className={styles.menu__bottom}>
+      <div className={styles.rightBlock}>
+        <div className={styles.rightBlock__content}>
           <div className={styles.rightBlock}>
-            <LinkDefault text={'Выход'} onClick={() => logOut()} href={GUEST_ROUTE} />
-            {/* {user.isAuth && ( */}
             {user.isAdmin && user.isAuth && (
               <div className={styles.adminbtn}>
                 <LinkDefault text={'Админ панель'} href={ADMIN_ROUTE} />
@@ -51,15 +49,20 @@ const Header = observer(() => {
               </div>
             )}
             <div className={styles.adminbtn}>
-              <LinkDefault text={'Информационный сайт'} href={"https://u-rm.ru/"} />
+              <LinkDefault text={'Информационный сайт'} href={"https://test.ru/"} />
+            </div>
+            <div className={styles.adminbtn}>
+              <LinkDefault text={'Выход'} onClick={() => logOut()} href={GUEST_ROUTE} />
+            </div>
+            <p className={styles.rightBlock__text}>ГОРЯЧАЯ ЛИНИЯ:</p>
+            <LinkDefault text={'8 (343) 286-80-80'} />
           </div>
-          <p className={styles.rightBlock__text}>ГОРЯЧАЯ ЛИНИЯ:</p>
-          <LinkDefault text={'8 (343) 286-80-80'} />
         </div>
       </div>
-    </div>
     </div >
   );
 });
 
 export default Header;
+
+{/* {user.isAuth && ( */ }

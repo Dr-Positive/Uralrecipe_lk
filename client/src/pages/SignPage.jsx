@@ -56,10 +56,10 @@ const SignPage = observer(( ) => {
 };
 
 const loginClick = () => {
-  alert("Подсказка: для ввода логина используете данные ..., если возникнут проблемы обращаетесь по номеру");
+  alert("Подсказка: для ввода логина используете данные договора, если возникнут проблемы обращаетесь по номеру 8 (343) 286-80-80");
 };
 const passwordClick = () => {
-  alert("Подсказка: для ввода ппроля используете данные ..., если возникнут проблемы обращаетесь по номеру");
+  alert("Подсказка: для ввода ппроля используете данные договора, если возникнут проблемы обращаетесь по номеру 8 (343) 286-80-80");
 };
 
 
@@ -67,7 +67,7 @@ const passwordClick = () => {
     <div>
       <div className={styles.header}>
         <div className={styles.logo}>
-          <a className={styles.logo__link} href={"https://u-rm.ru/"}>
+          <a className={styles.logo__link} href={"https://test.ru/"}>
             <img src={CompanyLogo} alt="logo" className={styles.logo__img} />
           </a>
         </div>

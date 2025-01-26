@@ -1,130 +1,116 @@
-@import "../styles/variables.scss";
-
-
-//Начало футера, обявление общего футера
-
-.footer{
+// Общие стили футера
+.footer {
     padding: 50px 0 0;
     background-color: var(--footer-color);
     width: 100%;
-    height: 305.5px;
-    display: flex;   
-    .footer__row{
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
+    display: flex;
+  
+    .footer__row {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
     }
-}
-
-
-//Верхняя часть футера с контактами
-
-
-.contact{
+  }
+  
+  // Верхняя часть футера (контакты)
+  .contact {
     width: 100%;
     max-width: 1296px;
-    // padding-left: 20px;
-    // padding-right: 20px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     background-color: var(--footer-color);
-    width: 100%;
-    height: 295.5px;
     display: grid;
-    grid-template-columns: 432px repeat(2, 1fr);
-    justify-content: center;  // Добавлено для расположения элементов по центру
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;    
-    //border: 1px solid rgb(255, 0, 200);
-    .contact__text{        
-        text-align: center;
+    grid-template-columns: 432px repeat(2, 1fr); // По умолчанию три колонки
+    grid-gap: 20px;
+  
+    .contact__block1,
+    .contact__block2,
+    .contact__block3 {
+      padding: 15px;
+      border-right: 1px solid hsla(0, 0%, 43.9%, 0.341);
+      text-align: left; // Текст выровнен по левому краю
+      word-wrap: break-word; // Перенос слов
     }
- 
-    .contact__block1{
-        border-right: 1px solid hsla(0,0%,43.9%,.341);     
-        height: 105px;
-        margin-left: 10px;        
+  
+    .contact__block1 {
+      border-right: 1px solid hsla(0, 0%, 43.9%, 0.341);
     }
-    .contact__block2{
-        //border: 1px solid #2f00ff;
-        //justify-self: center;
-        border-right: 1px solid hsla(0,0%,43.9%,.341);     
-        height: 105px;
-        text-align: center;        
+  
+    .contact__block2 {
+      border-right: 1px solid hsla(0, 0%, 43.9%, 0.341);
     }
-    .contact__block3{
-        //border: 1px solid #ec0000;
-        //justify-self: center;    
-        border-right: 1px solid hsla(0,0%,43.9%,.341);     
-        height: 105px;           
-        text-align: center;        
+  
+    .contact__block3 {
+      border-right: none; // Последний блок без линии
+      text-align: center;
     }
-}
-
-.link{
-    width: 250px;
-    display: inline-flex;
-    align-items: center;
+  
+    .contact__text {
+      text-align: center;
+      padding-bottom: 20px;
+    }
+  }
+  
+  // Ссылки
+  .link {
+    display: flex;
+    flex-direction: column; // Элементы размещаются вертикально
+    gap: 10px; // Расстояние между элементами
+  
+    .link__main {
+      font-size: 16px;
+      line-height: 1.5;
+      color: hsla(0, 0%, 100%, 0.6);
+      text-decoration: underline;
+    }
+  
+    .link__spacing {
+      margin-bottom: 5px;
+    }
+  }
+  
+  // Нижний блок копирайта
+  .copyright {
+    // background-color: #27312E;
+    width: 100%;
+    padding: 20px 0;
     
-    .link__main{
-        font-size: 16px;
-        line-height: 1.5;
-        font-weight: 400;
-        display: inline;
-        color: hsla(0,0%,100%,.6);
-        border-color: hsla(0,0%,100%,.6); 
-        text-decoration:underline;               
+  
+    .copyright__block {
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.4;
     }
-    
-    .link__spacing{
-        margin-right: 5px;
+  }
+
+  
+  // Адаптивная версия для экранов <768px
+  @media (max-width: 768px) {
+    .contact {
+      grid-template-columns: 1fr; // Переключение на одну колонку
+      grid-gap: 15px;
+  
+      .contact__block1,
+      .contact__block2,
+      .contact__block3 {
+        border-right: none; // Убираем линии между колонками
+        padding: 10px; // Увеличиваем внутренние отступы для лучшего отображения        
+        text-align: left;
+      }
+      .contact__text{
+        text-align: left;
+        padding-bottom: 20px;
+      }
     }
-
-    .link__allspacing{
-        margin-top: 23px;
+  
+    .footer {
+      padding: 20px 10px; // Уменьшаем общий отступ для мобильных устройств
     }
+  }
+  
 
-    .link__text:hover:not(.disabled) {
-        color: white;      
-    }
-}
+//   @media (max-width: 1024px) {
+//     .contact__block1{
+//         padding-right: 200px;
+//     }
 
-//Нижний блок копирайта 
-
-.copyright{
-    background-color: var(--foter-adv-color);
-    width: 100%;    
-    height: 64.5px;    
-
-    .copyright__block{
-        height: 64.5px;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-
-@media (max-width: 320px) {
-    
-}
-
-
-@media (max-width: 640px) {
-    
-}
-
-@media (max-width: 768px) {
-    
-}
-
-@media (max-width: 1024px) {
-    .footer{ 
-        max-width: 100%;
-        
-
-    }
-    
-    
-}
+//   }

@@ -43,7 +43,7 @@ const AlertList = observer(() => {
           <AlertCard key={alert.id} alert={alert} />
         ))
       ) : (
-        <div>No alerts available.</div>
+        <div>Сообщения отсутствуют</div>
       )}
     </div>
   );
