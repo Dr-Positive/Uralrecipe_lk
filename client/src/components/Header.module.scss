@@ -45,7 +45,7 @@
   }
 
   .rightBlock__text {
-    font-size: 14px; // Уменьшенный шрифт для мобильных устройств
+    // font-size: 14px; // Уменьшенный шрифт для мобильных устройств
     text-transform: uppercase;
     white-space: nowrap;
     margin-right: 10px;
@@ -58,7 +58,7 @@
   margin-right: 10px;
 
   a {
-    font-size: 14px;
+    // font-size: 14px;
     text-decoration: none;
     color: var(--main-color);
     padding: 5px 10px;
@@ -113,9 +113,9 @@
     justify-content: center;
     gap: 10px;
 
-    .rightBlock__text {
-      font-size: 12px; // Меньший шрифт текста для компактности
-    }
+    // .rightBlock__text {
+    //   font-size: 12px; // Меньший шрифт текста для компактности
+    // }
   }
 }
 
@@ -129,6 +129,6 @@
 @media (max-width: 1440px) {
     .logo__img {
         width: 270px; // Уменьшенный размер логотипа для адаптивности
-    
+        
       }
 }
