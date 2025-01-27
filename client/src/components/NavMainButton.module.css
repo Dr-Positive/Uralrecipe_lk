@@ -19,9 +19,9 @@
     text-align: center;
     white-space: nowrap;
     font-family: var(--main-font-family);
-    padding-bottom: 20px;
     
-    
+    margin-top: 5px;
+    margin-bottom: 5px;
 
     /* margin: 20px 50px 20px 20px; */
     
