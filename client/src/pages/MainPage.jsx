@@ -41,7 +41,7 @@ const MainPage = observer(() => {
       <Header />
       <div className={styles.container}>
         <div className={styles.row}>
-          <a className={styles.link__main} href={"https://test.ru"}>            
+          <a className={styles.link__main} href={"https://https://u-rm.ru/"}>            
             <h5 className={styles.link__text}>Главная страница</h5>            
           </a>
           <div className={styles.logo__img} />
