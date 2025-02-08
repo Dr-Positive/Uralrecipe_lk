@@ -8,8 +8,7 @@ const User = sequelize.define('user', {  // Пользователь. Инфор
   role: { type: DataTypes.STRING, defaultValue: "USER"}, // роль может иметь два значения админ или застрахованный
   status: { type: DataTypes.INTEGER, defaultValue: 0 }, //  значение которое показывает состояние пользователя ( если заходил на сайт 1. если был проинформирован 2, а по стандарту 0)
   div: { type: DataTypes.ARRAY(DataTypes.INTEGER), defaultValue: []}, // вид осмотра
-  dispt: { type: DataTypes.ARRAY(DataTypes.INTEGER), defaultValue: []}, // тема осмотра
- 
+  dispt: { type: DataTypes.ARRAY(DataTypes.INTEGER), defaultValue: []}, // тема осмотра 
   fam: { type: DataTypes.STRING}, // фамилия
   im: { type: DataTypes.STRING}, // имя
   ot: { type: DataTypes.STRING}, // отчество
