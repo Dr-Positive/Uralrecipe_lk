@@ -7,17 +7,14 @@ const User = sequelize.define('user', {  // Пользователь. Инфор
   password: { type: DataTypes.STRING}, // пока что номер договора
   role: { type: DataTypes.STRING, defaultValue: "USER"}, // роль может иметь два значения админ или застрахованный
   status: { type: DataTypes.INTEGER, defaultValue: 0 }, //  значение которое показывает состояние пользователя ( если заходил на сайт 1. если был проинформирован 2, а по стандарту 0)
-  div: { type: DataTypes.INTEGER}, // вид осмотра
-  dispt: { type: DataTypes.INTEGER}, // тема осмотра
-  div2: { type: DataTypes.INTEGER}, // вид осмотра
-  dispt2: { type: DataTypes.INTEGER}, // тема осмотра
-  div3: { type: DataTypes.INTEGER}, // вид осмотра
-  dispt3: { type: DataTypes.INTEGER}, // тема осмотра
+  div: { type: DataTypes.ARRAY(DataTypes.INTEGER), defaultValue: []}, // вид осмотра
+  dispt: { type: DataTypes.ARRAY(DataTypes.INTEGER), defaultValue: []}, // тема осмотра
+ 
   fam: { type: DataTypes.STRING}, // фамилия
   im: { type: DataTypes.STRING}, // имя
   ot: { type: DataTypes.STRING}, // отчество
   compl: { type: DataTypes.INTEGER, unique: true }, // комплект
-  gender: { type: DataTypes.INTEGER }, // пол
+  gender: { type: DataTypes.INTEGER }, // пол 
 });
 
 const Mailing = sequelize.define('mailing', {

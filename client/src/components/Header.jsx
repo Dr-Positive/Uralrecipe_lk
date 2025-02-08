@@ -31,7 +31,7 @@ const Header = observer(() => {
   return (
     <div className={styles.header}>
       <div className={styles.logo}>
-        <a className={styles.logo__link} href={"https://test.ru/"}>
+        <a className={styles.logo__link} href={"https:/https://u-rm.ru/"}>
           <img src={CompanyLogo} alt="logo" className={styles.logo__img} />
         </a>
       </div>
@@ -49,7 +49,7 @@ const Header = observer(() => {
               </div>
             )}
             <div className={styles.adminbtn}>
-              <LinkDefault text={'Информационный сайт'} href={"https://test.ru/"} />
+              <LinkDefault text={'Информационный сайт'} href={"https:/https://u-rm.ru/"}/>
             </div>
             <div className={styles.adminbtn}>
               <LinkDefault text={'Выход'} onClick={() => logOut()} href={GUEST_ROUTE} />
