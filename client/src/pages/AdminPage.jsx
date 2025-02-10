@@ -49,14 +49,14 @@ const AdminPage = observer(() => {
   const handleMenuOne = () => {
     setOpen(false);
     setName('Проф осмотры')
-    handleButtonText('приглашаем вас пройти профилактический осмотр в поликлинике по месту жительства');
+    handleButtonText('приглашаем вас пройти профилактический осмотр в поликлинике по месту жительства в');
     handleButtonClick(1);
   };
 
   const handleMenuTwo = () => {
     setOpen(false);
     setName('ДН')
-    handleButtonText('приглашаем вас пройти диспансерном наблюдение, просим посетить поликлинику в ');
+    handleButtonText('приглашаем вас пройти диспансерном наблюдение, просим посетить поликлинику в');
     handleButtonClick(2);
   };
 
@@ -65,7 +65,7 @@ const AdminPage = observer(() => {
   const handleMenuThree = () => {
     setOpen(false);
     setName('Диспансеризация')
-    handleButtonText('приглашаем вас пройти углубленную диспансеризация в поликлинике по месту жительства');
+    handleButtonText('приглашаем вас пройти углубленную диспансеризация в поликлинике по месту жительства в');
     handleButtonClick(1);
   };
 
