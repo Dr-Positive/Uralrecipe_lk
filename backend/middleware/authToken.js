@@ -5,6 +5,8 @@ module.exports = function (role){
         if (req.method === "OPTION") {
             next()
         }
+        
+
     
         try {
             const token =  req.headers.authorization.split(' ')[1] 
@@ -21,4 +23,15 @@ module.exports = function (role){
             res.status(401).json({message:"Не авторизован"})
         }
     };
+    
 }
+
+
+
+
+//     try {
+//         const token = req.headers.aut
+// } catch (e) {
+//     res.status(401).json({message:"Не авторизован"})
+
+

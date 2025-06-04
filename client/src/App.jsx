@@ -1,16 +1,16 @@
-import './styles/variables.scss';
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import './styles/mainStyle.scss';
+import { BrowserRouter, Routes, Route, Navigate,useLocation } from "react-router-dom";
 import { authRoutes, guestRoutes, adminRoutes } from './routes.jsx';
 import { useContext, useEffect, useState } from 'react';
 import { Context } from './index.js';
-import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE } from './utils/consts';
+import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE,PASSWORD_ROUTE,forgot_ROUTE } from './utils/consts';
 import { observer } from 'mobx-react-lite';
 
 import { jwtDecode } from 'jwt-decode';
 const App = observer(() => {
     const { user } = useContext(Context);
     const [loading, setLoading] = useState(true);
-
+    const location = useLocation(); // Получаем текущий путь
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -40,6 +40,9 @@ const App = observer(() => {
                 <Route key={path} path={path} element={<Component />} />
             ))}
 
+            {/* Отдельный маршрут для страницы восстановления пароля */}
+            <Route path={PASSWORD_ROUTE} />
+
             {/* Маршруты для авторизованных пользователей */}
             {authRoutes.map(({ path, Component }) => (
                 <Route
@@ -62,8 +65,13 @@ const App = observer(() => {
                 />
             ))}
 
-            {/* Редирект на страницу входа */}
-            <Route path="*" element={<Navigate to={user.isAuth ? MAIN_ROUTE : GUEST_ROUTE} replace />} />
+            {/* Обработчик переадресации для неавторизованных пользователей */}
+            <Route
+                path="*"
+                element={
+                    !user.isAuth ? <Navigate to={GUEST_ROUTE} replace /> : <Navigate to={MAIN_ROUTE} replace />
+                }
+            />
         </Routes>
     );
 });

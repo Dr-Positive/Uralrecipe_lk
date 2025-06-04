@@ -10,7 +10,7 @@ import LinkDefault from "../components/LinkDefault";
 import LinkFooter from "../components/LinkFooter";
 import { useContext } from 'react';
 import { Context } from '../index.js'
-import { ADMIN_ROUTE, MAIN_ROUTE, GUEST_ROUTE } from "../utils/consts";
+import { ADMIN_ROUTE, MAIN_ROUTE, GUEST_ROUTE, PROFILE_ROUTE } from "../utils/consts";
 import { observer } from "mobx-react-lite"
 
 const Header = observer(() => {
@@ -45,7 +45,8 @@ const Header = observer(() => {
             )}
             {user.isAuth && (
               <div className={styles.adminbtn}>
-                <LinkDefault text={'Личный кабинет'} href={MAIN_ROUTE} />
+                <LinkDefault text={'Профиль'} href={PROFILE_ROUTE} />
+                <LinkDefault text={'Личный кабинет'} href={MAIN_ROUTE}/>
               </div>
             )}
             <div className={styles.adminbtn}>

@@ -15,9 +15,10 @@ import { useContext, useState } from "react";
 import { Context } from '../index.js';
 import {observer} from "mobx-react-lite"
 import {logining} from "../http/userAPI";
-import { useNavigate, useLocation} from "react-router-dom"
+import { useNavigate, useLocation, NavLink} from "react-router-dom"
 import Button from "react-bootstrap/Button";
-import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE } from '../utils/consts.js';
+import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE,PASSWORD_ROUTE,FORGOTE_ROUTE } from '../utils/consts.js';
+import NavMainButton from "../components/NavMainButton";
 
 const SignPage = observer(( ) => {
 
@@ -56,12 +57,11 @@ const SignPage = observer(( ) => {
 };
 
 const loginClick = () => {
-  alert("Подсказка: для ввода логина используете данные договора, если возникнут проблемы обращаетесь по номеру 8 (343) 286-80-80");
+  alert("Подсказка: для ввода логина используете номер договора, если возникнут проблемы обращаетесь по номеру 8 (343) 286-80-80");
 };
 const passwordClick = () => {
-  alert("Подсказка: для ввода ппроля используете данные договора, если возникнут проблемы обращаетесь по номеру 8 (343) 286-80-80");
+  alert("Подсказка: для ввода пароля используете данные договора, если возникнут проблемы обращаетесь по номеру 8 (343) 286-80-80");
 };
-
 
   return (
     <div>
@@ -84,6 +84,9 @@ const passwordClick = () => {
           </div>
           <NavButton text={"Войти"} onClick={click} href={GUEST_ROUTE}></NavButton>   
           {/* href={GUEST_ROUTE} */}
+          <div className={styles.link}>
+            <LinkGrey text={"Проблемы со входом?"} href={FORGOTE_ROUTE}></LinkGrey>
+          </div>
         </div>
       </div>
       <Footer/>
