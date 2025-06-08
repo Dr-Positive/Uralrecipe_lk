@@ -20,7 +20,7 @@ export const logining = async (login, password) => {
 
     // Сохраняем токен и возвращаем декодированные данные
     localStorage.setItem('token', data.token);
-    return { ...decodedToken, role: decodedToken.role, compl: decodedToken.compl };
+    return { ...decodedToken, role: decodedToken.role, compl: decodedToken.compl, login: decodedToken.login };
 };
 
 export const check = async () => {

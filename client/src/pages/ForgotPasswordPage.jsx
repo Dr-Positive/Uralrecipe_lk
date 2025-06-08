@@ -14,7 +14,6 @@ import QuestionGreenBig from "../icons/questionGreen.svg";
 import { useContext, useState } from "react";
 import { Context } from '../index.js';
 import { observer } from "mobx-react-lite"
-import { logining } from "../http/userAPI.js";
 import { forgotPassword } from "../http/authApi.js";
 import { useNavigate, useLocation, NavLink } from "react-router-dom"
 import Button from "react-bootstrap/Button";
@@ -55,7 +54,7 @@ const forgotPasswordPage = observer(() => {
 
   const clickForgot = async () => {
     try {
-      const isDone = await forgotPassword(login, tel,);
+      const isDone = await forgotPassword(login, tel);
 
       setIsSuccess(isDone)
 
@@ -113,45 +112,14 @@ const forgotPasswordPage = observer(() => {
             <Button variant="success" onClick={clickForgot}>Отправить</Button>
             {/* clickForgot handleShow */}
             {/* href={GUEST_ROUTE} */}
-            {/* Модальное окно смены пароля */}
-            <Modal show={show} onHide={handleClose} centered>
-              <Modal.Header closeButton>
-                <Modal.Title>Сменить пароль</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <input
-                  type="password"
-                  placeholder="Старый пароль"
-                  className={styles.input_change}
-                  value={oldPassword}
-                  onChange={e => setOldPassword(e.target.value)}
-                />
-                <input
-                  type="password"
-                  placeholder="Новый пароль"
-                  className={styles.input_change}
-                  value={newPassword}
-                  onChange={e => setNewPassword(e.target.value)}
-                />
-                <p>Новый пароль не должен совпадать с тем, который вы когда-то использовали</p>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  Отмена
-                </Button>
-                <Button variant="primary" onClick={clickForgot}>
-                  Отправить
-                </Button>
-              </Modal.Footer>
-            </Modal>
+            
           </div>
         </div>
       )}
       {isSuccess && (
         <div className={styles.container}>
           <div className={styles.input}>
-            <h1>Reset instruction sent successfully</h1>
-            <p>ВReset instruction sent successfully</p>
+            <h1>Инструкция по сбросу успешно отправлена</h1>
           </div>
         </div>
       )}

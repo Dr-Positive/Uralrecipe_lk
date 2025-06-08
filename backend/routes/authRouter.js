@@ -1,20 +1,22 @@
-const { resetPassword, handleForgotPassword, verifyToken } = require("../controllers/userController");
+const { resetPassword, handleForgotPassword, verifyToken } = require("../controllers/authController.js");
 
 
 const Router = require('express')
 const router = new Router
-const userController = require('../controllers/userController')
+const authController = require('../controllers/authController')
 const authMiddleware = require('../middleware/authMiddleware')
 const checkRole = require('../middleware/СheckRoleMiddleware')
 
 // Сброс пароля
-router.post("/forgot-password", userController.handleForgotPassword);
+router.post("/forgot-password", authController.handleForgotPassword);
 
 // Проверка токена
-router.post("/verify-token", userController.verifyToken);
+router.post("/verify-token", authController.verifyToken);
 
 // Смена пароля
-router.post("/reset-password", userController.resetPassword);
+router.post("/reset-password", authController.resetPassword);
+
+router.post("/request-reset-password", authController.requestResetToken);
 
 
 module.exports = router

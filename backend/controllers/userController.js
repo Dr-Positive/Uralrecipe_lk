@@ -5,8 +5,8 @@ const { User } = require("../models/models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const generateJwt = (id, compl, role) => {
-  return jwt.sign({ id, compl, role }, process.env.SECRET_KEY, {
+const generateJwt = (id, compl, role, login ) => {
+  return jwt.sign({ id, compl, role, login }, process.env.SECRET_KEY, {
     expiresIn: "12h",
   });
 };
@@ -83,7 +83,7 @@ class userController {
     if (!comparePassword) {
       return next(ApiError.internal("Указан неверный пароль"));
     }
-    const token = generateJwt(user.id, user.compl, user.role);
+    const token = generateJwt(user.id, user.compl, user.role, user.login);
     return res.json({ token });
   }
 

@@ -14,11 +14,11 @@ export const forgotPassword = async (login, tel) => {
 };  
 
 // Запрос для установки нового пароля с токеном
-export const resetPassword = async (token, newPassword) => {
+export const resetPassword = async (token, password) => {
   try {
     const { data } = await $host.post("api/auth/reset-password", {
       token,
-      newPassword,
+      password,
     });
     return data;
   } catch (error) {
@@ -36,3 +36,15 @@ export const verifyToken = async (token) => {
     return false;
   }
 };
+
+
+export const requestResetToken  = async (login, password,) => {
+  try {
+    await $host.post("api/auth/request-reset-password", {login,password});
+    return true;
+  } catch (error) {
+    console.error("Ошибка при сбросе пароля:", error.response?.data || error.message);
+    return false;
+  }
+};
+

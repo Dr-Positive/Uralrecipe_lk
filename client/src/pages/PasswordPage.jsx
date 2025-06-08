@@ -15,32 +15,17 @@ import { useContext, useState } from "react";
 import { Context } from '../index.js';
 import { observer } from "mobx-react-lite"
 import { logining } from "../http/userAPI";
-import { verifyToken } from "../http/authApi";
 import { useNavigate, useLocation, NavLink, useSearchParams } from "react-router-dom"
+import { resetPassword, verifyToken } from "../http/authApi.js";
 import Button from "react-bootstrap/Button";
 import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE, PASSWORD_ROUTE } from '../utils/consts.js';
 import NavMainButton from "../components/NavMainButton";
 import Modal from 'react-bootstrap/Modal';
 import React from "react";
+
+
 const PasswordPage = observer(() => {
 
-  const [tokenVerified, setTokenVerified] = React.useState(false)
-
-
-
-  const [searchParams] = useSearchParams();
-
-  React.useEffect(() => {
-    const verify = async () => {
-      const token = searchParams.get("resetToken");
-      if (token) {
-        setTokenVerified(await verifyToken(token));
-      } else {
-        setTokenVerified(false)
-      }
-    };
-    verify();
-  }, [searchParams]);
 
   const { user } = useContext(Context);
   const navigate = useNavigate();
@@ -54,12 +39,30 @@ const PasswordPage = observer(() => {
   const [tel, setTel] = useState('');
   const [polis, setPolis] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
-
+  const [isResetSuccess, setIsResetSuccess] = useState(false);
+  const [password, setPassword] = useState("");
   const [showChange, setShowChange] = useState(false);
+  const [resetToken, setResetToken] = useState("");
 
   const handleCloseChange = () => setShowChange(false);
 
   const handlePasswordChange = async () => {
+
+    console.log("Токен для сброса:", resetToken);
+
+    const isResetDone = await resetPassword(resetToken, password);
+
+    console.log("TOKEN:", resetToken);
+    console.log("PASSWORD:", password);
+
+    if (isResetDone) {
+      setIsResetSuccess(true);
+    } else {
+      setIsResetSuccess(false);
+    }
+
+
+
     // Здесь должен быть ваш API-запрос для смены пароля
     console.log("Старый пароль:", oldPassword);
     console.log("Новый пароль:", newPassword);
@@ -69,41 +72,25 @@ const PasswordPage = observer(() => {
     setNewPassword('');
   };
 
-  const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
-  const handleOpenConfirm = () => setShowConfirm(true);
+  const [tokenVerified, setTokenVerified] = React.useState(false)
+  const [searchParams] = useSearchParams();
 
-  const click = async () => {
-    try {
-      const decodedToken = await logining(login, email, tel, polis);
-
-      console.log('Роль пользователя:', decodedToken.role);
-
-      user.setUser({
-        id: decodedToken.id,
-        role: decodedToken.role,
-        compl: decodedToken.compl,
-      });
-      user.setIsAuth(true);
-
-      if (decodedToken.role === 'ADMIN') {
-        user.setIsAdmin(true);
-        navigate(ADMIN_ROUTE);
-      } else if (decodedToken.role === 'USER') {
-        user.setIsAdmin(false);
-        navigate(MAIN_ROUTE);
+  React.useEffect(() => {
+    const verify = async () => {
+      const token = searchParams.get("resetToken");
+      if (token) {
+        setResetToken(token);
+        setTokenVerified(await verifyToken(token));
       } else {
-        throw new Error('Неизвестная роль пользователя');
+        setTokenVerified(false);
       }
-    } catch (error) {
-      console.error('Ошибка при авторизации:', error.message || error);
-      alert(error.message || 'Ошибка авторизации');
-    }
-  };
+    };
+    verify();
+  }, [searchParams]);
 
+ 
   const loginClick = () => {
     alert("Подсказка: для ввода логина используете номер договора, если возникнут проблемы обращаетесь по номеру 8 (343) 286-80-80");
   };
@@ -128,9 +115,9 @@ const PasswordPage = observer(() => {
               <h1>Сброс пароля</h1>
               <p>Введите пароль</p>
               <div className={styles.input__block}>
-                <input type="password" name="password" id="password" placeholder="password" className={styles.input__style} value={newPassword} onChange={e => setNewPassword(e.target.value)}></input>
+                <input type="password" name="password" id="password" placeholder="password" className={styles.input__style} value={password} onChange={e => setPassword(e.target.value)}></input>
               </div>
-              <Button variant="success" onClick={handleShow}>Отправить</Button>
+              <Button variant="success" onClick={handlePasswordChange} href={MAIN_ROUTE}>Отправить</Button>
             </div>
           </>
 

@@ -38,6 +38,7 @@ const SignPage = observer(( ) => {
             id: decodedToken.id,
             role: decodedToken.role,
             compl: decodedToken.compl,
+            login: decodedToken.login,
         });
         user.setIsAuth(true);
 

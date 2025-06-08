@@ -16,7 +16,7 @@ const App = observer(() => {
         if (token) {
             try {
                 const decoded = jwtDecode(token);
-                user.setUser({ id: decoded.id, role: decoded.role, compl: decoded.compl });
+                user.setUser({ id: decoded.id,  login:decoded.login, role: decoded.role, compl: decoded.compl });
                 user.setIsAuth(true);
                 user.setIsAdmin(decoded.role === 'ADMIN');
             } catch (error) {

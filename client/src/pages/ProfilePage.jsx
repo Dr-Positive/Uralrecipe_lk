@@ -7,16 +7,16 @@ import { Context } from '../index';
 import { observer } from "mobx-react-lite";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { logining } from "../http/userAPI";
-
+import { requestResetToken } from "../http/authApi.js";
+import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE, PASSWORD_ROUTE } from '../utils/consts.js';
 const ProfilePage = observer(() => {
     const { user } = useContext(Context);
 
     const [showConfirm, setShowConfirm] = useState(false);
     const [showChange, setShowChange] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
+    const [login, setLogin] = useState('');
     const [oldPassword, setOldPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
 
     const handleOpenConfirm = () => setShowConfirm(true);
     const handleCloseConfirm = () => setShowConfirm(false);
@@ -26,7 +26,7 @@ const ProfilePage = observer(() => {
 
     const handleConfirmPassword = async () => {
         try {
-            // const decodedToken = await logining(currentPassword);
+
 
 
             // Закрываем окно подтверждения и открываем окно смены пароля
@@ -39,15 +39,30 @@ const ProfilePage = observer(() => {
     };
 
     const handlePasswordChange = async () => {
-        // Здесь должен быть ваш API-запрос для смены пароля
-        console.log("Старый пароль:", oldPassword);
-        console.log("Новый пароль:", newPassword);
-        alert("Пароль успешно изменён");
-        setShowChange(false);
-        setOldPassword('');
-        setNewPassword('');
-    };
+        const login = user.user.login;
+        try {
+            if (!login || !oldPassword) {
+                alert("Введите логин и текущий пароль");
+                return;
+            }
 
+            console.log("Логин:", login);
+            console.log("Отправка запроса с:", { login, oldPassword });
+
+            const data = await requestResetToken(login, oldPassword);
+
+            console.log("Ответ от сервера:", data);
+
+            if (data.success && data.resetLink) {
+                window.location.href = data.resetLink;
+            } else {
+                alert(data.message || "Не удалось получить ссылку сброса пароля");
+            }
+        } catch (error) {
+            console.error("Ошибка при получении токена:", error);
+            alert(error.response?.data?.message || "Ошибка запроса");
+        }
+    };
     return (
         <div>
             <Header />
@@ -69,6 +84,7 @@ const ProfilePage = observer(() => {
 
                         <Button variant="success" onClick={handleOpenConfirm}>Изменить пароль</Button>
 
+
                         {/* Модальное окно подтверждения пароля */}
                         <Modal show={showConfirm} onHide={handleCloseConfirm} centered>
                             <Modal.Header closeButton>
@@ -80,41 +96,14 @@ const ProfilePage = observer(() => {
                                     type="password"
                                     placeholder="Пароль"
                                     className={styles.input_confirm}
-                                    value={currentPassword}
-                                    onChange={e => setCurrentPassword(e.target.value)}
+                                    value={oldPassword}
+                                    onChange={e => setOldPassword(e.target.value)}
                                 />
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={handleCloseConfirm}>Отмена</Button>
                                 <Button variant="primary" onClick={handleConfirmPassword}>Подтвердить</Button>
-                            </Modal.Footer>
-                        </Modal>
-
-                        {/* Модальное окно смены пароля */}
-                        <Modal show={showChange} onHide={handleCloseChange} centered>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Сменить пароль</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <input
-                                    type="password"
-                                    placeholder="Старый пароль"
-                                    className={styles.input_change}
-                                    value={oldPassword}
-                                    onChange={e => setOldPassword(e.target.value)}
-                                />
-                                <input
-                                    type="password"
-                                    placeholder="Новый пароль"
-                                    className={styles.input_change}
-                                    value={newPassword}
-                                    onChange={e => setNewPassword(e.target.value)}
-                                />
-                                <p>Новый пароль не должен совпадать с тем, который вы когда-то использовали</p>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={handleCloseChange}>Отмена</Button>
-                                <Button variant="success" onClick={handlePasswordChange}>Сменить</Button>
+                                <Button variant="success" onClick={handlePasswordChange} >Изменить пароль</Button>
                             </Modal.Footer>
                         </Modal>
                     </div>
