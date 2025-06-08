@@ -23,6 +23,8 @@ const User = sequelize.define('user', {  // Пользователь. Инфор
     }
   }, // номер телефона 
   email: { type: DataTypes.STRING }, // почта 
+  resetToken: { type: DataTypes.STRING, allowNull: true},
+  
 });
 
 const Mailing = sequelize.define('mailing', {
@@ -66,4 +68,4 @@ module.exports = {
   Mailing,
 };
 //sequelize.drop()
-//sequelize.sync()
+sequelize.sync()

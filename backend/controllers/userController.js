@@ -25,8 +25,8 @@ const generateResetToken = (id, login, tel) => {
 
 const veryResetToken = async (token) => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token,process.env.SECRET_KEY, async (err,decoded) => {
-      if  (err ) {
+    jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+      if (err) {
         resolve(false);
       } else {
         try {
@@ -36,33 +36,9 @@ const veryResetToken = async (token) => {
         }
       }
     }
-  );
+    );
   });
 };
-
-// const veryResetToken = async (token) => {
-//   try {
-//     // Проверяем токен
-//     const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
-//     // Извлекаем login из декодированного токена
-//     const { login } = decoded; // Предполагается, что login есть в токене
-
-//     // Ищем пользователя по логину
-//     const user = await User.findOne({ where: { login } });
-
-//     if (!user) {
-//       return { success: false, message: "Invalid user" }; // Если пользователь не найден
-//     }
-
-//     console.log('Decoded token data:', { login, id: decoded.id });
-//     return { success: true, user }; // Возвращаем успешный результат и данные пользователя
-
-//   } catch (error) {
-//     console.error('Token verification failed:', error);
-//     return { success: false, message: "Invalid token" }; // Если токен не валиден
-//   }
-// };
 
 const verifyAccessToken = async (req, res, next) => {
   const token = req.headers["authorization"]?.replace("Bearer ", "") || "";
@@ -111,30 +87,32 @@ class userController {
     return res.json({ token });
   }
 
-  async handleForgotPassword(req, res, next) {
+  async handleForgotPassword(req, res) {
     try {
       const { login, tel } = req.body;
-  
+
       if (!login || !tel) {
         return res.status(400).json({ success: false, message: "Логин и номер телефона обязательны." });
       }
-  
+
       const user = await User.findOne({ where: { login, tel } });
-  
+
       if (!user) {
         return res.status(404).json({ success: false, message: "Пользователь не найден." });
       }
-  
-      const resetToken = generateResetToken(user.id, user.login, user.role);
-  
+
+      const resetToken = generateResetToken(user.id, user.login, user.tel);
+
       await User.update({ resetToken }, { where: { id: user.id } });
-  
-      const resetLink = `http://localhost:3000/password_reset?resetToken=${resetToken}`;
+
+      const resetLink = `${process.env.CLIENT_URL}/password_reset?resetToken=${resetToken}`;
       console.log("Reset link:", resetLink);
-  
-      return res.json({ success: true, message: "Ссылка для сброса отправлена." });
-    } catch (err) {
-      console.error(err);
+
+      // Здесь можно добавить отправку по SMS или email
+
+      return res.json({ success: true, message: "Ссылка для сброса пароля отправлена." });
+    } catch (error) {
+      console.error("Ошибка при отправке ссылки сброса:", error);
       return res.status(500).json({ success: false, message: "Ошибка сервера." });
     }
   }
@@ -173,40 +151,70 @@ class userController {
     }
   }
 
-  async resetPassword(req, res, next) {
-    const token = req.body.token;
-    if (!token) {
-      res.status(400).json("Missing reuired params");
-    } else {
-      try {
-        const isTokenValid = await veryResetToken(token)
-        if (!isTokenValid) {
-          res.status(400).json("Invalid token");
-        } else {
-          res.status(400).json("Token is valid");
-        }
-      } catch (error) {
-        res.status(500).json("Internet server error")
+  async resetPassword(req, res) {
+    try {
+      const { token, password } = req.body;
+
+      if (!token || !password) {
+        return res.status(400).json({ success: false, message: "Токен и новый пароль обязательны." });
       }
+
+      const login = await veryResetToken(token);
+      if (!login) {
+        return res.status(400).json({ success: false, message: "Недействительный токен." });
+      }
+
+      const user = await User.findOne({ where: { login } });
+      if (!user || user.resetToken !== token) {
+        return res.status(400).json({ success: false, message: "Токен не соответствует пользователю." });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 5);
+      await User.update({ password: hashedPassword, resetToken: null }, { where: { id: user.id } });
+
+      return res.status(200).json({ success: true, message: "Пароль успешно обновлён." });
+    } catch (error) {
+      console.error("Ошибка при сбросе пароля:", error);
+      return res.status(500).json({ success: false, message: "Ошибка сервера." });
     }
   }
-  
   async verifyToken(req, res, next) {
-    const token = req.body.token;
+    const { token } = req.body;
+    console.log("Получено тело запроса:", req.body);
+  
     if (!token) {
-      return res.status(400).json({ message: "Missing required params" });
+      console.warn("Токен отсутствует в запросе");
+      return res.status(400).json({ success: false, message: "Токен обязателен." });
     }
   
     try {
-      const isTokenValid = await veryResetToken(token);
-      if (!isTokenValid) {
-        return res.status(400).json({ message: "Invalid token" });
+      const login = await veryResetToken(token);
+  
+      if (!login) {
+        console.warn("Токен не прошёл верификацию");
+        return res.status(400).json({ success: false, message: "Неверный или просроченный токен." });
       }
   
-      return res.status(200).json({ message: "Token is valid", login: isTokenValid });
+      const user = await User.findOne({ where: { login } });
+  
+      if (!user) {
+        console.warn("Пользователь по токену не найден");
+        return res.status(404).json({ success: false, message: "Пользователь не найден." });
+      }
+  
+      if (user.resetToken !== token) {
+        console.warn("Токен не совпадает с сохранённым у пользователя");
+        return res.status(400).json({ success: false, message: "Недействительный токен." });
+      }
+  
+      return res.status(200).json({
+        success: true,
+        message: "Токен подтверждён",
+        login,
+      });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Internal server error" });
+      console.error("Ошибка при проверке токена:", error);
+      return res.status(500).json({ success: false, message: "Ошибка сервера." });
     }
   }
 
