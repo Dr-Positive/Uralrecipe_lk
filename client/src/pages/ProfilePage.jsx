@@ -1,5 +1,4 @@
 import styles from "./ProfilePage.module.scss";
-import NavButton from "../components/NavButton";
 import { useState, useContext } from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -8,35 +7,15 @@ import { observer } from "mobx-react-lite";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { requestResetToken } from "../http/authApi.js";
-import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE, PASSWORD_ROUTE } from '../utils/consts.js';
 const ProfilePage = observer(() => {
     const { user } = useContext(Context);
 
     const [showConfirm, setShowConfirm] = useState(false);
-    const [showChange, setShowChange] = useState(false);
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [login, setLogin] = useState('');
     const [oldPassword, setOldPassword] = useState('');
-
     const handleOpenConfirm = () => setShowConfirm(true);
     const handleCloseConfirm = () => setShowConfirm(false);
 
-    const handleOpenChange = () => setShowChange(true);
-    const handleCloseChange = () => setShowChange(false);
 
-    const handleConfirmPassword = async () => {
-        try {
-
-
-
-            // Закрываем окно подтверждения и открываем окно смены пароля
-            setShowConfirm(false);
-            setCurrentPassword('');
-            setShowChange(true);
-        } catch (error) {
-            alert(error.message || 'Неверный пароль');
-        }
-    };
 
     const handlePasswordChange = async () => {
         const login = user.user.login;
@@ -56,7 +35,7 @@ const ProfilePage = observer(() => {
             if (data.success && data.resetLink) {
                 window.location.href = data.resetLink;
             } else {
-                alert(data.message || "Не удалось получить ссылку сброса пароля");
+                alert(data.message || "Не удалось получить ссылку сброса пароля, проверьте корректность пароля");
             }
         } catch (error) {
             console.error("Ошибка при получении токена:", error);
@@ -102,7 +81,6 @@ const ProfilePage = observer(() => {
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={handleCloseConfirm}>Отмена</Button>
-                                <Button variant="primary" onClick={handleConfirmPassword}>Подтвердить</Button>
                                 <Button variant="success" onClick={handlePasswordChange} >Изменить пароль</Button>
                             </Modal.Footer>
                         </Modal>

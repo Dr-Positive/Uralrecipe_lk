@@ -2,23 +2,14 @@ import styles from "./SignPage.module.scss";
 import CompanyLogo from "../img/web-logo.png";
 import NavButton from "../components/NavButton";
 import LinkGrey from "../components/LinkGrey";
-import LinkDefault from "../components/LinkDefault";
-import LinkFooter from "../components/LinkFooter";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import QuestionGreen from "../icons/question.svg";
-import QuestionBlack from "../icons/questionBlack.svg";
-//import QuestionGreen from "../icons/questionGreen.svg";
-import QuestionBlackSmall from "../icons/questionBlack.svg";
-import QuestionGreenBig from "../icons/questionGreen.svg";
 import { useContext, useState } from "react";
 import { Context } from '../index.js';
 import {observer} from "mobx-react-lite"
 import {logining} from "../http/userAPI";
 import { useNavigate, useLocation, NavLink} from "react-router-dom"
-import Button from "react-bootstrap/Button";
 import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE,PASSWORD_ROUTE,FORGOTE_ROUTE } from '../utils/consts.js';
-import NavMainButton from "../components/NavMainButton";
 
 const SignPage = observer(( ) => {
 

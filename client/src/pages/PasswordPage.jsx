@@ -103,7 +103,7 @@ const PasswordPage = observer(() => {
     <div>
       <div className={styles.header}>
         <div className={styles.logo}>
-          <a className={styles.logo__link} >
+          <a className={styles.logo__link} href={"https://u-rm.ru/"}>
             <img src={CompanyLogo} alt="logo" className={styles.logo__img} />
           </a>
         </div>

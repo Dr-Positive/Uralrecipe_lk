@@ -16,10 +16,7 @@ export const forgotPassword = async (login, tel) => {
 // Запрос для установки нового пароля с токеном
 export const resetPassword = async (token, password) => {
   try {
-    const { data } = await $host.post("api/auth/reset-password", {
-      token,
-      password,
-    });
+    const { data } = await $host.post("api/auth/reset-password", {token,password});
     return data;
   } catch (error) {
     console.error("Ошибка при установке нового пароля:", error.response?.data || error.message);
