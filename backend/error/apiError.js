@@ -1,23 +1,21 @@
-class ApiError extends Error{ 
+class ApiError extends Error {
+  constructor(status, message) {
+    super(message); // передаем сообщение в родительский класс Error
+    this.status = status;
+  }
 
-    constructor(status, message) {
-        super();
-        this.status = status
-        this.message = message
-    }
+  static badRequest(message) {
+    return new ApiError(400, message); // 404 → 400 для "Bad Request"
+  }
 
-    static badRequest(message) {
-        return new ApiError ( 404 , message)
-    }
+  static internal(message) {
+    return new ApiError(500, message);
+  }
 
-    static internal(message) {
-        return new ApiError ( 500 , message)
-    }
-
-    static forbiden(message) {
-        return new ApiError ( 403 , message)
-    }
+  static forbidden(message) { // исправлено написание
+    return new ApiError(403, message);
+  }
 }
 
+export default ApiError;
 
-module.exports = ApiError

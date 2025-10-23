@@ -1,33 +1,30 @@
-require('dotenv').config()
+import dotenv from 'dotenv';
+dotenv.config();
 
-const express = require ('express')
-const sequelize = require('./db')
-const cors = require('cors')
-const PORT = process.env.Port || 5000;
-const router = require('./routes/index')
-const models = require('./models/models')
-const errorHandler = require('./middleware/ErrorHandlingMiddleware')
+import express from 'express';
+import sequelize from './db.js';
+import cors from 'cors';
+import router from './routes/index.js';
+import errorHandler from './middleware/ErrorHandlingMiddleware.js';
+import { Alert } from "./models/models.js";
 
+const PORT = process.env.PORT || 5000;
 
-const app = express()
-app.use(cors())
-app.use(express.json())
-app.use('/api', router)
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use('/api', router);
 
-
-app.use(errorHandler)
-
+app.use(errorHandler);
 
 const start = async () => {
-    try{
+  try {
+    await sequelize.authenticate();
+    await sequelize.sync();
+    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+  } catch (e) {
+    console.error(e);
+  }
+};
 
-        await sequelize.authenticate()
-        await sequelize.sync()
-        app.listen(PORT, () => console.log(`server start on port ${PORT} `))
-        
-    } catch (e) {
-        console.log(e)
-    }
-}
-
-start()
+start();

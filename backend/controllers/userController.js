@@ -1,15 +1,19 @@
-const { response } = require("express");
-const { Sequelize } = require("../db");
-const ApiError = require("../error/ApiError");
-const { User } = require("../models/models");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import { response } from "express";
+import ApiError from "../error/ApiError.js";
+import { User } from "../models/models.js";
+import transporter from "../utils/emailTransporter.js";
+import { render } from '@react-email/render';
+import { ResetCodeEmail } from "../templates/emailTemplate.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import * as React from 'react';
 
-const generateJwt = (id, compl, role, login ) => {
-  return jwt.sign({ id, compl, role, login }, process.env.SECRET_KEY, {
+const generateJwt = (id, login, email, tel, compl, role) => {
+  return jwt.sign({id, login, email, tel, compl, role}, process.env.SECRET_KEY, {
     expiresIn: "12h",
   });
 };
+
 
 const generateAcessToken = (id, login, tel) => {
   return jwt.sign({ id, login, tel }, process.env.SECRET_KEY, {
@@ -83,32 +87,35 @@ class userController {
     if (!comparePassword) {
       return next(ApiError.internal("Указан неверный пароль"));
     }
-    const token = generateJwt(user.id, user.compl, user.role, user.login);
+    const token = generateJwt(user.id,user.login,user.email,user.tel,user.compl,user.role);
     return res.json({ token });
   }
 
   async handleForgotPassword(req, res) {
     try {
       const { login, tel } = req.body;
-
-      if (!login || !tel) {
+      if (!login || !tel) { 
         return res.status(400).json({ success: false, message: "Логин и номер телефона обязательны." });
       }
 
       const user = await User.findOne({ where: { login, tel } });
-
       if (!user) {
         return res.status(404).json({ success: false, message: "Пользователь не найден." });
       }
 
       const resetToken = generateResetToken(user.id, user.login, user.tel);
-
       await User.update({ resetToken }, { where: { id: user.id } });
 
       const resetLink = `${process.env.CLIENT_URL}/password_reset?resetToken=${resetToken}`;
-      console.log("Reset link:", resetLink);
+      
+      const html = render(React.createElement(ResetCodeEmail, { code: resetLink }));
 
-      // Здесь можно добавить отправку по SMS или email
+      await transporter.sendMail({
+        from: process.env.MAIL_LOGIN,
+        to: user.login,
+        subject: 'Сброс пароля',
+        html,
+      });
 
       return res.json({ success: true, message: "Ссылка для сброса пароля отправлена." });
     } catch (error) {
@@ -119,12 +126,13 @@ class userController {
 
 
 
+
   async getAll(req, res) {
     const users = await User.findAll();
     return res.json(users);
   }
 
-  async chech(req, res, next) {
+  async check(req, res, next) {
     const token = generateJwt(req.user.id, req.user.compl, req.user.role);
     return res.json({ token });
   }
@@ -221,4 +229,4 @@ class userController {
 
 }
 
-module.exports = new userController();
+export default new userController();

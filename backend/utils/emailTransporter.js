@@ -1,3 +1,5 @@
+import nodemailer from 'nodemailer'; 
+
 const transporter = nodemailer.createTransport({
   host: 'smtp.mail.ru',
   port: 465,
@@ -25,4 +27,4 @@ transporter.verify((error, success) => {
 console.log('MAIL_LOGIN:', process.env.MAIL_LOGIN);
 console.log('MAIL_PASSWORD:', process.env.MAIL_PASSWORD ? '***' : 'undefined');
 
-module.exports = transporter;
+export default transporter;

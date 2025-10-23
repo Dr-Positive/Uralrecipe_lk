@@ -90,7 +90,7 @@ const PasswordPage = observer(() => {
     verify();
   }, [searchParams]);
 
- 
+
   const loginClick = () => {
     alert("Подсказка: для ввода логина используете номер договора, если возникнут проблемы обращаетесь по номеру 8 (343) 286-80-80");
   };
@@ -117,6 +117,10 @@ const PasswordPage = observer(() => {
               <div className={styles.input__block}>
                 <input type="password" name="password" id="password" placeholder="password" className={styles.input__style} value={password} onChange={e => setPassword(e.target.value)}></input>
               </div>
+              {/* <p>Подтвердите пароль</p>
+              <div className={styles.input__block}>
+                <input type="password" name="password" id="password" placeholder="password" className={styles.input__style} value={password} onChange={e => setPassword(e.target.value)}></input>
+              </div> */}
               <Button variant="success" onClick={handlePasswordChange} href={MAIN_ROUTE}>Отправить</Button>
             </div>
           </>

@@ -1,5 +1,5 @@
-const sequelize = require("../db");
-const { DataTypes, BelongsTo, BelongsToMany } = require("sequelize");
+import sequelize from "../db.js";
+import { DataTypes, BelongsTo, BelongsToMany } from "sequelize";
 
 const User = sequelize.define('user', {  // Пользователь. Информация о пользователях загруженных с базы plan_disp_m 
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false }, // id пользователя с первичным ключом и автоматическим созданием(автоинкрементирование)
@@ -14,16 +14,11 @@ const User = sequelize.define('user', {  // Пользователь. Инфор
   ot: { type: DataTypes.STRING }, // отчество
   compl: { type: DataTypes.INTEGER, unique: true }, // комплект
   gender: { type: DataTypes.INTEGER }, // пол 
-  tel: {
-    type: DataTypes.CHAR(11), validate: {
-      len: {
-        args: [1, 11], // Минимальная и максимальная длина
-        msg: "Номер телефона должен содержать от 1 до 15 символов."
-      }
-    }
-  }, // номер телефона 
-  email: { type: DataTypes.STRING }, // почта 
-  resetToken: { type: DataTypes.STRING, allowNull: true},
+  tel: { type: DataTypes.CHAR(11), validate: {len: {args: [1, 11], msg: "Номер телефона должен содержать от 1 до 15 символов."}}}, // номер телефона 
+  email: { type: DataTypes.STRING }, // текущая почта 
+  emailVerified: { type: DataTypes.BOOLEAN, defaultValue: false },
+  pendingEmail: { type: DataTypes.STRING, allowNull: true }, // адрес, на который отправлено письмо подтверждения (новый email до подтверждения)
+  resetToken: { type: DataTypes.STRING, allowNull: true }, // токен для сброса пароля и почты
   
 });
 
@@ -38,7 +33,7 @@ const Mailing = sequelize.define('mailing', {
   // связь между  Alert и Mailing одна запись Mailing ко многим записям в Alert
 });
 
-const Alert = sequelize.define('alert', {
+const Alert = sequelize.define('Alert', {
   //Сообщение. Записи всех отправленных сообщений.
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
   title: { type: DataTypes.STRING }, // название темы информирования(с фронта)
@@ -62,10 +57,7 @@ Alert.belongsTo(User); // Оповещение принадлежит конкр
 Mailing.hasMany(Alert); // У одной рассылки может быть много оповещений
 Alert.belongsTo(Mailing); // Оповещение принадлежит конкретной рассылке
 
-module.exports = {
-  User,
-  Alert,
-  Mailing,
-};
-//sequelize.drop()
+export { Alert, User, Mailing };
+
+//sequelize.drop({ cascade: true })
 sequelize.sync()

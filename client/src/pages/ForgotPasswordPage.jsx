@@ -119,7 +119,7 @@ const forgotPasswordPage = observer(() => {
       {isSuccess && (
         <div className={styles.container}>
           <div className={styles.input}>
-            <h1>Инструкция по сбросу успешно отправлена</h1>
+            <h1>Инструкция по сбросу успешно отправлена. В случае отсутствия письма рекомендуем проверить спам.</h1>
           </div>
         </div>
       )}
