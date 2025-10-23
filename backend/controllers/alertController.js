@@ -1,10 +1,7 @@
-const { Alert } = require('../models/models');
-const ApiError = require('../error/ApiError');
-const uuid = require('uuid');
-const path = require('path');
+import { Alert } from '../models/models.js';
+import ApiError from '../error/ApiError.js';
 
-
-class alertController {
+class AlertController {
     async create(req, res, next ) {
         try {
             let {title,text,dispt,div,compl,im,ot,phone,mounth,date} = req.body
@@ -25,7 +22,7 @@ class alertController {
 
     }
     async getOne(req, res) {
-        const {id} = req.params
+        const { id } = req.params
         const alert = await Alert.findOne({where: {id}})
         return res.json(alert)
 
@@ -50,4 +47,4 @@ class alertController {
     // } 
 }
 
-module.exports = new alertController()
+export default new AlertController();

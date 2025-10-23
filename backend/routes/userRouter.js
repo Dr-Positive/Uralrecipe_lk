@@ -1,10 +1,15 @@
-const Router = require('express')
-const router = new Router
-const userController = require('../controllers/userController')
-const authMiddleware = require('../middleware/authMiddleware')
+import Router from 'express';
+import userController from '../controllers/userController.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
-router.post('/logining',userController.logining)
+const router = Router();
+
+router.post('/logining', userController.logining);
+router.get('/auth', authMiddleware, userController.check); 
+router.get('/', userController.getAll);
 router.post('/hash-passwords', userController.hashPasswords);
-router.get('/auth',authMiddleware, userController.chech)
-router.get('/',userController.getAll)
-module.exports = router
+// router.post("/request-email-change", userController.requestEmailChange);
+// router.post("/verify-email-change", userController.confirmEmailChange);
+
+
+export default router;

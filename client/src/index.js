@@ -6,6 +6,7 @@ import AlertStore from './store/AlertStore';
 import MailingStore from './store/MailingStore';
 import { BrowserRouter } from "react-router-dom"; // Импортируем BrowserRouter
 import ReactDOM from 'react-dom/client';
+import './styles/mainStyle.scss';
 
 export const Context = createContext(null);
 

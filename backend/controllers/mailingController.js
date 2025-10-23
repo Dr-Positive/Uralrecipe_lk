@@ -1,7 +1,6 @@
-const { Mailing } = require('../models/models');
-const ApiError = require('../error/ApiError');
-const uuid = require('uuid');
-const path = require('path');
+import { Mailing } from '../models/models.js';
+import ApiError from '../error/ApiError.js';
+
 
 class mailingController {
     async create(req, res, next ) {
@@ -30,6 +29,6 @@ class mailingController {
     }
 }
 
-module.exports = new mailingController()
+export default new mailingController()
 
 

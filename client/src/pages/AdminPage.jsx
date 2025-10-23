@@ -33,7 +33,7 @@ const AdminPage = observer(() => {
   const [selectedText, setSelectedText] = useState('');
   const fileRef = React.useRef(null);
   const [selectedButton, setSelectedButton] = useState('');
-  const [formData, setFormData] = useState({ date: '', title: '', text: '',div: '',disp: '', });
+  const [formData, setFormData] = useState({ date: '', title: '', text: '', div: '', disp: '', });
 
   const handleChangeMailing = (e) => {
     setFormData({
@@ -139,8 +139,8 @@ const AdminPage = observer(() => {
       const uniqueLoad = Array.from(new Map(newLoad
         .filter(item => item.compl != null) // Исключаем записи с compl == null
         .map(item => [item.compl, item])) // Создаем Map для уникальных значений compl
-      .values());
-  
+        .values());
+
       const createdAlerts = await Promise.all(
         uniqueLoad.map(async (item) => {
           const newAlert = {
@@ -158,10 +158,10 @@ const AdminPage = observer(() => {
           return await createAlert(newAlert);
         })
       );
-  
+
       alert.setAlerts([...alert.alerts, ...createdAlerts]);
       console.log('Созданные alerts:', createdAlerts);
-  
+
       // Создание одного письма в mailingstore
       const newMailing = {
         title: inputValue,
@@ -169,16 +169,16 @@ const AdminPage = observer(() => {
         date: DateValue,
         div: selectedButton
       };
-  
+
       const createdMailing = await createMailing(newMailing);
       mailing.setMailings([...mailing.mailings, createdMailing]);
-  
+
       console.log('Созданная mailing:', createdMailing);
     } catch (error) {
       console.error('Ошибка создания alerts или mailing:', error);
     }
   };
-  
+
   useEffect(() => {
     console.log('Текущее состояние mailing store:', mailing);
   }, [mailing]);
@@ -263,7 +263,8 @@ const AdminPage = observer(() => {
             Тест
           </Button>
           <Button
-            className={styles.hashBtn}
+            variant={"outline-dark"}
+            className="mt-4 p-2"
             onClick={handleHash}
           >
             Хеширование паролей

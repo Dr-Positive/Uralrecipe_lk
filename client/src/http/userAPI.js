@@ -20,7 +20,14 @@ export const logining = async (login, password) => {
 
     // Сохраняем токен и возвращаем декодированные данные
     localStorage.setItem('token', data.token);
-    return { ...decodedToken, role: decodedToken.role, compl: decodedToken.compl };
+    return {
+        id: decodedToken.id,
+        login: decodedToken.login,
+        email: decodedToken.email,
+        tel: decodedToken.tel,
+        compl: decodedToken.compl,
+        role: decodedToken.role,
+    };
 };
 
 export const check = async () => {
@@ -33,3 +40,13 @@ export const hashPasswords = async () => {
     const { data } = await $host.post('api/user/hash-passwords');
     return data;
 };
+// export const resetPassword = async () => {
+//     const { data } = await $host.post('api/auth/reset-password');
+//     return data;
+// };
+
+// export const sendResetPasswordLink = async (email) => {
+//     const { data } = await $host.post('api/user/reset-password');
+//     return data;
+// };
+

@@ -88,6 +88,7 @@
     .contact {
       grid-template-columns: 1fr; // Переключение на одну колонку
       grid-gap: 15px;
+      
   
       .contact__block1,
       .contact__block2,
@@ -99,6 +100,7 @@
       .contact__text{
         text-align: left;
         padding-bottom: 20px;
+        color: #ffff;
       }
     }
   
