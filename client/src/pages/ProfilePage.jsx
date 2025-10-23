@@ -149,11 +149,11 @@ const ProfilePage = observer(() => {
               </Button>
             </div>
 
-            {/* <div className={styles.containerBlock__title}>
+            <div className={styles.containerBlock__title}>
               <Button variant="success" onClick={() => handleEmailConfirm("email")}>
                 Изменить/добавить email
               </Button>
-            </div> */}
+            </div>
 
             {alertMessage && (
               <Alert variant={alertVariant} className="mt-3">

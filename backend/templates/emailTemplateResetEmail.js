@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Html, Text, Heading, Container, Section } from '@react-email/components';
 
 
-export const ResetCodePassword = ({ code }) => {
+export const ResetCodeEmail = ({ code }) => {
   return React.createElement(
     Html,
     { lang: 'ru' },
@@ -12,14 +12,14 @@ export const ResetCodePassword = ({ code }) => {
       React.createElement(
         Container,
         { style: { backgroundColor: '#ffffff', padding: '30px', borderRadius: '8px' } },
-        React.createElement(Heading, null, 'Сброс пароля'),
-        React.createElement(Text, { style: { fontSize: '18px', color: '#black', fontWeight: '500', lineHeight: '42px',fontFamily: 'AGLettericaCondensedCRegular'  } }, 'Перейдите по ссылке для сброса пароля:'),
+        React.createElement(Heading, null, 'Изменение почты'),
+        React.createElement(Text, { style: { fontSize: '18px', color: '#black', fontWeight: '500', lineHeight: '42px',fontFamily: 'AGLettericaCondensedCRegular'  } }, 'Перейдите по ссылке для подтверждения почты:'),
         React.createElement(
           Text,
           { style: { fontSize: '24px', fontWeight: 'bold' } },
           code
         ),
-        React.createElement(Text, { style: { fontSize: '18px', color: '#black', fontWeight: '500', lineHeight: '42px',fontFamily: 'AGLettericaCondensedCRegular'  } }, 'Если вы не запрашивали сброс, просто проигнорируйте данное письмо.'),
+        React.createElement(Text, { style: { fontSize: '18px', color: '#black', fontWeight: '500', lineHeight: '42px',fontFamily: 'AGLettericaCondensedCRegular'  } }, 'Если вы не запрашивали смену почты, просто проигнорируйте данное письмо.'),
         React.createElement(Text, { style: { fontSize: '18px', color: '#black', fontWeight: '500', lineHeight: '42px',fontFamily: 'AGLettericaCondensedCRegular'  } }, '-- '),
         React.createElement(Text, { style: { fontSize: '18px', color: '#black', fontWeight: '500', lineHeight: '12px',fontFamily: 'AGLettericaCondensedCRegular'  } }, 'С уважением ООО СМК «Урал-Рецепт М»'),
         React.createElement(Text, { style: { fontSize: '18px', color: '#black', fontWeight: '500', lineHeight: '12px',fontFamily: 'AGLettericaCondensedCRegular'  } }, 'E-mail: mail@u-rm.ru'),

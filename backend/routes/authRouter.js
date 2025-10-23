@@ -8,14 +8,14 @@ const router = Router();
 // Сброс пароля
 router.post("/forgot-password", authController.handleForgotPassword);
 
-// Проверка токена
-router.post("/verify-token", authController.verifyToken);
+// // Проверка токена
+ router.post("/verify-token", authController.verifyToken);
 
 // Смена пароля
-router.post("/reset-password", authController.resetPassword);
+router.post("/request-email-change", authController.requestEmailChange);
 
-router.post("/request-reset-password", authController.requestResetToken);
-//
+// Подтверждение смены email через ссылку из письма
+router.post("/confirm-email-change", authController.confirmEmailChange);
 
 
 
