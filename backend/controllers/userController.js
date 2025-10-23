@@ -3,7 +3,7 @@ import ApiError from "../error/ApiError.js";
 import { User } from "../models/models.js";
 import transporter from "../utils/emailTransporter.js";
 import { render } from '@react-email/render';
-import { ResetCodeEmail } from "../templates/emailTemplate.js";
+import { ResetCodeEmail } from "../templates/emailTemplatePassword.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as React from 'react';

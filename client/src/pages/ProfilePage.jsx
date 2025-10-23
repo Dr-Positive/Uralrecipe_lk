@@ -36,9 +36,9 @@ const ProfilePage = observer(() => {
   };
 
   const handleEmailConfirm = (selectedMode) => {
-    setMode(selectedMode);
-    setShowConfirm(true);
-    setConfirmError('');
+    setShowEmailModal(selectedMode);
+    setNewEmail('');
+    setEmailError('');
     setOldPassword('');
   };
 
@@ -150,7 +150,7 @@ const ProfilePage = observer(() => {
             </div>
 
             {/* <div className={styles.containerBlock__title}>
-              <Button variant="success" onClick={() => handleCloseEmailModal("email")}>
+              <Button variant="success" onClick={() => handleEmailConfirm("email")}>
                 Изменить/добавить email
               </Button>
             </div> */}
@@ -188,7 +188,7 @@ const ProfilePage = observer(() => {
             {/* 🔹 Модалка смены email */}
             <Modal show={showEmailModal} onHide={handleCloseEmailModal} centered>
               <Modal.Header closeButton>
-                <Modal.Title>Изменение email</Modal.Title>
+                <Modal.Title>Изменение/добавление email</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <p>Введите новый адрес электронной почты:</p>
@@ -201,6 +201,17 @@ const ProfilePage = observer(() => {
                 />
                 {emailError && (
                   <Alert variant="danger" className="mt-3">{emailError}</Alert>
+                )}
+                <p>Введите текущий пароль для подтверждения действия:</p>
+                <input
+                  type="password"
+                  placeholder="Текущий пароль"
+                  className={styles.input_confirm}
+                  value={oldPassword}
+                  onChange={e => setOldPassword(e.target.value)}
+                />
+                {confirmError && (
+                  <Alert variant="danger" className="mt-3">{confirmError}</Alert>
                 )}
               </Modal.Body>
               <Modal.Footer>

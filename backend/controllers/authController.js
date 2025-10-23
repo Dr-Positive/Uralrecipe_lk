@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { render } from "@react-email/render";
-import { ResetCodeEmail } from "../templates/emailTemplate.js";
+import { ResetCodeEmail } from "../templates/emailTemplatePassword.js";
 import transporter from "../utils/emailTransporter.js";
 import { User } from "../models/models.js";
 import * as React from "react";
@@ -41,7 +41,7 @@ async function sendResetEmail(user, resetToken) {
 // ============ Основной контроллер ============
 class AuthController {
 
-  // 🔹 Сценарий 1: авторизованный пользователь (через ProfilePage)
+  // 🔹 Сценарий 1: авторизованный пользователь
   async requestResetToken(req, res) {
     try {
       const { login, password } = req.body;
@@ -80,7 +80,7 @@ class AuthController {
     }
   }
 
-  // 🔹 Сценарий 2: неавторизованный пользователь (через «Забыли пароль»)
+  // 🔹 Сценарий 2: неавторизованный пользователь
   async handleForgotPassword(req, res) {
     try {
       const { login, tel } = req.body;
