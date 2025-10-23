@@ -12,6 +12,13 @@ const generateToken = (payload, expiresIn = "12h") => {
   return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn });
 };
 
+const generateJwt = (id, login, email, tel, compl, role) => {
+  return jwt.sign({id, login, email, tel, compl, role}, process.env.SECRET_KEY, {
+    expiresIn: "12h",
+  });
+};
+
+
 const verifyToken = async (token) => {
   return new Promise((resolve) => {
     jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
@@ -198,33 +205,39 @@ class AuthController {
   }
 
   async verifyEmailChange(req, res) {
-    try {
-      const { token } = req.body;
+  try {
+    const { token } = req.body;
 
-      if (!token)
-        return res.status(400).json({ message: "Токен обязателен." });
+    if (!token)
+      return res.status(400).json({ message: "Токен обязателен." });
 
-      const decoded = await verifyToken(token);
-      if (!decoded)
-        return res.status(400).json({ message: "Неверный или просроченный токен." });
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-      const user = await User.findOne({ where: { id: decoded.id } });
-      if (!user || user.resetToken !== token)
-        return res.status(400).json({ message: "Недействительный токен или пользователь." });
+    const user = await User.findOne({ where: { id: decoded.id } });
+    if (!user || user.resetToken !== token)
+      return res.status(400).json({ message: "Недействительный токен или пользователь." });
 
-      await user.update({
-        email: user.pendingEmail,
-        pendingEmail: null,
-        emailVerified: true,
-        resetToken: null,
-      });
+    await user.update({
+      email: user.pendingEmail,
+      pendingEmail: null,
+      emailVerified: true,
+      resetToken: null,
+    });
 
-      return res.json({ success: true, message: "Email успешно подтверждён." });
-    } catch (error) {
-      console.error("Ошибка при подтверждении email:", error);
-      return res.status(500).json({ message: "Ошибка сервера." });
-    }
+    // 🟢 Генерируем новый токен с обновлённым email
+    const newToken = generateJwt(user);
+
+    return res.json({
+      success: true,
+      message: "Email успешно подтверждён.",
+      token: newToken,
+      user, // вернём пользователя
+    });
+  } catch (error) {
+    console.error("Ошибка при подтверждении email:", error);
+    return res.status(500).json({ message: "Ошибка сервера." });
   }
+}
   async confirmEmailChange(req, res) {
   try {
     const { token } = req.body;

@@ -1,5 +1,5 @@
 import styles from "./ProfilePage.module.scss";
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from "react";  // ✅ добавлен useEffect
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Context } from '../index';
@@ -7,8 +7,10 @@ import { observer } from "mobx-react-lite";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
-import { requestResetToken, requestEmailChange } from "../http/authApi.js";
+import { requestResetToken, requestEmailChange, fetchUser } from "../http/authApi.js";
 import { logining } from "../http/userAPI";
+
+
 
 const ProfilePage = observer(() => {
   const { user } = useContext(Context);
@@ -53,6 +55,7 @@ const ProfilePage = observer(() => {
     setEmailError('');
     setNewEmail('');
   };
+
 
   // 🔹 Проверка пароля (перед действием)
   const handlePasswordCheck = async () => {
@@ -117,6 +120,19 @@ const ProfilePage = observer(() => {
       setEmailError(message);
     }
   };
+
+  useEffect(() => {
+    async function refreshUser() {
+      try {
+        const updatedUser = await fetchUser(user.user.id);
+        user.setUser(updatedUser);
+      } catch (e) {
+        console.error("Ошибка при обновлении профиля:", e);
+      }
+    }
+
+    refreshUser();
+  }, []);
 
   return (
     <div>

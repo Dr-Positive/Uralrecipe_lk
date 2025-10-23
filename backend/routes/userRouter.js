@@ -8,6 +8,6 @@ router.post('/logining', userController.logining);
 router.get('/auth', authMiddleware, userController.check); 
 router.get('/', userController.getAll);
 router.post('/hash-passwords', userController.hashPasswords);
-
+router.get('/:id', userController.getOne);
 
 export default router;

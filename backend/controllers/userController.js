@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 import * as React from 'react';
 
 const generateJwt = (id, login, email, tel, compl, role) => {
-  return jwt.sign({id, login, email, tel, compl, role}, process.env.SECRET_KEY, {
+  return jwt.sign({ id, login, email, tel, compl, role }, process.env.SECRET_KEY, {
     expiresIn: "12h",
   });
 };
@@ -29,7 +29,7 @@ class userController {
     if (!comparePassword) {
       return next(ApiError.internal("Указан неверный пароль"));
     }
-    const token = generateJwt(user.id,user.login,user.email,user.tel,user.compl,user.role);
+    const token = generateJwt(user.id, user.login, user.email, user.tel, user.compl, user.role);
     return res.json({ token });
   }
 
@@ -38,6 +38,13 @@ class userController {
   async getAll(req, res) {
     const users = await User.findAll();
     return res.json(users);
+  }
+
+  async getOne(req, res) {
+    const { id } = req.params
+    const users = await User.findOne({ where: { id } })
+    return res.json(users)
+
   }
 
   async check(req, res, next) {
@@ -66,8 +73,8 @@ class userController {
       return res.status(500).json({ message: "Ошибка при хешировании паролей" });
     }
   }
-  
-  
+
+
 }
 
 

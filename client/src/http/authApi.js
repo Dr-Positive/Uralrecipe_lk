@@ -73,3 +73,11 @@ export const confirmEmailChange = async (token) => {
     throw error.response?.data || { message: "Ошибка при подтверждении email" };
   }
 };
+
+
+
+export const fetchUser = async (userId) => {
+  const { data } = await $host.get(`/api/user/${userId}`);
+  return data;
+};
+
