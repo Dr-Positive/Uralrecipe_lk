@@ -1,5 +1,5 @@
 import styles from "./ProfilePage.module.scss";
-import { useState, useContext, useEffect } from "react";  // ✅ добавлен useEffect
+import { useState, useContext, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Context } from '../index';
@@ -9,8 +9,8 @@ import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
 import { requestResetToken, requestEmailChange, fetchUser } from "../http/authApi.js";
 import { logining } from "../http/userAPI";
-
-
+import EyeOpen from "../icons/eye_gray.svg";
+import EyeClosed from "../icons/eye-slash_gray.svg";
 
 const ProfilePage = observer(() => {
   const { user } = useContext(Context);
@@ -24,6 +24,7 @@ const ProfilePage = observer(() => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [oldPassword, setOldPassword] = useState('');
   const [confirmError, setConfirmError] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   // 🔸 Модалка смены email
   const [showEmailModal, setShowEmailModal] = useState(false);
@@ -55,7 +56,6 @@ const ProfilePage = observer(() => {
     setEmailError('');
     setNewEmail('');
   };
-
 
   // 🔹 Проверка пароля (перед действием)
   const handlePasswordCheck = async () => {
@@ -134,6 +134,10 @@ const ProfilePage = observer(() => {
     refreshUser();
   }, []);
 
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(prevState => !prevState);
+  };
+
   return (
     <div>
       <Header />
@@ -184,13 +188,21 @@ const ProfilePage = observer(() => {
               </Modal.Header>
               <Modal.Body>
                 <p>Введите текущий пароль для подтверждения действия:</p>
-                <input
-                  type="password"
-                  placeholder="Текущий пароль"
-                  className={styles.input_confirm}
-                  value={oldPassword}
-                  onChange={e => setOldPassword(e.target.value)}
-                />
+                <div className={styles.passwordInputWrapper}>
+                  <input
+                    type={passwordVisible ? "text" : "password"}
+                    placeholder="Текущий пароль"
+                    className={styles.input_confirm}
+                    value={oldPassword}
+                    onChange={e => setOldPassword(e.target.value)}
+                  />
+                  <img
+                    src={passwordVisible ? EyeOpen : EyeClosed}
+                    alt="Toggle visibility"
+                    className={styles.eyeIcon}
+                    onClick={togglePasswordVisibility}
+                  />
+                </div>
                 {confirmError && (
                   <Alert variant="danger" className="mt-3">{confirmError}</Alert>
                 )}
@@ -219,13 +231,21 @@ const ProfilePage = observer(() => {
                   <Alert variant="danger" className="mt-3">{emailError}</Alert>
                 )}
                 <p>Введите текущий пароль для подтверждения действия:</p>
-                <input
-                  type="password"
-                  placeholder="Текущий пароль"
-                  className={styles.input_confirm}
-                  value={oldPassword}
-                  onChange={e => setOldPassword(e.target.value)}
-                />
+                <div className={styles.passwordInputWrapper}>
+                  <input
+                    type={passwordVisible ? "text" : "password"}
+                    placeholder="Текущий пароль"
+                    className={styles.input_confirm}
+                    value={oldPassword}
+                    onChange={e => setOldPassword(e.target.value)}
+                  />
+                  <img
+                    src={passwordVisible ? EyeOpen : EyeClosed}
+                    alt="Toggle visibility"
+                    className={styles.eyeIcon}
+                    onClick={togglePasswordVisibility}
+                  />
+                </div>
                 {confirmError && (
                   <Alert variant="danger" className="mt-3">{confirmError}</Alert>
                 )}
