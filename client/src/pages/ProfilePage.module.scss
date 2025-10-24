@@ -158,10 +158,25 @@
     margin-bottom: 15px;
 }
 
-.input_change {
-    border-radius: 5px;
-    border: 1px solid var(--grey-color);
-    transition: .3s border-color;
-    padding: 10px;
-    margin-bottom: 15px;
+// .input_confirm{
+//     width: 200px;
+// }
+
+.passwordInputWrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 50%; /* или укажите конкретную ширину */
+}
+
+.input_confirm {
+  width: 100%;
+  padding-right: 30px; /* Увеличьте, чтобы освободить место для иконки */
+}
+
+.eyeIcon {
+  position: absolute;
+  right: 10px; /* Отступ от правого края */
+  cursor: pointer;
+  z-index: 1; /* Обеспечивает, что иконка будет поверх поля ввода */
 }

@@ -21,7 +21,7 @@ import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE, PASSWORD_ROUTE } from '../utils/c
 import NavMainButton from "../components/NavMainButton.jsx";
 import Modal from 'react-bootstrap/Modal';
 import React from "react";
-
+import { Alert } from "react-bootstrap";
 
 const forgotPasswordPage = observer(() => {
 
@@ -42,6 +42,9 @@ const forgotPasswordPage = observer(() => {
 
   const handleCloseChange = () => setShowChange(false);
 
+    const [errorMessage, setErrorMessage] = useState("");  // ✅
+
+
   const handlePasswordChange = async () => {
     // Здесь должен быть ваш API-запрос для смены пароля
     console.log("Старый пароль:", oldPassword);
@@ -52,18 +55,19 @@ const forgotPasswordPage = observer(() => {
     setNewPassword('');
   };
 
-  const clickForgot = async () => {
+   const clickForgot = async () => {
+    setErrorMessage("");  // очищаем ошибку
     try {
-      const isDone = await forgotPassword(login, tel);
-
-      setIsSuccess(isDone)
-
-      console.log('Is done:',isDone);
-
-     
+      const result = await forgotPassword(login, tel);
+      setIsSuccess(true);
+      // можно также сбросить поля
+      setLogin("");
+      setEmail("");
+      setTel("");
     } catch (error) {
-      console.error('Ошибка при авторизации:', error.message || error);
-      alert(error.message || 'Ошибка авторизации');
+      const msg = error.response?.data?.message || error.message || "Ошибка при отправке письма";
+      setErrorMessage(msg);
+      console.error("Ошибка при восстановлении пароля:", msg);
     }
   };
 
@@ -94,7 +98,7 @@ const forgotPasswordPage = observer(() => {
             <p>Введите логин пользователя</p>
             <div className={styles.input__block}>
               <input type="text" name="login" id="login" placeholder="Логин " className={styles.input__style} value={login} onChange={e => setLogin(e.target.value)}  ></input>
-              
+
             </div>
             <p>Введите почту для восстановления пароля</p>
             <div className={styles.input__block}>
@@ -109,10 +113,16 @@ const forgotPasswordPage = observer(() => {
                   <input type="text" name="polis" id="polis" placeholder="Полис" className={styles.input__style} value={polis} onChange={e => setPolis(e.target.value)}></input>
                 </div> */}
             {/* <NavButton text={"Отправить"} onClick={click} ></NavButton> */}
+            {/* ✅ Alert для ошибок */}
+            {errorMessage && (
+              <Alert variant="danger" className="mt-3">
+                {errorMessage}
+              </Alert>
+            )}
             <Button variant="success" onClick={clickForgot}>Отправить</Button>
             {/* clickForgot handleShow */}
             {/* href={GUEST_ROUTE} */}
-            
+
           </div>
         </div>
       )}
