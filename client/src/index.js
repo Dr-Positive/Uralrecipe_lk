@@ -1,9 +1,9 @@
 import React, {createContext} from 'react';
-import App from './App';
+import App from './App.jsx';
 import { createRoot } from 'react-dom/client';
-import UserStore  from './store/UserStore'
-import AlertStore from './store/AlertStore';
-import MailingStore from './store/MailingStore';
+import UserStore  from './store/UserStore.js'
+import AlertStore from './store/AlertStore.js';
+import MailingStore from './store/MailingStore.js';
 import { BrowserRouter } from "react-router-dom"; // Импортируем BrowserRouter
 import ReactDOM from 'react-dom/client';
 import './styles/mainStyle.scss';

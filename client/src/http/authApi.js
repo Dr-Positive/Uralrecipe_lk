@@ -1,4 +1,4 @@
-import { $host } from "./index";
+import { $host } from "./index.js";
 
 /* ===========================
    🔐 СБРОС ПАРОЛЯ

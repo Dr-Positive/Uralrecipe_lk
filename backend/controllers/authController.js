@@ -32,7 +32,7 @@ const verifyToken = async (token) => {
 
 // 🔹 Письмо для сброса пароля
 async function sendPasswordResetEmail(user, resetToken) {
-  const resetLink = `${process.env.CLIENT_URL}/password_reset?resetToken=${resetToken}`;
+  const resetLink = `${process.env.RESET_URL}/password_reset?resetToken=${resetToken}`;
   const html = await render(
     React.createElement(ResetCodePassword, { code: resetLink })
   );
@@ -50,7 +50,7 @@ async function sendPasswordResetEmail(user, resetToken) {
 
 // 🔹 Письмо для подтверждения нового email
 async function sendEmailChangeEmail(user, newEmail, confirmToken) {
-  const confirmLink = `${process.env.CLIENT_URL}/confirm_email?token=${confirmToken}`;
+  const confirmLink = `${process.env.RESET_URL}/confirm_email?token=${confirmToken}`;
   const html = await render(
     React.createElement(ResetCodeEmail, { code: confirmLink })
   );

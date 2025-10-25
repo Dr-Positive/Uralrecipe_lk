@@ -59,5 +59,8 @@ Alert.belongsTo(Mailing); // Оповещение принадлежит кон�
 
 export { Alert, User, Mailing };
 
-//sequelize.drop({ cascade: true })
 sequelize.sync()
+//sequelize.drop({ cascade: true })
+//await User.sync({force: true})
+//await Alert.sync({force: true})
+//await Mailing.sync({force: true})

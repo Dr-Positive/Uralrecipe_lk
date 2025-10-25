@@ -121,7 +121,8 @@ const PasswordPage = observer(() => {
               <div className={styles.input__block}>
                 <input type="password" name="password" id="password" placeholder="password" className={styles.input__style} value={password} onChange={e => setPassword(e.target.value)}></input>
               </div> */}
-              <Button variant="success" onClick={handlePasswordChange} href={MAIN_ROUTE}>Отправить</Button>
+              <Button variant="success" onClick={handlePasswordChange}>Отправить</Button>
+              /* href={MAIN_ROUTE}
             </div>
           </>
 

@@ -1,4 +1,4 @@
-import {$authHost, $host} from "./index";
+import {$authHost, $host} from "./index.js";
 
 
 export const createMailing = async (alert) => {
