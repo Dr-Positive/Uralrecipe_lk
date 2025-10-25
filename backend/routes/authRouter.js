@@ -18,6 +18,11 @@ router.post("/request-email-change", authController.requestEmailChange);
 router.post("/confirm-email-change", authController.confirmEmailChange);
 
 
+// Авторизованный пользователь — запрос сброса пароля
+router.post("/request-reset-password", authController.requestResetToken);
+
+// Смена пароля — новый пароль по токену
+router.post("/reset-password", authController.resetPassword);
 
 
 export default  router

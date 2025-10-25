@@ -1,4 +1,4 @@
-import { $host } from "./index.js";
+import { $host,authHost } from "./index.js";
 
 /* ===========================
    🔐 СБРОС ПАРОЛЯ
