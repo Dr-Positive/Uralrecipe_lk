@@ -22,7 +22,8 @@ import { GUEST_ROUTE, ADMIN_ROUTE, MAIN_ROUTE, PASSWORD_ROUTE } from '../utils/c
 import NavMainButton from "../components/NavMainButton";
 import Modal from 'react-bootstrap/Modal';
 import React from "react";
-
+import EyeOpen from "../icons/eye_gray.svg";
+import EyeClosed from "../icons/eye-slash_gray.svg";
 
 const PasswordPage = observer(() => {
 
@@ -30,7 +31,8 @@ const PasswordPage = observer(() => {
   const { user } = useContext(Context);
   const navigate = useNavigate();
 
-
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
@@ -115,14 +117,29 @@ const PasswordPage = observer(() => {
               <h1>Сброс пароля</h1>
               <p>Введите пароль</p>
               <div className={styles.input__block}>
-                <input type="password" name="password" id="password" placeholder="password" className={styles.input__style} value={password} onChange={e => setPassword(e.target.value)}></input>
+                <div className={styles.passwordWrapper}>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    placeholder="Пароль"
+                    className={styles.input__style}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <img
+                    src={showPassword ? EyeOpen : EyeClosed}
+                    alt="show_password"
+                    className={styles.passwordToggle}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  />
+                </div>
               </div>
               {/* <p>Подтвердите пароль</p>
               <div className={styles.input__block}>
                 <input type="password" name="password" id="password" placeholder="password" className={styles.input__style} value={password} onChange={e => setPassword(e.target.value)}></input>
               </div> */}
-              <Button variant="success" onClick={handlePasswordChange}>Отправить</Button>
-              /* href={MAIN_ROUTE}
+              <Button variant="success" onClick={handlePasswordChange} href={MAIN_ROUTE}>Отправить</Button>
             </div>
           </>
 

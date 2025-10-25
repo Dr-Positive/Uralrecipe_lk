@@ -160,7 +160,7 @@ const ProfilePage = observer(() => {
               <p>Номер телефона: {user.user?.tel || "—"}</p>
             </div>
             <div className={styles.containerBlock__text}>
-              <p>Роль: {user.user?.admin ? "Администратор" : "Пользователь"}</p>
+              <p>Роль: {user.user?.role === "ADMIN" ? "Администратор" : "Пользователь"}</p>
             </div>
 
             <div className={styles.containerBlock__title}>
