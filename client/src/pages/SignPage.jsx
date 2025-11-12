@@ -83,7 +83,7 @@ const SignPage = observer(() => {
     <div>
       <div className={styles.header}>
         <div className={styles.logo}>
-          <a href="https://u-rm.ru/">
+          <a href={MAIN_ROUTE}>
             <img src={CompanyLogo} alt="logo" className={styles.logo__img} />
           </a>
         </div>
